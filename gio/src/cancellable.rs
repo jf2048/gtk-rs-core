@@ -2,7 +2,8 @@
 
 use crate::Cancellable;
 use crate::prelude::*;
-use glib::{IsA, translate::*};
+use futures_core::Future;
+use glib::{IsA, Source, translate::*};
 use std::num::NonZeroU64;
 
 #[derive(Debug, Eq, PartialEq)]
@@ -32,6 +33,8 @@ pub trait CancellableExtManual {
     fn connect<F: Fn(&Self) + Send + Sync + 'static>(&self, f: F) -> CancelledHandlerId;
     #[doc(alias = "g_cancellable_disconnect")]
     fn disconnect(&self, id: CancelledHandlerId);
+    fn future(&self) -> std::pin::Pin<Box<dyn Future<Output = ()> + Send + 'static>>;
+    fn source(&self) -> Source;
 }
 
 impl<O: IsA<Cancellable>> CancellableExtManual for O {
@@ -77,6 +80,23 @@ impl<O: IsA<Cancellable>> CancellableExtManual for O {
                 id.as_raw()
             )
         };
+    }
+    fn future(&self) -> std::pin::Pin<Box<dyn Future<Output = ()> + Send + 'static>> {
+        let cancellable = self.as_ref();
+        Box::pin(glib::SourceFuture::new(glib::clone!(@strong cancellable => move |send| {
+            let mut send = Some(send);
+            CancellableExtManual::connect(&cancellable, move |_| {
+                send.take().unwrap().send(()).ok();
+            });
+            cancellable.source()
+        })))
+    }
+    fn source(&self) -> Source {
+        unsafe {
+            from_glib_full(ffi::g_cancellable_source_new(
+                self.as_ref().to_glib_none().0
+            ))
+        }
     }
 }
 
