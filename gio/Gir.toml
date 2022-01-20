@@ -332,6 +332,17 @@ generate_builder = true
 name = "Gio.Cancellable"
 status = "generate"
 concurrency = "send+sync"
+manual_traits = ["CancellableExtManual"]
+    [[object.function]]
+    name = "connect"
+    # Needs manual bindings for SignalHandlerId
+    manual = true
+    doc_trait_name = "CancellableExtManual"
+    [[object.function]]
+    name = "disconnect"
+    # Needs manual bindings for SignalHandlerId
+    manual = true
+    doc_trait_name = "CancellableExtManual"
     [[object.function]]
     name = "reset"
     #undefined behaviour

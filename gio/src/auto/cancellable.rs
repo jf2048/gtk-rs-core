@@ -49,12 +49,6 @@ pub trait CancellableExt: 'static {
     #[doc(alias = "g_cancellable_cancel")]
     fn cancel(&self);
 
-    //#[doc(alias = "g_cancellable_connect")]
-    //fn connect<P: Fn() + Send + Sync + 'static>(&self, callback: P, data: /*Unimplemented*/Option<Fundamental: Pointer>) -> libc::c_ulong;
-
-    #[doc(alias = "g_cancellable_disconnect")]
-    fn disconnect(&self, handler_id: libc::c_ulong);
-
     #[doc(alias = "g_cancellable_get_fd")]
     #[doc(alias = "get_fd")]
     fn fd(&self) -> i32;
@@ -85,16 +79,6 @@ impl<O: IsA<Cancellable>> CancellableExt for O {
     fn cancel(&self) {
         unsafe {
             ffi::g_cancellable_cancel(self.as_ref().to_glib_none().0);
-        }
-    }
-
-    //fn connect<P: Fn() + Send + Sync + 'static>(&self, callback: P, data: /*Unimplemented*/Option<Fundamental: Pointer>) -> libc::c_ulong {
-    //    unsafe { TODO: call ffi:g_cancellable_connect() }
-    //}
-
-    fn disconnect(&self, handler_id: libc::c_ulong) {
-        unsafe {
-            ffi::g_cancellable_disconnect(self.as_ref().to_glib_none().0, handler_id);
         }
     }
 
