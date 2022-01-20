@@ -2,6 +2,11 @@
 
 use crate::AsyncResult;
 use crate::Cancellable;
+use crate::prelude::*;
+use futures_channel::oneshot;
+use futures_core::Future;
+use futures_util::FutureExt;
+use futures_util::future::OptionFuture;
 use glib::object::IsA;
 use glib::object::ObjectType as ObjectType_;
 use glib::signal::connect_raw;
@@ -9,8 +14,12 @@ use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::value::ValueType;
 use glib::Cast;
+use std::any::Any;
 use std::boxed::Box as Box_;
+use std::fmt;
+use std::io;
 use std::mem::transmute;
+use std::panic;
 use std::ptr;
 
 glib::wrapper! {
@@ -381,6 +390,170 @@ impl<V: ValueType + Send> Task<V> {
 
 unsafe impl<V: ValueType + Send> Send for Task<V> {}
 unsafe impl<V: ValueType + Send> Sync for Task<V> {}
+
+pub fn spawn_blocking<T: Send + 'static, F: FnOnce(Option<&Cancellable>) -> T + Send + 'static>(
+    cancellable: Option<&Cancellable>,
+    func: F,
+) -> JoinHandle<T> {
+    let task = unsafe { Task::new(None, cancellable, |_, _: Option<&Cancellable>| {}) };
+    let (join, tx) = JoinHandle::new(cancellable.cloned());
+
+    task.run_in_thread(move |_task: Task<bool>,
+                             _source_object: Option<&Cancellable>,
+                             cancellable: Option<&Cancellable>| {
+        let res = std::panic::catch_unwind(panic::AssertUnwindSafe(move || func(cancellable)));
+        let cancelled = cancellable.map(|c| c.is_cancelled()).unwrap_or(false);
+        if !cancelled {
+            tx.send(res).ok();
+        }
+    });
+
+    join
+}
+
+#[derive(Debug)]
+pub struct JoinHandle<T> {
+    rx: Option<oneshot::Receiver<Result<T, Box<dyn Any + Send + 'static>>>>,
+    cancellable: Option<Cancellable>
+}
+
+unsafe impl<T: Send> Send for JoinHandle<T> {}
+unsafe impl<T: Send> Sync for JoinHandle<T> {}
+
+impl<T> JoinHandle<T> {
+    fn new(cancellable: Option<Cancellable>) -> (Self, oneshot::Sender<Result<T, Box<dyn Any + Send + 'static>>>) {
+        let (tx, rx) = oneshot::channel();
+        (Self {
+            rx: Some(rx),
+            cancellable
+        }, tx)
+    }
+    pub fn cancellable(&self) -> Option<&Cancellable> {
+        self.cancellable.as_ref()
+    }
+}
+
+impl<T> Unpin for JoinHandle<T> {}
+
+impl<T> Future for JoinHandle<T> {
+    type Output = Result<T, JoinError>;
+
+    fn poll(mut self: std::pin::Pin<&mut Self>, cx: &mut std::task::Context<'_>) -> std::task::Poll<Self::Output> {
+        let mut rx = match self.rx.take() {
+            Some(rx) => rx,
+            None => return std::task::Poll::Pending
+        };
+        let mut cancel = OptionFuture::from(self.cancellable.as_ref().map(|c| c.future().fuse()));
+        Box::pin(async move {
+            futures_util::select! {
+                res = rx =>  {
+                    res.map_err(|_| {
+                        let cancellable = self.cancellable().unwrap();
+                        cancellable.cancel();
+                        JoinError::cancelled(cancellable)
+                    })
+                    .and_then(|res| res.map_err(JoinError::panic))
+                },
+                _ = cancel => {
+                    Err(JoinError::cancelled(self.cancellable().unwrap()))
+                }
+            }
+        }).poll_unpin(cx)
+    }
+}
+
+impl<T> futures_core::FusedFuture for JoinHandle<T> {
+    fn is_terminated(&self) -> bool {
+       self.rx.is_none()
+    }
+}
+
+pub struct JoinError {
+    inner: JoinErrorInner,
+}
+
+enum JoinErrorInner {
+    Cancelled(glib::Error),
+    Panic(Box<dyn Any + Send + 'static>),
+}
+
+impl JoinError {
+    fn cancelled(cancellable: &Cancellable) -> Self {
+        Self {
+            inner: JoinErrorInner::Cancelled(cancellable.set_error_if_cancelled().unwrap_err()),
+        }
+    }
+
+    fn panic(err: Box<dyn Any + Send + 'static>) -> Self {
+        Self {
+            inner: JoinErrorInner::Panic(err),
+        }
+    }
+
+    pub fn is_cancelled(&self) -> bool {
+        matches!(&self.inner, JoinErrorInner::Cancelled(_))
+    }
+
+    pub fn into_cancelled(self) -> glib::Error {
+        self.try_into_cancelled()
+            .expect("`JoinError` reason is not a cancelled.")
+    }
+
+    pub fn try_into_cancelled(self) -> Result<glib::Error, JoinError> {
+        match self.inner {
+            JoinErrorInner::Cancelled(e) => Ok(e),
+            _ => Err(self),
+        }
+    }
+
+    pub fn is_panic(&self) -> bool {
+        matches!(&self.inner, JoinErrorInner::Panic(_))
+    }
+
+    pub fn into_panic(self) -> Box<dyn Any + Send + 'static> {
+        self.try_into_panic()
+            .expect("`JoinError` reason is not a panic.")
+    }
+
+    pub fn try_into_panic(self) -> Result<Box<dyn Any + Send + 'static>, JoinError> {
+        match self.inner {
+            JoinErrorInner::Panic(p) => Ok(p),
+            _ => Err(self),
+        }
+    }
+}
+
+impl fmt::Display for JoinError {
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match &self.inner {
+            JoinErrorInner::Cancelled(_) => write!(fmt, "cancelled"),
+            JoinErrorInner::Panic(_) => write!(fmt, "panic"),
+        }
+    }
+}
+
+impl fmt::Debug for JoinError {
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match &self.inner {
+            JoinErrorInner::Cancelled(_) => write!(fmt, "JoinError::Cancelled"),
+            JoinErrorInner::Panic(_) => write!(fmt, "JoinError::Panic(...)"),
+        }
+    }
+}
+
+impl std::error::Error for JoinError {}
+
+impl From<JoinError> for io::Error {
+    fn from(src: JoinError) -> io::Error {
+        io::Error::new(
+            io::ErrorKind::Other,
+            match src.inner {
+                JoinErrorInner::Cancelled(_) => "task was cancelled",
+                JoinErrorInner::Panic(_) => "task panicked",
+            },
+        )
+    }
+}
 
 #[cfg(test)]
 mod test {
