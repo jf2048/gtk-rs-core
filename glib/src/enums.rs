@@ -1,8 +1,17 @@
 // Take a look at the license at the top of the repository in the LICENSE file.
 
 use crate::translate::*;
+use crate::value::FromValue;
 use crate::value::Value;
+use crate::value::ValueType;
+use crate::FromVariant;
+use crate::StaticType;
+use crate::StaticVariantType;
+use crate::ToValue;
+use crate::ToVariant;
 use crate::Type;
+use crate::Variant;
+use crate::VariantTy;
 use std::ffi::CStr;
 use std::{cmp, fmt, ptr};
 
@@ -199,6 +208,23 @@ impl Clone for EnumClass {
     }
 }
 
+#[derive(Debug)]
+pub struct ParseEnumError(String);
+
+impl std::error::Error for ParseEnumError {}
+
+impl fmt::Display for ParseEnumError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Unknown enum value: '{}'", self.0)
+    }
+}
+
+impl ParseEnumError {
+    pub fn enum_value(&self) -> &str {
+        &self.0
+    }
+}
+
 // rustdoc-stripper-ignore-next
 /// Representation of a single enum value of an `EnumClass`.
 #[doc(alias = "GEnumValue")]
@@ -279,6 +305,232 @@ impl PartialOrd for EnumValue {
 impl Ord for EnumValue {
     fn cmp(&self, other: &Self) -> cmp::Ordering {
         self.value().cmp(&other.value())
+    }
+}
+
+// rustdoc-stripper-ignore-next
+/// Wrapper type for enum that serializes as a [`Variant`](crate::Variant) string.
+#[repr(transparent)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub struct EnumVariant<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>>(T);
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>> EnumVariant<T> {
+    // rustdoc-stripper-ignore-next
+    /// Gets the underlying flag value.
+    #[inline]
+    pub fn value(&self) -> T
+    where
+        T: Copy,
+    {
+        self.0
+    }
+    // rustdoc-stripper-ignore-next
+    /// Gets the [`EnumClass`] of `T`. Panics if `T` is not registered as a valid enum GType.
+    pub fn enum_class() -> EnumClass {
+        EnumClass::new(T::static_type())
+            .unwrap_or_else(|| panic!("Invalid enum {}", T::static_type()))
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + Default> Default
+    for EnumVariant<T>
+{
+    fn default() -> Self {
+        Self(<T as Default>::default())
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>> From<T> for EnumVariant<T> {
+    fn from(value: T) -> Self {
+        Self(value)
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + Copy> From<&T> for EnumVariant<T> {
+    fn from(value: &T) -> Self {
+        Self(*value)
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>> StaticVariantType
+    for EnumVariant<T>
+{
+    fn static_variant_type() -> std::borrow::Cow<'static, VariantTy> {
+        std::borrow::Cow::Borrowed(VariantTy::STRING)
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + Copy> ToVariant for EnumVariant<T> {
+    fn to_variant(&self) -> Variant {
+        self.to_string().to_variant()
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>> FromVariant for EnumVariant<T> {
+    fn from_variant(variant: &Variant) -> Option<Self> {
+        variant.str().and_then(|s| s.parse().ok())
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + Copy> std::fmt::Display
+    for EnumVariant<T>
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        Self::enum_class()
+            .value(self.0.into_glib())
+            .expect("Bad enum value")
+            .nick()
+            .fmt(f)
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>> std::str::FromStr
+    for EnumVariant<T>
+{
+    type Err = ParseEnumError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Self::enum_class()
+            .value_by_nick(s)
+            .map(|e| Self(unsafe { from_glib(e.value()) }))
+            .ok_or_else(|| ParseEnumError(s.to_owned()))
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>> StaticType for EnumVariant<T> {
+    fn static_type() -> Type {
+        T::static_type()
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + ValueType> ValueType
+    for EnumVariant<T>
+{
+    type Type = <T as ValueType>::Type;
+}
+
+unsafe impl<'a, T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + FromValue<'a>>
+    FromValue<'a> for EnumVariant<T>
+{
+    type Checker = <T as FromValue<'a>>::Checker;
+
+    unsafe fn from_value(value: &'a Value) -> Self {
+        Self(<T as FromValue>::from_value(value))
+    }
+}
+
+impl<'a, T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + ToValue> ToValue
+    for EnumVariant<T>
+{
+    fn to_value(&self) -> Value {
+        <T as ToValue>::to_value(&self.0)
+    }
+
+    fn value_type(&self) -> Type {
+        <T as ToValue>::value_type(&self.0)
+    }
+}
+
+// rustdoc-stripper-ignore-next
+/// Wrapper type for enum that serializes as a [`Variant`](crate::Variant) i32.
+#[repr(transparent)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub struct EnumReprVariant<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>>(T);
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>> EnumReprVariant<T> {
+    // rustdoc-stripper-ignore-next
+    /// Gets the underlying flag value.
+    #[inline]
+    pub fn value(&self) -> T
+    where
+        T: Copy,
+    {
+        self.0
+    }
+    // rustdoc-stripper-ignore-next
+    /// Gets the [`EnumClass`] of `T`. Panics if `T` is not registered as a valid enum GType.
+    pub fn enum_class() -> EnumClass {
+        EnumClass::new(T::static_type())
+            .unwrap_or_else(|| panic!("Invalid enum {}", T::static_type()))
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + Default> Default
+    for EnumReprVariant<T>
+{
+    fn default() -> Self {
+        Self(<T as Default>::default())
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>> From<T> for EnumReprVariant<T> {
+    fn from(value: T) -> Self {
+        Self(value)
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + Copy> From<&T>
+    for EnumReprVariant<T>
+{
+    fn from(value: &T) -> Self {
+        Self(*value)
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>> StaticVariantType
+    for EnumReprVariant<T>
+{
+    fn static_variant_type() -> std::borrow::Cow<'static, VariantTy> {
+        std::borrow::Cow::Borrowed(VariantTy::INT32)
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + Copy> ToVariant
+    for EnumReprVariant<T>
+{
+    fn to_variant(&self) -> Variant {
+        self.0.into_glib().to_variant()
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>> FromVariant for EnumReprVariant<T> {
+    fn from_variant(variant: &Variant) -> Option<Self> {
+        let v = variant.get::<i32>()?;
+        Some(Self(unsafe { from_glib(v) }))
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32>> StaticType for EnumReprVariant<T> {
+    fn static_type() -> Type {
+        T::static_type()
+    }
+}
+
+impl<T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + ValueType> ValueType
+    for EnumReprVariant<T>
+{
+    type Type = <T as ValueType>::Type;
+}
+
+unsafe impl<'a, T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + FromValue<'a>>
+    FromValue<'a> for EnumReprVariant<T>
+{
+    type Checker = <T as FromValue<'a>>::Checker;
+
+    unsafe fn from_value(value: &'a Value) -> Self {
+        Self(<T as FromValue>::from_value(value))
+    }
+}
+
+impl<'a, T: StaticType + FromGlib<i32> + IntoGlib<GlibType = i32> + ToValue> ToValue
+    for EnumReprVariant<T>
+{
+    fn to_value(&self) -> Value {
+        <T as ToValue>::to_value(&self.0)
+    }
+
+    fn value_type(&self) -> Type {
+        <T as ToValue>::value_type(&self.0)
     }
 }
 
@@ -846,6 +1098,231 @@ impl<'a> FlagsBuilder<'a> {
     #[must_use = "Value returned from the builder should probably be used"]
     pub fn build(self) -> Option<Value> {
         self.1
+    }
+}
+
+// rustdoc-stripper-ignore-next
+/// Wrapper type for flags that serializes as a [`Variant`](crate::Variant) string.
+#[repr(transparent)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub struct FlagsVariant<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>>(T);
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>> FlagsVariant<T> {
+    // rustdoc-stripper-ignore-next
+    /// Gets the underlying flag value.
+    #[inline]
+    pub fn value(&self) -> T
+    where
+        T: Copy,
+    {
+        self.0
+    }
+    // rustdoc-stripper-ignore-next
+    /// Gets the [`FlagsClass`] of `T`. Panics if `T` is not registered as a valid flags GType.
+    pub fn flags_class() -> FlagsClass {
+        FlagsClass::new(T::static_type())
+            .unwrap_or_else(|| panic!("Invalid flags {}", T::static_type()))
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + Default> Default
+    for FlagsVariant<T>
+{
+    fn default() -> Self {
+        Self(<T as Default>::default())
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>> From<T> for FlagsVariant<T> {
+    fn from(value: T) -> Self {
+        Self(value)
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + Copy> From<&T> for FlagsVariant<T> {
+    fn from(value: &T) -> Self {
+        Self(*value)
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>> StaticVariantType
+    for FlagsVariant<T>
+{
+    fn static_variant_type() -> std::borrow::Cow<'static, VariantTy> {
+        std::borrow::Cow::Borrowed(VariantTy::STRING)
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + Copy> ToVariant
+    for FlagsVariant<T>
+{
+    fn to_variant(&self) -> Variant {
+        self.to_string().to_variant()
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>> FromVariant for FlagsVariant<T> {
+    fn from_variant(variant: &Variant) -> Option<Self> {
+        variant.str().and_then(|s| s.parse().ok())
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + Copy> std::fmt::Display
+    for FlagsVariant<T>
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        Self::flags_class()
+            .to_nick_string(self.0.into_glib())
+            .fmt(f)
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>> std::str::FromStr
+    for FlagsVariant<T>
+{
+    type Err = ParseFlagsError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Self::flags_class()
+            .from_nick_string(s)
+            .map(|v| Self(unsafe { from_glib(v) }))
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>> StaticType for FlagsVariant<T> {
+    fn static_type() -> Type {
+        T::static_type()
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + ValueType> ValueType
+    for FlagsVariant<T>
+{
+    type Type = <T as ValueType>::Type;
+}
+
+unsafe impl<'a, T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + FromValue<'a>>
+    FromValue<'a> for FlagsVariant<T>
+{
+    type Checker = <T as FromValue<'a>>::Checker;
+
+    unsafe fn from_value(value: &'a Value) -> Self {
+        Self(<T as FromValue>::from_value(value))
+    }
+}
+
+impl<'a, T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + ToValue> ToValue
+    for FlagsVariant<T>
+{
+    fn to_value(&self) -> Value {
+        <T as ToValue>::to_value(&self.0)
+    }
+
+    fn value_type(&self) -> Type {
+        <T as ToValue>::value_type(&self.0)
+    }
+}
+
+// rustdoc-stripper-ignore-next
+/// Wrapper type for flags that serializes as a [`Variant`](crate::Variant) u32.
+#[repr(transparent)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub struct FlagsReprVariant<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>>(T);
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>> FlagsReprVariant<T> {
+    // rustdoc-stripper-ignore-next
+    /// Gets the underlying flag value.
+    #[inline]
+    pub fn value(&self) -> T
+    where
+        T: Copy,
+    {
+        self.0
+    }
+    // rustdoc-stripper-ignore-next
+    /// Gets the [`FlagsClass`] of `T`. Panics if `T` is not registered as a valid flags GType.
+    pub fn flags_class() -> FlagsClass {
+        FlagsClass::new(T::static_type())
+            .unwrap_or_else(|| panic!("Invalid flags {}", T::static_type()))
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + Default> Default
+    for FlagsReprVariant<T>
+{
+    fn default() -> Self {
+        Self(<T as Default>::default())
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>> From<T> for FlagsReprVariant<T> {
+    fn from(value: T) -> Self {
+        Self(value)
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + Copy> From<&T>
+    for FlagsReprVariant<T>
+{
+    fn from(value: &T) -> Self {
+        Self(*value)
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>> StaticVariantType
+    for FlagsReprVariant<T>
+{
+    fn static_variant_type() -> std::borrow::Cow<'static, VariantTy> {
+        std::borrow::Cow::Borrowed(VariantTy::UINT32)
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + Copy> ToVariant
+    for FlagsReprVariant<T>
+{
+    fn to_variant(&self) -> Variant {
+        self.0.into_glib().to_variant()
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>> FromVariant for FlagsReprVariant<T> {
+    fn from_variant(variant: &Variant) -> Option<Self> {
+        let v = variant.get::<u32>()?;
+        Some(Self(unsafe { from_glib(v) }))
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32>> StaticType for FlagsReprVariant<T> {
+    fn static_type() -> Type {
+        T::static_type()
+    }
+}
+
+impl<T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + ValueType> ValueType
+    for FlagsReprVariant<T>
+{
+    type Type = <T as ValueType>::Type;
+}
+
+unsafe impl<'a, T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + FromValue<'a>>
+    FromValue<'a> for FlagsReprVariant<T>
+{
+    type Checker = <T as FromValue<'a>>::Checker;
+
+    unsafe fn from_value(value: &'a Value) -> Self {
+        Self(<T as FromValue>::from_value(value))
+    }
+}
+
+impl<'a, T: StaticType + FromGlib<u32> + IntoGlib<GlibType = u32> + ToValue> ToValue
+    for FlagsReprVariant<T>
+{
+    fn to_value(&self) -> Value {
+        <T as ToValue>::to_value(&self.0)
+    }
+
+    fn value_type(&self) -> Type {
+        <T as ToValue>::value_type(&self.0)
     }
 }
 
