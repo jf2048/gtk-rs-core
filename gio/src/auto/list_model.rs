@@ -35,7 +35,7 @@ pub trait ListModelExt: 'static {
 
     #[doc(alias = "g_list_model_get_object")]
     #[doc(alias = "get_object")]
-    fn item(&self, position: u32) -> Option<glib::Object>;
+    fn object(&self, position: u32) -> Option<glib::Object>;
 
     #[doc(alias = "g_list_model_items_changed")]
     fn items_changed(&self, position: u32, removed: u32, added: u32);
@@ -58,7 +58,7 @@ impl<O: IsA<ListModel>> ListModelExt for O {
         unsafe { ffi::g_list_model_get_n_items(self.as_ref().to_glib_none().0) }
     }
 
-    fn item(&self, position: u32) -> Option<glib::Object> {
+    fn object(&self, position: u32) -> Option<glib::Object> {
         unsafe {
             from_glib_full(ffi::g_list_model_get_object(
                 self.as_ref().to_glib_none().0,

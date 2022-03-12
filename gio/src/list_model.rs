@@ -15,7 +15,7 @@ impl<T: IsA<ListModel>> ListModelExtManual for T {
     fn snapshot(&self) -> Vec<glib::Object> {
         let mut res = Vec::with_capacity(self.n_items() as usize);
         for i in 0..self.n_items() {
-            res.push(self.item(i).unwrap())
+            res.push(self.object(i).unwrap())
         }
         res
     }

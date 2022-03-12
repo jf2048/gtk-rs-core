@@ -2,9 +2,31 @@
 
 use crate::auto::traits::ListModelExt;
 use crate::ListStore;
+use crate::TypedListModel;
+use crate::TypedListStore;
 use glib::translate::*;
-use glib::{IsA, Object};
+use glib::{Cast, IsA, Object};
 use std::cmp::Ordering;
+
+#[doc(hidden)]
+unsafe impl IsA<TypedListModel<Object>> for ListStore {}
+
+#[doc(hidden)]
+impl AsRef<TypedListModel<Object>> for ListStore {
+    fn as_ref(&self) -> &TypedListModel<Object> {
+        self.upcast_ref()
+    }
+}
+
+#[doc(hidden)]
+unsafe impl IsA<TypedListStore<Object>> for ListStore {}
+
+#[doc(hidden)]
+impl AsRef<TypedListStore<Object>> for ListStore {
+    fn as_ref(&self) -> &TypedListStore<Object> {
+        self.upcast_ref()
+    }
+}
 
 impl ListStore {
     #[doc(alias = "g_list_store_insert_sorted")]
@@ -101,8 +123,8 @@ mod tests {
         let item1 = ListStore::new(ListStore::static_type());
         let list = ListStore::new(ListStore::static_type());
         list.splice(0, 0, &[item0.clone(), item1.clone()]);
-        assert_eq!(list.item(0), Some(item0.upcast()));
-        assert_eq!(list.item(1), Some(item1.upcast()));
+        assert_eq!(list.object(0), Some(item0.upcast()));
+        assert_eq!(list.object(1), Some(item1.upcast()));
     }
 
     #[test]
@@ -111,10 +133,10 @@ mod tests {
         let item1 = ListStore::new(ListStore::static_type());
         let mut list = ListStore::new(ListStore::static_type());
         list.extend(&[&item0, &item1]);
-        assert_eq!(list.item(0).as_ref(), Some(item0.upcast_ref()));
-        assert_eq!(list.item(1).as_ref(), Some(item1.upcast_ref()));
+        assert_eq!(list.object(0).as_ref(), Some(item0.upcast_ref()));
+        assert_eq!(list.object(1).as_ref(), Some(item1.upcast_ref()));
         list.extend(&[item0.clone(), item1.clone()]);
-        assert_eq!(list.item(2).as_ref(), Some(item0.upcast_ref()));
-        assert_eq!(list.item(3).as_ref(), Some(item1.upcast_ref()));
+        assert_eq!(list.object(2).as_ref(), Some(item0.upcast_ref()));
+        assert_eq!(list.object(3).as_ref(), Some(item1.upcast_ref()));
     }
 }

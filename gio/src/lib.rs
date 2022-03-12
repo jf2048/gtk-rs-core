@@ -70,6 +70,10 @@ mod socket;
 mod subprocess;
 mod subprocess_launcher;
 mod threaded_socket_service;
+mod typed_list_model;
+pub use typed_list_model::TypedListModel;
+mod typed_list_store;
+pub use typed_list_store::TypedListStore;
 #[cfg(any(unix, feature = "dox"))]
 mod unix_fd_list;
 #[cfg(any(unix, feature = "dox"))]

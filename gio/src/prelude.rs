@@ -34,6 +34,7 @@ pub use crate::settings::SettingsExtManual;
 pub use crate::simple_proxy_resolver::SimpleProxyResolverExtManual;
 pub use crate::socket::*;
 pub use crate::tls_connection::TlsConnectionExtManual;
+pub use crate::typed_list_model::TypedListModelExt;
 #[cfg(any(unix, feature = "dox"))]
 pub use crate::unix_fd_list::UnixFDListExtManual;
 #[cfg(any(unix, feature = "dox"))]
