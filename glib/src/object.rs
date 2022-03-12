@@ -59,9 +59,26 @@ pub unsafe trait ObjectType:
     // rustdoc-stripper-ignore-next
     /// type of the FFI Class structure.
     type GlibClassType: 'static;
+    // rustdoc-stripper-ignore-next
+    /// type checker for casting
+    type CastChecker: ObjectCastChecker<Self>;
 
     fn as_object_ref(&self) -> &ObjectRef;
     fn as_ptr(&self) -> *mut Self::GlibType;
+}
+
+pub trait ObjectCastChecker<T: ObjectType> {
+    fn check<U: ObjectType>(obj: &U) -> bool;
+}
+
+// rustdoc-stripper-ignore-next
+/// Generic cast checker for object types.
+pub struct GenericObjectCastChecker<T>(std::marker::PhantomData<T>);
+
+impl<T: ObjectType> ObjectCastChecker<T> for GenericObjectCastChecker<T> {
+    fn check<U: ObjectType>(obj: &U) -> bool {
+        obj.type_().is_a(T::static_type())
+    }
 }
 
 // rustdoc-stripper-ignore-next
@@ -686,7 +703,7 @@ unsafe impl<T: Send + Sync, P: Send + Sync> Sync for TypedObjectRef<T, P> {}
 /// ObjectType implementations for Object types. See `wrapper!`.
 #[macro_export]
 macro_rules! glib_object_wrapper {
-    (@generic_impl [$($attr:meta)*] $visibility:vis $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)?, $impl_type:ty, $parent_type:ty, $ffi_name:ty, $ffi_class_name:ty, @type_ $get_type_expr:expr) => {
+    (@generic_impl [$($attr:meta)*] $visibility:vis $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)?, $impl_type:ty, $parent_type:ty, $ffi_name:ty, $ffi_class_name:ty, @type_ $get_type_expr:expr, @extra_traits {$($extra_traits:item)*}, @checkers ($cast_checker:ty) ($value_checker:ty)) => {
         $(#[$attr])*
         #[repr(transparent)]
         $visibility struct $name $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? {
@@ -776,6 +793,7 @@ macro_rules! glib_object_wrapper {
         unsafe impl $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? $crate::object::ObjectType for $name $(<$($generic),+>)? {
             type GlibType = $ffi_name;
             type GlibClassType = $ffi_class_name;
+            type CastChecker = $cast_checker;
 
             fn as_object_ref(&self) -> &$crate::object::ObjectRef {
                 &self.inner
@@ -793,15 +811,7 @@ macro_rules! glib_object_wrapper {
             }
         }
 
-        #[doc(hidden)]
-        impl $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? AsRef<Self> for $name $(<$($generic),+>)? {
-            fn as_ref(&self) -> &Self {
-                self
-            }
-        }
-
-        #[doc(hidden)]
-        unsafe impl $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? $crate::object::IsA<Self> for $name $(<$($generic),+>)? { }
+        $($extra_traits)*
 
         #[doc(hidden)]
         impl $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? $crate::subclass::types::FromObject for $name $(<$($generic),+>)? {
@@ -1069,7 +1079,7 @@ macro_rules! glib_object_wrapper {
 
         #[doc(hidden)]
         unsafe impl<'a $(, $($generic $(: $bound $(+ $bound2)*)?),+)?> $crate::value::FromValue<'a> for $name $(<$($generic),+>)? {
-            type Checker = $crate::object::ObjectValueTypeChecker<Self>;
+            type Checker = $value_checker;
 
             unsafe fn from_value(value: &'a $crate::Value) -> Self {
                 let ptr = $crate::gobject_ffi::g_value_dup_object($crate::translate::ToGlibPtr::to_glib_none(value).0);
@@ -1081,7 +1091,7 @@ macro_rules! glib_object_wrapper {
 
         #[doc(hidden)]
         unsafe impl<'a $(, $($generic $(: $bound $(+ $bound2)*)?),+)?> $crate::value::FromValue<'a> for &'a $name $(<$($generic),+>)? {
-            type Checker = $crate::object::ObjectValueTypeChecker<Self>;
+            type Checker = $value_checker;
 
             unsafe fn from_value(value: &'a $crate::Value) -> Self {
                 assert_eq!(std::mem::size_of::<Self>(), std::mem::size_of::<$crate::ffi::gpointer>());
@@ -1188,7 +1198,18 @@ macro_rules! glib_object_wrapper {
     (@object [$($attr:meta)*] $visibility:vis $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)?, $impl_type:ty, $parent_type:ty, $ffi_name:ty, @ffi_class $ffi_class_name:ty, @type_ $get_type_expr:expr) => {
         $crate::glib_object_wrapper!(
             @generic_impl [$($attr)*] $visibility $name $(<$($generic $(: $bound $(+ $bound2)*)?),+>)?, $impl_type, $parent_type, $ffi_name, $ffi_class_name,
-            @type_ $get_type_expr);
+            @type_ $get_type_expr,
+            @extra_traits {
+                #[doc(hidden)]
+                impl $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? AsRef<Self> for $name $(<$($generic),+>)? {
+                    fn as_ref(&self) -> &Self {
+                        self
+                    }
+                }
+                #[doc(hidden)]
+                unsafe impl $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? $crate::object::IsA<Self> for $name $(<$($generic),+>)? { }
+            },
+            @checkers ($crate::object::GenericObjectCastChecker<Self>) ($crate::object::ObjectValueTypeChecker<Self>));
 
         #[doc(hidden)]
         unsafe impl $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? $crate::object::IsClass for $name $(<$($generic),+>)? { }
@@ -1205,8 +1226,30 @@ macro_rules! glib_object_wrapper {
     (@object [$($attr:meta)*] $visibility:vis $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)?, $impl_type:ty, $parent_type:ty, $ffi_name:ty, @ffi_class $ffi_class_name:ty,
      @type_ $get_type_expr:expr, @extends [$($extends:tt)*], @implements [$($implements:tt)*]) => {
         $crate::glib_object_wrapper!(
+            @object [$($attr)*] $visibility $name $(<$($generic $(: $bound $(+ $bound2)*)?),+>)?, $impl_type, $parent_type, $ffi_name, @ffi_class $ffi_class_name,
+            @type_ $get_type_expr,
+            @extra_traits {
+                #[doc(hidden)]
+                impl $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? AsRef<Self> for $name $(<$($generic),+>)? {
+                    fn as_ref(&self) -> &Self {
+                        self
+                    }
+                }
+                #[doc(hidden)]
+                unsafe impl $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? $crate::object::IsA<Self> for $name $(<$($generic),+>)? { }
+            },
+            @checkers ($crate::object::GenericObjectCastChecker<Self>) ($crate::object::ObjectValueTypeChecker<Self>),
+            @extends [$($extends)*], @implements [$($implements)*]
+        );
+    };
+
+    (@object [$($attr:meta)*] $visibility:vis $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)?, $impl_type:ty, $parent_type:ty, $ffi_name:ty, @ffi_class $ffi_class_name:ty,
+     @type_ $get_type_expr:expr, @extra_traits {$($extra_traits:item)*}, @checkers ($cast_checker:ty) ($value_checker:ty), @extends [$($extends:tt)*], @implements [$($implements:tt)*]) => {
+        $crate::glib_object_wrapper!(
             @generic_impl [$($attr)*] $visibility $name $(<$($generic $(: $bound $(+ $bound2)*)?),+>)?, $impl_type, $parent_type, $ffi_name, $ffi_class_name,
-            @type_ $get_type_expr
+            @type_ $get_type_expr,
+            @extra_traits {$($extra_traits)*},
+            @checkers ($cast_checker) ($value_checker)
         );
 
         $crate::glib_object_wrapper!(@munch_first_impl $name $(<$($generic $(: $bound $(+ $bound2)*)?),+>)?, $($extends)*);
@@ -1272,8 +1315,30 @@ macro_rules! glib_object_wrapper {
     (@interface [$($attr:meta)*] $visibility:vis $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)?, $impl_type:ty, $ffi_name:ty, @ffi_class $ffi_class_name:ty,
      @type_ $get_type_expr:expr, @requires [$($requires:tt)*]) => {
         $crate::glib_object_wrapper!(
+            @interface [$($attr)*] $visibility $name $(<$($generic $(: $bound $(+ $bound2)*)?),+>)?, $impl_type, $ffi_name, @ffi_class $ffi_class_name,
+            @type_ $get_type_expr,
+            @extra_traits {
+                #[doc(hidden)]
+                impl $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? AsRef<Self> for $name $(<$($generic),+>)? {
+                    fn as_ref(&self) -> &Self {
+                        self
+                    }
+                }
+                #[doc(hidden)]
+                unsafe impl $(<$($generic $(: $bound $(+ $bound2)*)?),+>)? $crate::object::IsA<Self> for $name $(<$($generic),+>)? { }
+            },
+            @checkers ($crate::object::GenericObjectCastChecker<Self>) ($crate::object::ObjectValueTypeChecker<Self>),
+            @requires [$($requires)*]
+        );
+    };
+
+    (@interface [$($attr:meta)*] $visibility:vis $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)?, $impl_type:ty, $ffi_name:ty, @ffi_class $ffi_class_name:ty,
+     @type_ $get_type_expr:expr, @extra_traits {$($extra_traits:item)*}, @checkers ($cast_checker:ty) ($value_checker:ty), @requires [$($requires:tt)*]) => {
+        $crate::glib_object_wrapper!(
             @generic_impl [$($attr)*] $visibility $name $(<$($generic $(: $bound $(+ $bound2)*)?),+>)?, $impl_type, (), $ffi_name, $ffi_class_name,
-            @type_ $get_type_expr
+            @type_ $get_type_expr,
+            @extra_traits {$($extra_traits)*},
+            @checkers ($cast_checker) ($value_checker)
         );
         $crate::glib_object_wrapper!(@munch_impls $name $(<$($generic $(: $bound $(+ $bound2)*)?),+>)?, $($requires)*);
 
@@ -1495,7 +1560,7 @@ impl Drop for PropertyNotificationFreezeGuard {
 pub trait ObjectExt: ObjectType {
     // rustdoc-stripper-ignore-next
     /// Returns `true` if the object is an instance of (can be cast to) `T`.
-    fn is<T: StaticType>(&self) -> bool;
+    fn is<T: ObjectType>(&self) -> bool;
 
     // rustdoc-stripper-ignore-next
     /// Returns the type of the object.
@@ -2219,8 +2284,8 @@ pub trait ObjectExt: ObjectType {
 }
 
 impl<T: ObjectType> ObjectExt for T {
-    fn is<U: StaticType>(&self) -> bool {
-        self.type_().is_a(U::static_type())
+    fn is<U: ObjectType>(&self) -> bool {
+        U::CastChecker::check(self)
     }
 
     fn type_(&self) -> Type {
