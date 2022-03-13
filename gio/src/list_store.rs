@@ -11,41 +11,14 @@ use std::mem;
 
 glib::wrapper! {
     pub struct ListStore<T: (IsA<Object>)>(Object<ffi::GListStore, ffi::GListStoreClass>)
-        @extra_traits {},
-        @checkers (ListStoreCastChecker<T>) (ListStoreValueChecker<T>),;
+        @implements_generic
+            <Super: IsA<Super> + IsA<Object>, Sub: IsA<Super> + IsA<Object>> ListModel<Super> for ListStore<Sub>,
+            <Super: IsA<Super> + IsA<Object>, Sub: IsA<Super> + IsA<Object>> ListStore<Super> for ListStore<Sub>,
+        @default_casts false,
+        @checkers ListStoreCastChecker<T>, ListStoreValueChecker<T>;
 
     match fn {
         type_ => || ffi::g_list_store_get_type(),
-    }
-}
-
-#[doc(hidden)]
-unsafe impl<Super: IsA<Super> + IsA<Object>, Sub: IsA<Super> + IsA<Object>> IsA<ListStore<Super>>
-    for ListStore<Sub>
-{
-}
-
-#[doc(hidden)]
-impl<Super: IsA<Super> + IsA<Object>, Sub: IsA<Super> + IsA<Object>> AsRef<ListStore<Super>>
-    for ListStore<Sub>
-{
-    fn as_ref(&self) -> &ListStore<Super> {
-        self.upcast_ref()
-    }
-}
-
-#[doc(hidden)]
-unsafe impl<Super: IsA<Super> + IsA<Object>, Sub: IsA<Super> + IsA<Object>> IsA<ListModel<Super>>
-    for ListStore<Sub>
-{
-}
-
-#[doc(hidden)]
-impl<Super: IsA<Super> + IsA<Object>, Sub: IsA<Super> + IsA<Object>> AsRef<ListModel<Super>>
-    for ListStore<Sub>
-{
-    fn as_ref(&self) -> &ListModel<Super> {
-        self.upcast_ref()
     }
 }
 

@@ -12,26 +12,13 @@ use std::mem::transmute;
 
 glib::wrapper! {
     pub struct ListModel<T: (IsA<Object>)>(Interface<ffi::GListModel, ffi::GListModelInterface>)
-        @extra_traits {},
-        @checkers (ListModelCastChecker<T>) (ListModelValueChecker<T>),;
+        @requires_generic
+            <Super: IsA<Super> + IsA<Object>, Sub: IsA<Super> + IsA<Object>> ListModel<Super> for ListModel<Sub>,
+        @default_casts false,
+        @checkers ListModelCastChecker<T>, ListModelValueChecker<T>;
 
     match fn {
         type_ => || ffi::g_list_model_get_type(),
-    }
-}
-
-#[doc(hidden)]
-unsafe impl<Super: IsA<Super> + IsA<Object>, Sub: IsA<Super> + IsA<Object>> IsA<ListModel<Super>>
-    for ListModel<Sub>
-{
-}
-
-#[doc(hidden)]
-impl<Super: IsA<Super> + IsA<Object>, Sub: IsA<Super> + IsA<Object>> AsRef<ListModel<Super>>
-    for ListModel<Sub>
-{
-    fn as_ref(&self) -> &ListModel<Super> {
-        self.upcast_ref()
     }
 }
 

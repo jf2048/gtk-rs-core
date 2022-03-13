@@ -356,7 +356,10 @@ macro_rules! wrapper {
     // Object, no parents
     (
         $(#[$attr:meta])*
-        $visibility:vis struct $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)? (Object<$ffi_name:ty $(, $ffi_class_name:ty)?>) $(@extra_traits {$($extra_traits:item)*}, @checkers ($cast_checker:ty) ($value_checker:ty),)? $(@implements $($implements:path),+)?;
+        $visibility:vis struct $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)? (Object<$ffi_name:ty $(, $ffi_class_name:ty)?>)
+        $(@implements $($implements:path),+
+            $(, @implements_generic $(<$($impl_generic:ident $(: $impl_bound:tt $(+ $impl_bound2:tt)*)?),+> $impl_trait:ident $(<$($trait_generic:ident $(: $trait_bound:tt $(+ $trait_bound2:tt)*)?),+>)? for $impl_type:ident $(<$($type_generic:ident $(: $type_bound:tt $(+ $type_bound2:tt)*)?),+>)?),+)?)?
+        $(, @default_casts $default_casts:ident, @checkers $cast_checker:ty, $value_checker:ty $(,)?)?;
 
         match fn {
             type_ => || $get_type_expr:expr,
@@ -366,16 +369,22 @@ macro_rules! wrapper {
             @object [$($attr)*] $visibility $name $(<$($generic $(: $bound $(+ $bound2)*)?),+>)?, *mut std::os::raw::c_void, (), $ffi_name,
             $( @ffi_class $ffi_class_name ,)?
             @type_ $get_type_expr,
-            $( @extra_traits {$($extra_traits)*}, @checkers ($cast_checker) ($value_checker) ,)?
+            $( @default_casts $default_casts,
+               @checkers $cast_checker, $value_checker, )?
             @extends [],
-            @implements [$($($implements),+)?]
+            @implements [$($($implements),+)?],
+            @implements_generic [$($($(<$($impl_generic $(: $impl_bound $(+ $impl_bound2)*)?),+> $impl_trait $(<$($trait_generic $(: $trait_bound $(+ $trait_bound2)*)?),+>)? for $impl_type $(<$($type_generic $(: $type_bound $(+ $type_bound2)*)?),+>)?),+)?)?]
         );
     };
 
     // Object, parents
     (
         $(#[$attr:meta])*
-        $visibility:vis struct $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)? (Object<$ffi_name:ty $(, $ffi_class_name:ty)?>) $(@extra_traits {$($extra_traits:item)*}, @checkers ($cast_checker:ty) ($value_checker:ty),)? @extends $($extends:path),+ $(, @implements $($implements:path),+)?;
+        $visibility:vis struct $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)? (Object<$ffi_name:ty $(, $ffi_class_name:ty)?>)
+            @extends $($extends:path),+
+            $(, @implements $($implements:path),+)?
+            $(, @implements_generic $(<$($impl_generic:ident $(: $impl_bound:tt $(+ $impl_bound2:tt)*)?),+> $impl_trait:ident $(<$($trait_generic:ident $(: $trait_bound:tt $(+ $trait_bound2:tt)*)?),+>)? for $impl_type:ident $(<$($type_generic:ident $(: $type_bound:tt $(+ $type_bound2:tt)*)?),+>)?),+)?
+            $(, @default_casts $default_casts:ident, @checkers $cast_checker:ty, $value_checker:ty $(,)?)?;
 
         match fn {
             type_ => || $get_type_expr:expr,
@@ -385,9 +394,11 @@ macro_rules! wrapper {
             @object [$($attr)*] $visibility $name $(<$($generic $(: $bound $(+ $bound2)*)?),+>)?, *mut std::os::raw::c_void, (), $ffi_name,
             $( @ffi_class $ffi_class_name ,)?
             @type_ $get_type_expr,
-            $( @extra_traits {$($extra_traits)*}, @checkers ($cast_checker) ($value_checker) ,)?
+            $( @default_casts $default_casts,
+               @checkers $cast_checker, $value_checker, )?
             @extends [$($extends),+],
-            @implements [$($($implements),+)?]
+            @implements [$($($implements),+)?],
+            @implements_generic [$($(<$($impl_generic $(: $impl_bound $(+ $impl_bound2)*)?),+> $impl_trait $(<$($trait_generic $(: $trait_bound $(+ $trait_bound2)*)?),+>)? for $impl_type $(<$($type_generic $(: $type_bound $(+ $type_bound2)*)?),+>)?),+)?]
         );
     };
 
@@ -418,7 +429,10 @@ macro_rules! wrapper {
     // Interface
     (
         $(#[$attr:meta])*
-        $visibility:vis struct $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)? (Interface<$ffi_name:ty $(, $ffi_class_name:ty)?>) $(@extra_traits {$($extra_traits:item)*}, @checkers ($cast_checker:ty) ($value_checker:ty),)? $(@requires $($requires:path),+)?;
+        $visibility:vis struct $name:ident $(<$($generic:ident $(: $bound:tt $(+ $bound2:tt)*)?),+>)? (Interface<$ffi_name:ty $(, $ffi_class_name:ty)?>)
+            $(@default_casts $default_casts:ident, @checkers $cast_checker:ty, $value_checker:ty $(,)?)?
+            $(@requires $($requires:path),+
+                $(, @requires_generic $(<$($requires_generic:ident $(: $requires_bound:tt $(+ $requires_bound2:tt)*)?),+> $requires_trait:ident $(<$($trait_generic:ident $(: $trait_bound:tt $(+ $trait_bound2:tt)*)?),+>)? for $requires_type:ident $(<$($type_generic:ident $(: $type_bound:tt $(+ $type_bound2:tt)*)?),+>)?),+)?)?;
 
         match fn {
             type_ => || $get_type_expr:expr,
@@ -428,8 +442,10 @@ macro_rules! wrapper {
             @interface [$($attr)*] $visibility $name $(<$($generic $(: $bound $(+ $bound2)*)?),+>)?, *mut std::os::raw::c_void, $ffi_name,
             $( @ffi_class $ffi_class_name ,)?
             @type_ $get_type_expr,
-            $( @extra_traits {$($extra_traits)*}, @checkers ($cast_checker) ($value_checker) ,)?
-            @requires [$( $($requires),+ )?]
+            $( @default_casts $default_casts,
+               @checkers $cast_checker, $value_checker, )?
+            @requires [$( $($requires),+ )?],
+            @requires_generic [$($($(<$($requires_generic $(: $requires_bound $(+ $requires_bound2)*)?),+> $requires_trait $(<$($trait_generic $(: $trait_bound $(+ $trait_bound2)*)?),+>)? for $requires_type $(<$($type_generic $(: $type_bound $(+ $type_bound2)*)?),+>)?),+)?)?]
         );
     };
 
