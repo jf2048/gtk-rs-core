@@ -22,8 +22,8 @@ impl AsyncInitable {
         cancellable: Option<&P>,
         callback: Q,
     ) {
-        let obj = Object::new::<O>(properties).unwrap();
         unsafe {
+            let obj = Object::new_unsafe::<O>(properties).unwrap();
             obj.init_async(
                 io_priority,
                 cancellable,
@@ -37,8 +37,9 @@ impl AsyncInitable {
         properties: &[(&str, &dyn ToValue)],
         io_priority: glib::Priority,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<O, glib::Error>> + 'static>> {
+        let obj = unsafe { Object::new_unsafe::<O>(properties).unwrap() };
         Box_::pin(crate::GioFuture::new(
-            &Object::new::<O>(properties).unwrap(),
+            &obj,
             move |obj, cancellable, send| unsafe {
                 obj.init_async(
                     io_priority,
@@ -60,8 +61,8 @@ impl AsyncInitable {
         callback: Q,
     ) {
         assert!(type_.is_a(AsyncInitable::static_type()));
-        let obj = Object::with_type(type_, properties).unwrap();
         unsafe {
+            let obj = Object::with_type_unsafe(type_, properties).unwrap();
             obj.unsafe_cast_ref::<Self>().init_async(
                 io_priority,
                 cancellable,
@@ -77,8 +78,9 @@ impl AsyncInitable {
         io_priority: glib::Priority,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<Object, glib::Error>> + 'static>> {
         assert!(type_.is_a(AsyncInitable::static_type()));
+        let obj = unsafe { Object::with_type_unsafe(type_, properties).unwrap() };
         Box_::pin(crate::GioFuture::new(
-            &Object::with_type(type_, properties).unwrap(),
+            &obj,
             move |obj, cancellable, send| unsafe {
                 obj.unsafe_cast_ref::<Self>().init_async(
                     io_priority,

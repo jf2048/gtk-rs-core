@@ -1310,6 +1310,30 @@ impl Object {
     pub fn new<T: IsA<Object> + IsClass>(
         properties: &[(&str, &dyn ToValue)],
     ) -> Result<T, BoolError> {
+        let type_ = T::static_type();
+        if let Some(initable_type) = Type::from_name("GInitable") {
+            if type_.is_a(initable_type) {
+                return Err(bool_error!(
+                    "Type '{}' must be instantiated with gio::Initable::new",
+                    type_
+                ));
+            }
+        }
+        if let Some(async_initable_type) = Type::from_name("GAsyncInitable") {
+            if type_.is_a(async_initable_type) {
+                return Err(bool_error!("Type '{}' must be instantiated with gio::AsyncInitable::new_async or new_future", type_));
+            }
+        }
+        unsafe {
+            Ok(Object::with_type_unsafe(type_, properties)?
+                .downcast()
+                .unwrap())
+        }
+    }
+
+    pub unsafe fn new_unsafe<T: IsA<Object> + IsClass>(
+        properties: &[(&str, &dyn ToValue)],
+    ) -> Result<T, BoolError> {
         Ok(Object::with_type(T::static_type(), properties)?
             .downcast()
             .unwrap())
@@ -1321,6 +1345,29 @@ impl Object {
     /// This fails if the object is not instantiable, doesn't have all the given properties or
     /// property values of the wrong type are provided.
     pub fn with_type(
+        type_: Type,
+        properties: &[(&str, &dyn ToValue)],
+    ) -> Result<Object, BoolError> {
+        if let Some(initable_type) = Type::from_name("GInitable") {
+            if type_.is_a(initable_type) {
+                return Err(bool_error!(
+                    "Type '{}' must be instantiated with gio::Initable::with_type",
+                    type_
+                ));
+            }
+        }
+        if let Some(async_initable_type) = Type::from_name("GAsyncInitable") {
+            if type_.is_a(async_initable_type) {
+                return Err(bool_error!(
+                    "Type '{}' must be instantiated with gio::AsyncInitable::with_type",
+                    type_
+                ));
+            }
+        }
+        unsafe { Object::with_type_unsafe(type_, properties) }
+    }
+
+    pub unsafe fn with_type_unsafe(
         type_: Type,
         properties: &[(&str, &dyn ToValue)],
     ) -> Result<Object, BoolError> {
@@ -1345,7 +1392,7 @@ impl Object {
             smallvec::SmallVec::new()
         };
 
-        unsafe { Object::new_internal(type_, &params) }
+        Object::new_internal(type_, &params)
     }
 
     // rustdoc-stripper-ignore-next
@@ -1354,6 +1401,29 @@ impl Object {
     /// This fails if the object is not instantiable, doesn't have all the given properties or
     /// property values of the wrong type are provided.
     pub fn with_values(type_: Type, properties: &[(&str, Value)]) -> Result<Object, BoolError> {
+        if let Some(initable_type) = Type::from_name("GInitable") {
+            if type_.is_a(initable_type) {
+                return Err(bool_error!(
+                    "Type '{}' must be instantiated with gio::Initable::with_values",
+                    type_
+                ));
+            }
+        }
+        if let Some(async_initable_type) = Type::from_name("GAsyncInitable") {
+            if type_.is_a(async_initable_type) {
+                return Err(bool_error!(
+                    "Type '{}' must be instantiated with gio::AsyncInitable::with_values",
+                    type_
+                ));
+            }
+        }
+        unsafe { Object::with_values_unsafe(type_, properties) }
+    }
+
+    pub unsafe fn with_values_unsafe(
+        type_: Type,
+        properties: &[(&str, Value)],
+    ) -> Result<Object, BoolError> {
         let params = if !properties.is_empty() {
             let klass = ObjectClass::from_type(type_)
                 .ok_or_else(|| bool_error!("Can't retrieve class for type '{}'", type_))?;
@@ -1375,7 +1445,7 @@ impl Object {
             smallvec::SmallVec::new()
         };
 
-        unsafe { Object::new_internal(type_, &params) }
+        Object::new_internal(type_, &params)
     }
 
     unsafe fn new_internal(

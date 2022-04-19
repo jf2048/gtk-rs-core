@@ -19,9 +19,11 @@ impl Initable {
         properties: &[(&str, &dyn ToValue)],
         cancellable: Option<&P>,
     ) -> Result<O, InitableError> {
-        let object = Object::new::<O>(properties)?;
-        unsafe { object.init(cancellable)? };
-        Ok(object)
+        unsafe {
+            let object = Object::new_unsafe::<O>(properties)?;
+            object.init(cancellable)?;
+            Ok(object)
+        }
     }
 
     // rustdoc-stripper-ignore-next
@@ -40,9 +42,11 @@ impl Initable {
                 type_
             )));
         }
-        let object = Object::with_type(type_, properties)?;
-        unsafe { object.unsafe_cast_ref::<Self>().init(cancellable)? };
-        Ok(object)
+        unsafe {
+            let object = Object::with_type_unsafe(type_, properties)?;
+            object.unsafe_cast_ref::<Self>().init(cancellable)?;
+            Ok(object)
+        }
     }
 }
 
