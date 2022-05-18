@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Rectangle","The [`Rectangle`][crate::Rectangle] structure represents a rectangle."]]});

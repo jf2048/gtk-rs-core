@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib&#x2F;src&#x2F;subclass&#x2F;types.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>types.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/subclass/types.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>types.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,105 +72,111 @@
 </script>
 
 
-<nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../glib/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
-<span id="2">  2</span>
-<span id="3">  3</span>
-<span id="4">  4</span>
-<span id="5">  5</span>
-<span id="6">  6</span>
-<span id="7">  7</span>
-<span id="8">  8</span>
-<span id="9">  9</span>
-<span id="10"> 10</span>
-<span id="11"> 11</span>
-<span id="12"> 12</span>
-<span id="13"> 13</span>
-<span id="14"> 14</span>
-<span id="15"> 15</span>
-<span id="16"> 16</span>
-<span id="17"> 17</span>
-<span id="18"> 18</span>
-<span id="19"> 19</span>
-<span id="20"> 20</span>
-<span id="21"> 21</span>
-<span id="22"> 22</span>
-<span id="23"> 23</span>
-<span id="24"> 24</span>
-<span id="25"> 25</span>
-<span id="26"> 26</span>
-<span id="27"> 27</span>
-<span id="28"> 28</span>
-<span id="29"> 29</span>
-<span id="30"> 30</span>
-<span id="31"> 31</span>
-<span id="32"> 32</span>
-<span id="33"> 33</span>
-<span id="34"> 34</span>
-<span id="35"> 35</span>
-<span id="36"> 36</span>
-<span id="37"> 37</span>
-<span id="38"> 38</span>
-<span id="39"> 39</span>
-<span id="40"> 40</span>
-<span id="41"> 41</span>
-<span id="42"> 42</span>
-<span id="43"> 43</span>
-<span id="44"> 44</span>
-<span id="45"> 45</span>
-<span id="46"> 46</span>
-<span id="47"> 47</span>
-<span id="48"> 48</span>
-<span id="49"> 49</span>
-<span id="50"> 50</span>
-<span id="51"> 51</span>
-<span id="52"> 52</span>
-<span id="53"> 53</span>
-<span id="54"> 54</span>
-<span id="55"> 55</span>
-<span id="56"> 56</span>
-<span id="57"> 57</span>
-<span id="58"> 58</span>
-<span id="59"> 59</span>
-<span id="60"> 60</span>
-<span id="61"> 61</span>
-<span id="62"> 62</span>
-<span id="63"> 63</span>
-<span id="64"> 64</span>
-<span id="65"> 65</span>
-<span id="66"> 66</span>
-<span id="67"> 67</span>
-<span id="68"> 68</span>
-<span id="69"> 69</span>
-<span id="70"> 70</span>
-<span id="71"> 71</span>
-<span id="72"> 72</span>
-<span id="73"> 73</span>
-<span id="74"> 74</span>
-<span id="75"> 75</span>
-<span id="76"> 76</span>
-<span id="77"> 77</span>
-<span id="78"> 78</span>
-<span id="79"> 79</span>
-<span id="80"> 80</span>
-<span id="81"> 81</span>
-<span id="82"> 82</span>
-<span id="83"> 83</span>
-<span id="84"> 84</span>
-<span id="85"> 85</span>
-<span id="86"> 86</span>
-<span id="87"> 87</span>
-<span id="88"> 88</span>
-<span id="89"> 89</span>
-<span id="90"> 90</span>
-<span id="91"> 91</span>
-<span id="92"> 92</span>
-<span id="93"> 93</span>
-<span id="94"> 94</span>
-<span id="95"> 95</span>
-<span id="96"> 96</span>
-<span id="97"> 97</span>
-<span id="98"> 98</span>
-<span id="99"> 99</span>
+<nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../glib/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../../../glib/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../glib/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
 <span id="100">100</span>
 <span id="101">101</span>
 <span id="102">102</span>
@@ -978,11 +985,135 @@
 <span id="905">905</span>
 <span id="906">906</span>
 <span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
+<span id="989">989</span>
+<span id="990">990</span>
+<span id="991">991</span>
+<span id="992">992</span>
+<span id="993">993</span>
+<span id="994">994</span>
+<span id="995">995</span>
+<span id="996">996</span>
+<span id="997">997</span>
+<span id="998">998</span>
+<span id="999">999</span>
+<span id="1000">1000</span>
+<span id="1001">1001</span>
+<span id="1002">1002</span>
+<span id="1003">1003</span>
+<span id="1004">1004</span>
+<span id="1005">1005</span>
+<span id="1006">1006</span>
+<span id="1007">1007</span>
+<span id="1008">1008</span>
+<span id="1009">1009</span>
+<span id="1010">1010</span>
+<span id="1011">1011</span>
+<span id="1012">1012</span>
+<span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.</span>
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">//! Module that contains the basic infrastructure for subclassing `GObject`.</span>
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::object</span>::{<span class="ident">Cast</span>, <span class="ident">IsClass</span>, <span class="ident">ObjectSubclassIs</span>, <span class="ident">ObjectType</span>, <span class="ident">ParentClassIs</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::object</span>::{<span class="ident">Cast</span>, <span class="ident">IsClass</span>, <span class="ident">IsInterface</span>, <span class="ident">ObjectSubclassIs</span>, <span class="ident">ObjectType</span>, <span class="ident">ParentClassIs</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::translate</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Closure</span>, <span class="ident">Object</span>, <span class="ident">StaticType</span>, <span class="ident">Type</span>, <span class="ident">Value</span>};
 <span class="kw">use</span> <span class="ident">std::marker</span>;
@@ -992,6 +1123,7 @@
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::SignalId</span>;
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// A newly registered `glib::Type` that is currently still being initialized.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This allows running additional type-setup functions.</span>
@@ -1006,12 +1138,14 @@
     }
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Struct used for the instance private data of the GObject.</span>
 <span class="kw">struct</span> <span class="ident">PrivateStruct</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectSubclass</span><span class="op">&gt;</span> {
     <span class="ident">imp</span>: <span class="ident">T</span>,
     <span class="ident">instance_data</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Type</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Any</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Trait implemented by structs that implement a `GObject` C instance struct.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The struct must be `#[repr(C)]` and have the parent type&#39;s instance struct</span>
@@ -1023,15 +1157,17 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`basic::InstanceStruct`]: ../basic/struct.InstanceStruct.html</span>
 <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">InstanceStruct</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Corresponding object subclass type for this instance struct.</span>
     <span class="kw">type</span> <span class="ident">Type</span>: <span class="ident">ObjectSubclass</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns the implementation for from this instance struct, that</span>
     <span class="doccomment">/// is the implementor of [`ObjectImpl`] or subtraits.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`ObjectImpl`]: ../object/trait.ObjectImpl.html</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;get_impl&quot;</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">impl_</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Type</span> {
+    <span class="kw">fn</span> <span class="ident">imp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Type</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::Type::type_data</span>();
             <span class="kw">let</span> <span class="ident">private_offset</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">as_ref</span>().<span class="ident">impl_offset</span>();
@@ -1043,12 +1179,14 @@
         }
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns the class struct for this specific instance.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;get_class&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">class</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Type</span> <span class="kw">as</span> <span class="ident">ObjectSubclass</span><span class="op">&gt;</span><span class="ident">::Class</span> {
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="kw-2">*</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw-2">*const</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Type</span> <span class="kw">as</span> <span class="ident">ObjectSubclass</span><span class="op">&gt;</span><span class="ident">::Class</span>) }
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Instance specific initialization.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is automatically called during instance initialization and must call `instance_init()`</span>
@@ -1066,6 +1204,21 @@
     }
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
+<span class="doccomment">/// Trait implemented by any type implementing `ObjectSubclassIs` to return the implementation, private Rust struct.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ObjectSubclassIsExt</span>: <span class="ident">ObjectSubclassIs</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
+    <span class="doccomment">/// Returns the implementation (the private Rust struct) of this class instance</span>
+    <span class="kw">fn</span> <span class="ident">imp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Subclass</span>;
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectSubclassIs</span><span class="op">&lt;</span><span class="ident">Subclass</span> <span class="op">=</span> <span class="ident">S</span><span class="op">&gt;</span>, <span class="ident">S</span>: <span class="ident">ObjectSubclass</span><span class="op">&lt;</span><span class="ident">Type</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">ObjectSubclassIsExt</span> <span class="kw">for</span> <span class="ident">T</span> {
+    <span class="kw">fn</span> <span class="ident">imp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">T::Subclass</span> {
+        <span class="ident">T::Subclass::from_instance</span>(<span class="self">self</span>)
+    }
+}
+
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Trait implemented by structs that implement a `GObject` C class struct.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The struct must be `#[repr(C)]` and have the parent type&#39;s class struct</span>
@@ -1077,9 +1230,11 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`basic::ClassStruct`]: ../basic/struct.ClassStruct.html</span>
 <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">ClassStruct</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Corresponding object subclass type for this class struct.</span>
     <span class="kw">type</span> <span class="ident">Type</span>: <span class="ident">ObjectSubclass</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Override the vfuncs of all parent types.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is automatically called during type initialization.</span>
@@ -1094,8 +1249,10 @@
     }
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Trait for subclassable class structs.</span>
 <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">IsSubclassable</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectSubclass</span><span class="op">&gt;</span>: <span class="ident">IsSubclassableDefault</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Override the virtual methods of this class for the given subclass and do other class</span>
     <span class="doccomment">/// initialization.</span>
     <span class="doccomment">///</span>
@@ -1105,6 +1262,7 @@
         <span class="ident"><span class="self">Self</span>::default_class_init</span>(<span class="ident">class</span>);
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Instance specific initialization.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is automatically called during instance initialization and must call `instance_init()`</span>
@@ -1166,21 +1324,24 @@
     }
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Trait for implementable interfaces.</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">IsImplementable</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectSubclass</span><span class="op">&gt;</span>: <span class="ident"><span class="kw">crate</span>::object::IsInterface</span>
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">IsImplementable</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectSubclass</span><span class="op">&gt;</span>: <span class="ident">IsInterface</span>
 <span class="kw">where</span>
     <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">ObjectType</span><span class="op">&gt;</span><span class="ident">::GlibClassType</span>: <span class="ident">Copy</span>,
 {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Override the virtual methods of this interface for the given subclass and do other</span>
     <span class="doccomment">/// interface initialization.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is automatically called during type initialization.</span>
-    <span class="kw">fn</span> <span class="ident">interface_init</span>(<span class="ident">iface</span>: <span class="kw-2">&amp;mut</span> <span class="ident"><span class="kw">crate</span>::Interface</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>);
+    <span class="kw">fn</span> <span class="ident">interface_init</span>(<span class="ident">_iface</span>: <span class="kw-2">&amp;mut</span> <span class="ident"><span class="kw">crate</span>::Interface</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) {}
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Instance specific initialization.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is automatically called during instance initialization.</span>
-    <span class="kw">fn</span> <span class="ident">instance_init</span>(<span class="ident">_instance</span>: <span class="kw-2">&amp;mut</span> <span class="ident">InitializingObject</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>);
+    <span class="kw">fn</span> <span class="ident">instance_init</span>(<span class="ident">_instance</span>: <span class="kw-2">&amp;mut</span> <span class="ident">InitializingObject</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) {}
 }
 
 <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">interface_init</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectSubclass</span>, <span class="ident">A</span>: <span class="ident">IsImplementable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>(
@@ -1207,11 +1368,14 @@
     <span class="ident">A::interface_init</span>(<span class="ident">iface</span>);
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Trait for a type list of interfaces.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">InterfaceList</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectSubclass</span><span class="op">&gt;</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns the list of types and corresponding interface infos for this list.</span>
     <span class="kw">fn</span> <span class="ident">iface_infos</span>() -&gt; <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">ffi::GType</span>, <span class="ident">gobject_ffi::GInterfaceInfo</span>)<span class="op">&gt;</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Runs `instance_init` on each of the `IsImplementable` items.</span>
     <span class="kw">fn</span> <span class="ident">instance_init</span>(<span class="ident">_instance</span>: <span class="kw-2">&amp;mut</span> <span class="ident">InitializingObject</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>);
 }
@@ -1318,12 +1482,14 @@
 <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">TypeData</span> {}
 
 <span class="kw">impl</span> <span class="ident">TypeData</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns the type ID.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;get_type&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">type_</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Type</span> {
         <span class="self">self</span>.<span class="ident">type_</span>
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns a pointer to the native parent class.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is used for chaining up to the parent class&#39; implementation</span>
@@ -1334,6 +1500,7 @@
         <span class="self">self</span>.<span class="ident">parent_class</span>
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns a pointer to the native parent interface struct for interface `type_`.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is used for chaining up to the parent interface&#39;s implementation</span>
@@ -1353,6 +1520,7 @@
         }
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns a pointer to the class implementation specific data.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is used for class implementations to store additional data.</span>
@@ -1364,6 +1532,7 @@
         }
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Gets a mutable reference of the class implementation specific data.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
@@ -1380,6 +1549,7 @@
         }
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Sets class specific implementation data.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
@@ -1405,6 +1575,7 @@
         }
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns the offset of the private implementation struct in bytes relative to the beginning</span>
     <span class="doccomment">/// of the instance struct.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;get_impl_offset&quot;</span>)]</span>
@@ -1413,13 +1584,16 @@
     }
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Type methods required for an [`ObjectSubclass`] implementation.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is usually generated by the [`#[object_subclass]`](crate::object_subclass) attribute macro.</span>
 <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">ObjectSubclassType</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Storage for the type-specific data used during registration.</span>
     <span class="kw">fn</span> <span class="ident">type_data</span>() -&gt; <span class="ident">ptr::NonNull</span><span class="op">&lt;</span><span class="ident">TypeData</span><span class="op">&gt;</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns the `glib::Type` ID of the subclass.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This will register the type with the type system on the first call.</span>
@@ -1427,6 +1601,16 @@
     <span class="kw">fn</span> <span class="ident">type_</span>() -&gt; <span class="ident">Type</span>;
 }
 
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">INIT_TYPE_DATA</span>: <span class="ident">TypeData</span> <span class="op">=</span> <span class="ident">TypeData</span> {
+    <span class="ident">type_</span>: <span class="ident">Type::INVALID</span>,
+    <span class="ident">parent_class</span>: <span class="ident">::std::ptr::null_mut</span>(),
+    <span class="ident">parent_ifaces</span>: <span class="prelude-val">None</span>,
+    <span class="ident">class_data</span>: <span class="prelude-val">None</span>,
+    <span class="ident">private_offset</span>: <span class="number">0</span>,
+    <span class="ident">private_imp_offset</span>: <span class="number">0</span>,
+};
+
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// The central trait for subclassing a `GObject` type.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Links together the type name, parent type and the instance and</span>
@@ -1438,11 +1622,13 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`register_type`]: fn.register_type.html</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ObjectSubclass</span>: <span class="ident">ObjectSubclassType</span> <span class="op">+</span> <span class="ident">Sized</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// `GObject` type name.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This must be unique in the whole process.</span>
     <span class="kw">const</span> <span class="ident">NAME</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// If this subclass is an abstract class or not.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default, all subclasses are non-abstract types but setting this to `true` will create an</span>
@@ -1453,6 +1639,7 @@
     <span class="doccomment">/// Optional.</span>
     <span class="kw">const</span> <span class="ident">ABSTRACT</span>: <span class="ident">bool</span> <span class="op">=</span> <span class="bool-val">false</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Wrapper around this subclass defined with `wrapper!`</span>
     <span class="kw">type</span> <span class="ident">Type</span>: <span class="ident">ObjectType</span>
         <span class="op">+</span> <span class="ident">ObjectSubclassIs</span><span class="op">&lt;</span><span class="ident">Subclass</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>
@@ -1460,15 +1647,18 @@
         <span class="op">+</span> <span class="ident">FromGlibPtrBorrow</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Type</span> <span class="kw">as</span> <span class="ident">ObjectType</span><span class="op">&gt;</span><span class="ident">::GlibType</span><span class="op">&gt;</span>
         <span class="op">+</span> <span class="ident">FromGlibPtrNone</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Type</span> <span class="kw">as</span> <span class="ident">ObjectType</span><span class="op">&gt;</span><span class="ident">::GlibType</span><span class="op">&gt;</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Parent Rust type to inherit from.</span>
     <span class="kw">type</span> <span class="ident">ParentType</span>: <span class="ident">IsSubclassable</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
         <span class="op">+</span> <span class="ident">FromGlibPtrFull</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ParentType</span> <span class="kw">as</span> <span class="ident">ObjectType</span><span class="op">&gt;</span><span class="ident">::GlibType</span><span class="op">&gt;</span>
         <span class="op">+</span> <span class="ident">FromGlibPtrBorrow</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ParentType</span> <span class="kw">as</span> <span class="ident">ObjectType</span><span class="op">&gt;</span><span class="ident">::GlibType</span><span class="op">&gt;</span>
         <span class="op">+</span> <span class="ident">FromGlibPtrNone</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ParentType</span> <span class="kw">as</span> <span class="ident">ObjectType</span><span class="op">&gt;</span><span class="ident">::GlibType</span><span class="op">&gt;</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// List of interfaces implemented by this type.</span>
     <span class="kw">type</span> <span class="ident">Interfaces</span>: <span class="ident">InterfaceList</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The C instance struct.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [`basic::InstanceStruct`] for an basic instance struct that should be</span>
@@ -1479,6 +1669,7 @@
     <span class="comment">// type defaults are stabilized https://github.com/rust-lang/rust/issues/29661</span>
     <span class="kw">type</span> <span class="ident">Instance</span>: <span class="ident">InstanceStruct</span><span class="op">&lt;</span><span class="ident">Type</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The C class struct.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [`basic::ClassStruct`] for an basic instance struct that should be</span>
@@ -1489,6 +1680,7 @@
     <span class="comment">// type defaults are stabilized https://github.com/rust-lang/rust/issues/29661</span>
     <span class="kw">type</span> <span class="ident">Class</span>: <span class="ident">ClassStruct</span><span class="op">&lt;</span><span class="ident">Type</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Additional type initialization.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is called right after the type was registered and allows</span>
@@ -1500,6 +1692,7 @@
 
     <span class="doccomment">/// Class initialization.</span>
     <span class="doccomment">///</span>
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// This is called after `type_init` and before the first instance</span>
     <span class="doccomment">/// of the subclass is created. Subclasses can use this to do class-</span>
     <span class="doccomment">/// specific initialization, e.g. for registering signals on the class</span>
@@ -1508,6 +1701,7 @@
     <span class="doccomment">/// Optional</span>
     <span class="kw">fn</span> <span class="ident">class_init</span>(<span class="ident">_klass</span>: <span class="kw-2">&amp;mut</span> <span class="ident"><span class="self">Self</span>::Class</span>) {}
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Constructor.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is called during object instantiation before further subclasses</span>
@@ -1519,6 +1713,7 @@
         <span class="macro">unimplemented!</span>();
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Constructor.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is called during object instantiation before further subclasses</span>
@@ -1533,6 +1728,7 @@
         <span class="ident"><span class="self">Self</span>::new</span>()
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Performs additional instance initialization.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Called just after `with_class()`. At this point the initialization has not completed yet, so</span>
@@ -1540,15 +1736,19 @@
     <span class="kw">fn</span> <span class="ident">instance_init</span>(<span class="ident">_obj</span>: <span class="kw-2">&amp;</span><span class="ident">InitializingObject</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) {}
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Extension methods for all `ObjectSubclass` impls.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ObjectSubclassExt</span>: <span class="ident">ObjectSubclass</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns the corresponding object instance.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;get_instance&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">instance</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Type</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns the implementation from an instance.</span>
     <span class="kw">fn</span> <span class="ident">from_instance</span>(<span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Type</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>;
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns a pointer to the instance implementation specific data.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is used for the subclassing infrastructure to store additional instance data.</span>
@@ -1584,10 +1784,11 @@
     <span class="kw">fn</span> <span class="ident">from_instance</span>(<span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Type</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">obj</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident"><span class="self">Self</span>::Instance</span>;
-            (<span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">impl_</span>()
+            (<span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">imp</span>()
         }
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns a pointer to the instance implementation specific data.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is used for the subclassing infrastructure to store additional instance data.</span>
@@ -1612,6 +1813,14 @@
     }
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
+<span class="doccomment">/// Helper trait for macros to access a subclass or its wrapper.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">FromObject</span> {
+    <span class="kw">type</span> <span class="ident">FromObjectType</span>;
+    <span class="kw">fn</span> <span class="ident">from_object</span>(<span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::FromObjectType</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>;
+}
+
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// An object that is currently being initialized.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Binding crates should use traits for adding methods to this struct. Only methods explicitly safe</span>
@@ -1619,6 +1828,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InitializingObject</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectSubclass</span><span class="op">&gt;</span>(<span class="ident">Borrowed</span><span class="op">&lt;</span><span class="ident">T::Type</span><span class="op">&gt;</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectSubclass</span><span class="op">&gt;</span> <span class="ident">InitializingObject</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns a reference to the object.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
@@ -1630,6 +1840,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns a pointer to the object.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
@@ -1641,6 +1852,7 @@
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">T::Type</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">T::Type</span>
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Sets instance specific implementation data.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
@@ -1774,6 +1986,7 @@
     }
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Register a `glib::Type` ID for `T`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This must be called only once and will panic on a second call.</span>
@@ -1856,20 +2069,54 @@
 ) <span class="kw">where</span>
     <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="kw">super</span>::SignalClassHandlerToken</span>, <span class="kw-2">&amp;</span>[<span class="ident">Value</span>]) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
+    <span class="kw">let</span> (<span class="ident">signal_id</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">SignalId::parse_name</span>(<span class="ident">name</span>, <span class="ident">from_glib</span>(<span class="ident">type_</span>), <span class="bool-val">false</span>)
+        .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">panic!</span>(<span class="string">&quot;Signal &#39;{}&#39; not found&quot;</span>, <span class="ident">name</span>));
+
+    <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">signal_id</span>.<span class="ident">query</span>();
+    <span class="kw">let</span> <span class="ident">return_type</span> <span class="op">=</span> <span class="ident">query</span>.<span class="ident">return_type</span>();
+
     <span class="kw">let</span> <span class="ident">class_handler</span> <span class="op">=</span> <span class="ident">Closure::new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">values</span><span class="op">|</span> {
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">gobject_ffi::g_value_get_object</span>(<span class="ident">values</span>[<span class="number">0</span>].<span class="ident">to_glib_none</span>().<span class="number">0</span>);
-        <span class="ident">class_handler</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="kw">super</span>::SignalClassHandlerToken</span>(<span class="ident">instance</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>), <span class="ident">values</span>)
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">class_handler</span>(
+            <span class="kw-2">&amp;</span><span class="ident"><span class="kw">super</span>::SignalClassHandlerToken</span>(
+                <span class="ident">instance</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>,
+                <span class="ident">return_type</span>.<span class="ident">into</span>(),
+                <span class="ident">values</span>.<span class="ident">as_ptr</span>(),
+            ),
+            <span class="ident">values</span>,
+        );
+
+        <span class="kw">if</span> <span class="ident">return_type</span> <span class="op">==</span> <span class="ident">Type::UNIT</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span> <span class="ident">res</span> {
+                <span class="macro">panic!</span>(
+                    <span class="string">&quot;Signal has no return value but class handler returned a value of type {}&quot;</span>,
+                    <span class="ident">v</span>.<span class="ident">type_</span>()
+                );
+            }
+        } <span class="kw">else</span> {
+            <span class="kw">match</span> <span class="ident">res</span> {
+                <span class="prelude-val">None</span> =&gt; {
+                    <span class="macro">panic!</span>(<span class="string">&quot;Signal has a return value but class handler returned none&quot;</span>);
+                }
+                <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) =&gt; {
+                    <span class="macro">assert!</span>(
+                        <span class="ident">v</span>.<span class="ident">type_</span>().<span class="ident">is_a</span>(<span class="ident">return_type</span>.<span class="ident">into</span>()),
+                        <span class="string">&quot;Signal has a return type of {} but class handler returned {}&quot;</span>,
+                        <span class="ident">Type::from</span>(<span class="ident">return_type</span>),
+                        <span class="ident">v</span>.<span class="ident">type_</span>()
+                    );
+                }
+            }
+        }
+
+        <span class="ident">res</span>
     });
 
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">signal_id</span>, <span class="kw">_</span>)) <span class="op">=</span> <span class="ident">SignalId::parse_name</span>(<span class="ident">name</span>, <span class="ident">from_glib</span>(<span class="ident">type_</span>), <span class="bool-val">false</span>) {
-        <span class="ident">gobject_ffi::g_signal_override_class_closure</span>(
-            <span class="ident">signal_id</span>.<span class="ident">into_glib</span>(),
-            <span class="ident">type_</span>,
-            <span class="ident">class_handler</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
-        );
-    } <span class="kw">else</span> {
-        <span class="macro">panic!</span>(<span class="string">&quot;Signal &#39;{}&#39; not found&quot;</span>, <span class="ident">name</span>);
-    }
+    <span class="ident">gobject_ffi::g_signal_override_class_closure</span>(
+        <span class="ident">signal_id</span>.<span class="ident">into_glib</span>(),
+        <span class="ident">type_</span>,
+        <span class="ident">class_handler</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
+    );
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">signal_chain_from_overridden</span>(
@@ -1878,7 +2125,13 @@
     <span class="ident">values</span>: <span class="kw-2">&amp;</span>[<span class="ident">Value</span>],
 ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> {
     <span class="macro">assert_eq!</span>(<span class="ident">instance</span>, <span class="ident">token</span>.<span class="number">0</span>);
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">Value::uninitialized</span>();
+    <span class="macro">assert_eq!</span>(
+        <span class="ident">values</span>.<span class="ident">as_ptr</span>(),
+        <span class="ident">token</span>.<span class="number">2</span>,
+        <span class="string">&quot;Arguments must be forwarded without changes when chaining up&quot;</span>
+    );
+
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">Value::from_type</span>(<span class="ident">token</span>.<span class="number">1</span>);
     <span class="ident">gobject_ffi::g_signal_chain_from_overridden</span>(
         <span class="ident">values</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">Value</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">gobject_ffi::GValue</span>,
         <span class="ident">result</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>,
@@ -1886,6 +2139,5 @@
     <span class="prelude-val">Some</span>(<span class="ident">result</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">type_</span>().<span class="ident">is_valid</span>() <span class="op">&amp;&amp;</span> <span class="ident">r</span>.<span class="ident">type_</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type::UNIT</span>)
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="glib" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="glib" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (4c5f6e627 2022-05-17)" ></div>
 </body></html>

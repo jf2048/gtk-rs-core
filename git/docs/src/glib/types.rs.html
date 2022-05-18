@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib&#x2F;src&#x2F;types.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>types.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/types.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>types.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,105 +72,111 @@
 </script>
 
 
-<nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../glib/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
-<span id="2">  2</span>
-<span id="3">  3</span>
-<span id="4">  4</span>
-<span id="5">  5</span>
-<span id="6">  6</span>
-<span id="7">  7</span>
-<span id="8">  8</span>
-<span id="9">  9</span>
-<span id="10"> 10</span>
-<span id="11"> 11</span>
-<span id="12"> 12</span>
-<span id="13"> 13</span>
-<span id="14"> 14</span>
-<span id="15"> 15</span>
-<span id="16"> 16</span>
-<span id="17"> 17</span>
-<span id="18"> 18</span>
-<span id="19"> 19</span>
-<span id="20"> 20</span>
-<span id="21"> 21</span>
-<span id="22"> 22</span>
-<span id="23"> 23</span>
-<span id="24"> 24</span>
-<span id="25"> 25</span>
-<span id="26"> 26</span>
-<span id="27"> 27</span>
-<span id="28"> 28</span>
-<span id="29"> 29</span>
-<span id="30"> 30</span>
-<span id="31"> 31</span>
-<span id="32"> 32</span>
-<span id="33"> 33</span>
-<span id="34"> 34</span>
-<span id="35"> 35</span>
-<span id="36"> 36</span>
-<span id="37"> 37</span>
-<span id="38"> 38</span>
-<span id="39"> 39</span>
-<span id="40"> 40</span>
-<span id="41"> 41</span>
-<span id="42"> 42</span>
-<span id="43"> 43</span>
-<span id="44"> 44</span>
-<span id="45"> 45</span>
-<span id="46"> 46</span>
-<span id="47"> 47</span>
-<span id="48"> 48</span>
-<span id="49"> 49</span>
-<span id="50"> 50</span>
-<span id="51"> 51</span>
-<span id="52"> 52</span>
-<span id="53"> 53</span>
-<span id="54"> 54</span>
-<span id="55"> 55</span>
-<span id="56"> 56</span>
-<span id="57"> 57</span>
-<span id="58"> 58</span>
-<span id="59"> 59</span>
-<span id="60"> 60</span>
-<span id="61"> 61</span>
-<span id="62"> 62</span>
-<span id="63"> 63</span>
-<span id="64"> 64</span>
-<span id="65"> 65</span>
-<span id="66"> 66</span>
-<span id="67"> 67</span>
-<span id="68"> 68</span>
-<span id="69"> 69</span>
-<span id="70"> 70</span>
-<span id="71"> 71</span>
-<span id="72"> 72</span>
-<span id="73"> 73</span>
-<span id="74"> 74</span>
-<span id="75"> 75</span>
-<span id="76"> 76</span>
-<span id="77"> 77</span>
-<span id="78"> 78</span>
-<span id="79"> 79</span>
-<span id="80"> 80</span>
-<span id="81"> 81</span>
-<span id="82"> 82</span>
-<span id="83"> 83</span>
-<span id="84"> 84</span>
-<span id="85"> 85</span>
-<span id="86"> 86</span>
-<span id="87"> 87</span>
-<span id="88"> 88</span>
-<span id="89"> 89</span>
-<span id="90"> 90</span>
-<span id="91"> 91</span>
-<span id="92"> 92</span>
-<span id="93"> 93</span>
-<span id="94"> 94</span>
-<span id="95"> 95</span>
-<span id="96"> 96</span>
-<span id="97"> 97</span>
-<span id="98"> 98</span>
-<span id="99"> 99</span>
+<nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../glib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../../glib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../glib/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
 <span id="100">100</span>
 <span id="101">101</span>
 <span id="102">102</span>
@@ -590,89 +597,237 @@
 <span id="517">517</span>
 <span id="518">518</span>
 <span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.</span>
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">//! Runtime type information.</span>
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::translate</span>::{
-    <span class="ident">from_glib</span>, <span class="ident">FromGlib</span>, <span class="ident">FromGlibContainerAsVec</span>, <span class="ident">IntoGlib</span>, <span class="ident">ToGlibContainerFromSlice</span>, <span class="ident">ToGlibPtr</span>,
-    <span class="ident">ToGlibPtrMut</span>,
-};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::translate</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::Slice</span>;
 
 <span class="kw">use</span> <span class="ident">std::fmt</span>;
 <span class="kw">use</span> <span class="ident">std::mem</span>;
 <span class="kw">use</span> <span class="ident">std::ptr</span>;
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// A GLib or GLib-based library type</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">Hash</span>)]</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GType&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Type</span>(<span class="ident">ffi::GType</span>);
 
 <span class="kw">impl</span> <span class="ident">Type</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// An invalid `Type` used as error return value in some functions</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_INVALID&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">INVALID</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_INVALID</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to the unit type `()`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_NONE&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">UNIT</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_NONE</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to `i8`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_CHAR&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">I8</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_CHAR</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to `u8`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_UCHAR&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">U8</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_UCHAR</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to `bool`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_BOOLEAN&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BOOL</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_BOOLEAN</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to `i32`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_INT&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">I32</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_INT</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to `u32`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_UINT&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">U32</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_UINT</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to C `long`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_LONG&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">I_LONG</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_LONG</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to C `unsigned long`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_ULONG&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">U_LONG</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_ULONG</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to `i64`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_INT64&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">I64</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_INT64</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to `u64`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_UINT64&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">U64</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_UINT64</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to `f32`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_FLOAT&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">F32</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_FLOAT</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to `f64`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_DOUBLE&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">F64</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_DOUBLE</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to `String`</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_STRING&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">STRING</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_STRING</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type corresponding to a pointer</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_POINTER&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">POINTER</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_POINTER</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type of GVariant</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_VARIANT&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VARIANT</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_VARIANT</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type from which all interfaces are derived</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_INTERFACE&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">INTERFACE</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_INTERFACE</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type from which all enumeration types are derived</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_ENUM&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ENUM</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_ENUM</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type from which all flags types are derived</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_FLAGS&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FLAGS</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_FLAGS</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type from which all boxed types are derived</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_BOXED&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BOXED</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_BOXED</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type from which all `GParamSpec` types are derived</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_PARAM&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PARAM_SPEC</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_PARAM</span>);
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// The fundamental type from which all objects are derived</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_TYPE_OBJECT&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">OBJECT</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">gobject_ffi::G_TYPE_OBJECT</span>);
 
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_type_name&quot;</span>)]</span>
@@ -689,7 +844,7 @@
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_type_qname&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">qname</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="kw">crate</span>::Quark</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">into_glib</span>() {
-            <span class="ident">gobject_ffi::G_TYPE_INVALID</span> =&gt; <span class="ident"><span class="kw">crate</span>::Quark::from_string</span>(<span class="string">&quot;&lt;invalid&gt;&quot;</span>),
+            <span class="ident">gobject_ffi::G_TYPE_INVALID</span> =&gt; <span class="ident"><span class="kw">crate</span>::Quark::from_str</span>(<span class="string">&quot;&lt;invalid&gt;&quot;</span>),
             <span class="ident">x</span> =&gt; <span class="kw">unsafe</span> { <span class="ident">from_glib</span>(<span class="ident">gobject_ffi::g_type_qname</span>(<span class="ident">x</span>)) },
         }
     }
@@ -713,36 +868,40 @@
     }
 
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_type_children&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">children</span>(<span class="self">self</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">children</span>(<span class="self">self</span>) -&gt; <span class="ident">Slice</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n_children</span> <span class="op">=</span> <span class="number">0u32</span>;
             <span class="kw">let</span> <span class="ident">children</span> <span class="op">=</span> <span class="ident">gobject_ffi::g_type_children</span>(<span class="self">self</span>.<span class="ident">into_glib</span>(), <span class="kw-2">&amp;mut</span> <span class="ident">n_children</span>);
 
-            <span class="ident">FromGlibContainerAsVec::from_glib_full_num_as_vec</span>(<span class="ident">children</span>, <span class="ident">n_children</span> <span class="kw">as</span> <span class="ident">usize</span>)
+            <span class="ident">Slice::from_glib_full_num_copy</span>(<span class="ident">children</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="self">Self</span>, <span class="ident">n_children</span> <span class="kw">as</span> <span class="ident">usize</span>)
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_type_interfaces&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">interfaces</span>(<span class="self">self</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">interfaces</span>(<span class="self">self</span>) -&gt; <span class="ident">Slice</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n_interfaces</span> <span class="op">=</span> <span class="number">0u32</span>;
             <span class="kw">let</span> <span class="ident">interfaces</span> <span class="op">=</span> <span class="ident">gobject_ffi::g_type_interfaces</span>(<span class="self">self</span>.<span class="ident">into_glib</span>(), <span class="kw-2">&amp;mut</span> <span class="ident">n_interfaces</span>);
 
-            <span class="ident">FromGlibContainerAsVec::from_glib_full_num_as_vec</span>(<span class="ident">interfaces</span>, <span class="ident">n_interfaces</span> <span class="kw">as</span> <span class="ident">usize</span>)
+            <span class="ident">Slice::from_glib_full_num_copy</span>(<span class="ident">interfaces</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="self">Self</span>, <span class="ident">n_interfaces</span> <span class="kw">as</span> <span class="ident">usize</span>)
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_type_interface_prerequisites&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">interface_prerequisites</span>(<span class="self">self</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">t</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">t</span>.<span class="ident">is_a</span>(<span class="ident"><span class="self">Self</span>::INTERFACE</span>) =&gt; <span class="macro">vec!</span>[],
-            <span class="kw">_</span> =&gt; <span class="kw">unsafe</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n_prereqs</span> <span class="op">=</span> <span class="number">0u32</span>;
-                <span class="kw">let</span> <span class="ident">prereqs</span> <span class="op">=</span>
-                    <span class="ident">gobject_ffi::g_type_interface_prerequisites</span>(<span class="self">self</span>.<span class="ident">into_glib</span>(), <span class="kw-2">&amp;mut</span> <span class="ident">n_prereqs</span>);
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">interface_prerequisites</span>(<span class="self">self</span>) -&gt; <span class="ident">Slice</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">match</span> <span class="self">self</span> {
+                <span class="ident">t</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">t</span>.<span class="ident">is_a</span>(<span class="ident"><span class="self">Self</span>::INTERFACE</span>) =&gt; <span class="ident">Slice::from_glib_full_num_copy</span>(<span class="ident">ptr::null_mut</span>(), <span class="number">0</span>),
+                <span class="kw">_</span> =&gt; {
+                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n_prereqs</span> <span class="op">=</span> <span class="number">0u32</span>;
+                    <span class="kw">let</span> <span class="ident">prereqs</span> <span class="op">=</span> <span class="ident">gobject_ffi::g_type_interface_prerequisites</span>(
+                        <span class="self">self</span>.<span class="ident">into_glib</span>(),
+                        <span class="kw-2">&amp;mut</span> <span class="ident">n_prereqs</span>,
+                    );
 
-                <span class="ident">FromGlibContainerAsVec::from_glib_full_num_as_vec</span>(<span class="ident">prereqs</span>, <span class="ident">n_prereqs</span> <span class="kw">as</span> <span class="ident">usize</span>)
-            },
+                    <span class="ident">Slice::from_glib_full_num_copy</span>(<span class="ident">prereqs</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="self">Self</span>, <span class="ident">n_prereqs</span> <span class="kw">as</span> <span class="ident">usize</span>)
+                }
+            }
         }
     }
 
@@ -754,6 +913,7 @@
         }
     }
 
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Checks that the type is not [`INVALID`](Self::INVALID)</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_valid</span>(<span class="self">self</span>) -&gt; <span class="ident">bool</span> {
@@ -773,8 +933,10 @@
     }
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Types that are supported by GLib dynamic typing.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">StaticType</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
     <span class="doccomment">/// Returns the type identifier of `Self`.</span>
     <span class="kw">fn</span> <span class="ident">static_type</span>() -&gt; <span class="ident">Type</span>;
 }
@@ -783,6 +945,19 @@
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_gtype_get_type&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">static_type</span>() -&gt; <span class="ident">Type</span> {
         <span class="kw">unsafe</span> { <span class="ident">from_glib</span>(<span class="ident">gobject_ffi::g_gtype_get_type</span>()) }
+    }
+}
+
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">StaticTypeExt</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
+    <span class="doccomment">/// Ensures that the type has been registered with the type system.</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_type_ensure&quot;</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">ensure_type</span>();
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">StaticType</span><span class="op">&gt;</span> <span class="ident">StaticTypeExt</span> <span class="kw">for</span> <span class="ident">T</span> {
+    <span class="kw">fn</span> <span class="ident">ensure_type</span>() {
+        <span class="ident">T::static_type</span>();
     }
 }
 
@@ -835,6 +1010,35 @@
             }
         }
     };
+}
+
+<span class="comment">// rustdoc-stripper-ignore-next</span>
+<span class="doccomment">/// A GLib pointer</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A raw untyped pointer equivalent to [`*mut Pointee`](Pointee).</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Pointer</span> <span class="op">=</span> <span class="ident">ffi::gpointer</span>;
+
+<span class="comment">// rustdoc-stripper-ignore-next</span>
+<span class="doccomment">/// The target of a [Pointer]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use glib::prelude::*;</span>
+<span class="doccomment">/// use glib::types::{Pointee, Pointer};</span>
+<span class="doccomment">/// use std::ptr::NonNull;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// let pointer = NonNull::&lt;Pointee&gt;::dangling();</span>
+<span class="doccomment">/// let value = pointer.to_value();</span>
+<span class="doccomment">/// assert!(value.is::&lt;Pointer&gt;());</span>
+<span class="doccomment">/// assert_eq!(value.get(), Ok(pointer.as_ptr()));</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Pointee</span> <span class="op">=</span> <span class="ident">libc::c_void</span>;
+
+<span class="kw">impl</span> <span class="ident">StaticType</span> <span class="kw">for</span> <span class="ident">ptr::NonNull</span><span class="op">&lt;</span><span class="ident">Pointee</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">static_type</span>() -&gt; <span class="ident">Type</span> {
+        <span class="ident">Pointer::static_type</span>()
+    }
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">Hash</span>)]</span>
@@ -956,6 +1160,7 @@
 <span class="macro">builtin!</span>(<span class="ident">f64</span>, <span class="ident">F64</span>);
 <span class="macro">builtin!</span>(<span class="ident">str</span>, <span class="ident">STRING</span>);
 <span class="macro">builtin!</span>(<span class="ident">String</span>, <span class="ident">STRING</span>);
+<span class="macro">builtin!</span>(<span class="ident">Pointer</span>, <span class="ident">POINTER</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">StaticType</span> <span class="kw">for</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>] {
     <span class="kw">fn</span> <span class="ident">static_type</span>() -&gt; <span class="ident">Type</span> {
@@ -1079,13 +1284,13 @@
         <span class="kw">let</span> <span class="ident">invalid</span> <span class="op">=</span> <span class="ident">Type::INVALID</span>;
 
         <span class="macro">assert_eq!</span>(<span class="ident">invalid</span>.<span class="ident">name</span>(), <span class="string">&quot;&lt;invalid&gt;&quot;</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">invalid</span>.<span class="ident">qname</span>(), <span class="ident"><span class="kw">crate</span>::Quark::from_string</span>(<span class="string">&quot;&lt;invalid&gt;&quot;</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">invalid</span>.<span class="ident">qname</span>(), <span class="ident"><span class="kw">crate</span>::Quark::from_str</span>(<span class="string">&quot;&lt;invalid&gt;&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">invalid</span>.<span class="ident">is_a</span>(<span class="ident">Type::INVALID</span>));
         <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">invalid</span>.<span class="ident">is_a</span>(<span class="ident">Type::STRING</span>));
         <span class="macro">assert_eq!</span>(<span class="ident">invalid</span>.<span class="ident">parent</span>(), <span class="prelude-val">None</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">invalid</span>.<span class="ident">children</span>(), <span class="macro">vec!</span>[]);
-        <span class="macro">assert_eq!</span>(<span class="ident">invalid</span>.<span class="ident">interfaces</span>(), <span class="macro">vec!</span>[]);
-        <span class="macro">assert_eq!</span>(<span class="ident">invalid</span>.<span class="ident">interface_prerequisites</span>(), <span class="macro">vec!</span>[]);
+        <span class="macro">assert!</span>(<span class="ident">invalid</span>.<span class="ident">children</span>().<span class="ident">is_empty</span>());
+        <span class="macro">assert!</span>(<span class="ident">invalid</span>.<span class="ident">interfaces</span>().<span class="ident">is_empty</span>());
+        <span class="macro">assert!</span>(<span class="ident">invalid</span>.<span class="ident">interface_prerequisites</span>().<span class="ident">is_empty</span>());
         <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">invalid</span>.<span class="ident">is_valid</span>());
         <span class="macro">dbg!</span>(<span class="kw-2">&amp;</span><span class="ident">invalid</span>);
     }
@@ -1095,7 +1300,11 @@
         <span class="comment">// Get this first so the type is registered</span>
         <span class="kw">let</span> <span class="ident">iu_type</span> <span class="op">=</span> <span class="ident">InitiallyUnowned::static_type</span>();
 
-        <span class="kw">let</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">Type::OBJECT</span>.<span class="ident">children</span>().<span class="ident">into_iter</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">HashSet</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+        <span class="kw">let</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">Type::OBJECT</span>
+            .<span class="ident">children</span>()
+            .<span class="ident">iter</span>()
+            .<span class="ident">copied</span>()
+            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">HashSet</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
         <span class="macro">assert!</span>(<span class="ident">set</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">iu_type</span>));
     }
 
@@ -1105,11 +1314,14 @@
         <span class="kw">let</span> <span class="ident">iu_type</span> <span class="op">=</span> <span class="ident">InitiallyUnowned::static_type</span>();
         <span class="macro">assert!</span>(<span class="ident">Type::OBJECT</span> <span class="op">&lt;</span> <span class="ident">iu_type</span>);
 
-        <span class="kw">let</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">Type::OBJECT</span>.<span class="ident">children</span>().<span class="ident">into_iter</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+        <span class="kw">let</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">Type::OBJECT</span>
+            .<span class="ident">children</span>()
+            .<span class="ident">iter</span>()
+            .<span class="ident">copied</span>()
+            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
         <span class="macro">assert!</span>(<span class="ident">set</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">iu_type</span>));
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="glib" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="glib" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (4c5f6e627 2022-05-17)" ></div>
 </body></html>

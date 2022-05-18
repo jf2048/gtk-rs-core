@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib&#x2F;src&#x2F;log.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>log.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/log.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>log.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,105 +72,111 @@
 </script>
 
 
-<nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../glib/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
-<span id="2">  2</span>
-<span id="3">  3</span>
-<span id="4">  4</span>
-<span id="5">  5</span>
-<span id="6">  6</span>
-<span id="7">  7</span>
-<span id="8">  8</span>
-<span id="9">  9</span>
-<span id="10"> 10</span>
-<span id="11"> 11</span>
-<span id="12"> 12</span>
-<span id="13"> 13</span>
-<span id="14"> 14</span>
-<span id="15"> 15</span>
-<span id="16"> 16</span>
-<span id="17"> 17</span>
-<span id="18"> 18</span>
-<span id="19"> 19</span>
-<span id="20"> 20</span>
-<span id="21"> 21</span>
-<span id="22"> 22</span>
-<span id="23"> 23</span>
-<span id="24"> 24</span>
-<span id="25"> 25</span>
-<span id="26"> 26</span>
-<span id="27"> 27</span>
-<span id="28"> 28</span>
-<span id="29"> 29</span>
-<span id="30"> 30</span>
-<span id="31"> 31</span>
-<span id="32"> 32</span>
-<span id="33"> 33</span>
-<span id="34"> 34</span>
-<span id="35"> 35</span>
-<span id="36"> 36</span>
-<span id="37"> 37</span>
-<span id="38"> 38</span>
-<span id="39"> 39</span>
-<span id="40"> 40</span>
-<span id="41"> 41</span>
-<span id="42"> 42</span>
-<span id="43"> 43</span>
-<span id="44"> 44</span>
-<span id="45"> 45</span>
-<span id="46"> 46</span>
-<span id="47"> 47</span>
-<span id="48"> 48</span>
-<span id="49"> 49</span>
-<span id="50"> 50</span>
-<span id="51"> 51</span>
-<span id="52"> 52</span>
-<span id="53"> 53</span>
-<span id="54"> 54</span>
-<span id="55"> 55</span>
-<span id="56"> 56</span>
-<span id="57"> 57</span>
-<span id="58"> 58</span>
-<span id="59"> 59</span>
-<span id="60"> 60</span>
-<span id="61"> 61</span>
-<span id="62"> 62</span>
-<span id="63"> 63</span>
-<span id="64"> 64</span>
-<span id="65"> 65</span>
-<span id="66"> 66</span>
-<span id="67"> 67</span>
-<span id="68"> 68</span>
-<span id="69"> 69</span>
-<span id="70"> 70</span>
-<span id="71"> 71</span>
-<span id="72"> 72</span>
-<span id="73"> 73</span>
-<span id="74"> 74</span>
-<span id="75"> 75</span>
-<span id="76"> 76</span>
-<span id="77"> 77</span>
-<span id="78"> 78</span>
-<span id="79"> 79</span>
-<span id="80"> 80</span>
-<span id="81"> 81</span>
-<span id="82"> 82</span>
-<span id="83"> 83</span>
-<span id="84"> 84</span>
-<span id="85"> 85</span>
-<span id="86"> 86</span>
-<span id="87"> 87</span>
-<span id="88"> 88</span>
-<span id="89"> 89</span>
-<span id="90"> 90</span>
-<span id="91"> 91</span>
-<span id="92"> 92</span>
-<span id="93"> 93</span>
-<span id="94"> 94</span>
-<span id="95"> 95</span>
-<span id="96"> 96</span>
-<span id="97"> 97</span>
-<span id="98"> 98</span>
-<span id="99"> 99</span>
+<nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../glib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../../glib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../glib/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
 <span id="100">100</span>
 <span id="101">101</span>
 <span id="102">102</span>
@@ -846,13 +853,280 @@
 <span id="773">773</span>
 <span id="774">774</span>
 <span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
+<span id="989">989</span>
+<span id="990">990</span>
+<span id="991">991</span>
+<span id="992">992</span>
+<span id="993">993</span>
+<span id="994">994</span>
+<span id="995">995</span>
+<span id="996">996</span>
+<span id="997">997</span>
+<span id="998">998</span>
+<span id="999">999</span>
+<span id="1000">1000</span>
+<span id="1001">1001</span>
+<span id="1002">1002</span>
+<span id="1003">1003</span>
+<span id="1004">1004</span>
+<span id="1005">1005</span>
+<span id="1006">1006</span>
+<span id="1007">1007</span>
+<span id="1008">1008</span>
+<span id="1009">1009</span>
+<span id="1010">1010</span>
+<span id="1011">1011</span>
+<span id="1012">1012</span>
+<span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.</span>
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::translate</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::GString</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">GStr</span>, <span class="ident">LogWriterOutput</span>};
 <span class="kw">use</span> <span class="ident">once_cell::sync::Lazy</span>;
 <span class="kw">use</span> <span class="ident">std::boxed::Box</span> <span class="kw">as</span> <span class="ident">Box_</span>;
 <span class="kw">use</span> <span class="ident">std::sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>};
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
+<span class="kw">use</span> <span class="ident">std::os::unix::io::AsRawFd</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogHandlerId</span>(<span class="ident">u32</span>);
@@ -926,6 +1200,20 @@
     }
 }
 
+<span class="kw">impl</span> <span class="ident">LogLevel</span> {
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">priority</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident"><span class="self">Self</span>::Error</span> =&gt; <span class="string">&quot;3&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Critical</span> =&gt; <span class="string">&quot;4&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Warning</span> =&gt; <span class="string">&quot;4&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Message</span> =&gt; <span class="string">&quot;5&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Info</span> =&gt; <span class="string">&quot;6&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Debug</span> =&gt; <span class="string">&quot;7&quot;</span>,
+        }
+    }
+}
+
 <span class="macro">bitflags::bitflags!</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GLogLevelFlags&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogLevels</span>: <span class="ident">u32</span> {
@@ -990,7 +1278,7 @@
         <span class="kw">let</span> <span class="ident">message</span>: <span class="ident">Borrowed</span><span class="op">&lt;</span><span class="ident">GString</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">from_glib_borrow</span>(<span class="ident">message</span>);
         <span class="kw">let</span> <span class="ident">callback</span>: <span class="kw-2">&amp;</span><span class="ident">P</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">user_data</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>);
         (<span class="kw-2">*</span><span class="ident">callback</span>)(
-            (<span class="kw-2">*</span><span class="ident">log_domain</span>).<span class="ident">as_deref</span>(),
+            (<span class="kw-2">*</span><span class="ident">log_domain</span>).<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">as_str</span>()),
             <span class="ident">from_glib</span>(<span class="ident">log_level</span>),
             <span class="ident">message</span>.<span class="ident">as_str</span>(),
         );
@@ -1038,21 +1326,11 @@
     }
 }
 
-<span class="comment">// #[cfg(any(feature = &quot;v2_50&quot;, feature = &quot;dox&quot;))]</span>
-<span class="comment">// pub fn log_variant(log_domain: Option&lt;&amp;str&gt;, log_level: LogLevel, fields: &amp;Variant) {</span>
-<span class="comment">//     unsafe {</span>
-<span class="comment">//         ffi::g_log_variant(</span>
-<span class="comment">//             log_domain.to_glib_none().0,</span>
-<span class="comment">//             log_level.into_glib(),</span>
-<span class="comment">//             fields.to_glib_none().0,</span>
-<span class="comment">//         );</span>
-<span class="comment">//     }</span>
-<span class="comment">// }</span>
-
 <span class="kw">type</span> <span class="ident">PrintCallback</span> <span class="op">=</span> <span class="kw">dyn</span> <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
 
 <span class="kw">static</span> <span class="ident">PRINT_HANDLER</span>: <span class="ident">Lazy</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">PrintCallback</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Lazy::new</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">Mutex::new</span>(<span class="prelude-val">None</span>));
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// To set back the default print handler, use the [`unset_print_handler`] function.</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_set_print_handler&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_print_handler</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="ident">func</span>: <span class="ident">P</span>) {
@@ -1073,6 +1351,7 @@
     <span class="kw">unsafe</span> { <span class="ident">ffi::g_set_print_handler</span>(<span class="prelude-val">Some</span>(<span class="ident">func_func</span> <span class="kw">as</span> <span class="kw">_</span>)) };
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// To set the default print handler, use the [`set_print_handler`] function.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unset_print_handler</span>() {
     <span class="kw-2">*</span><span class="ident">PRINT_HANDLER</span>
@@ -1083,6 +1362,7 @@
 
 <span class="kw">static</span> <span class="ident">PRINTERR_HANDLER</span>: <span class="ident">Lazy</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">PrintCallback</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Lazy::new</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">Mutex::new</span>(<span class="prelude-val">None</span>));
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// To set back the default print handler, use the [`unset_printerr_handler`] function.</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_set_printerr_handler&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_printerr_handler</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="ident">func</span>: <span class="ident">P</span>) {
@@ -1103,6 +1383,7 @@
     <span class="kw">unsafe</span> { <span class="ident">ffi::g_set_printerr_handler</span>(<span class="prelude-val">Some</span>(<span class="ident">func_func</span> <span class="kw">as</span> <span class="kw">_</span>)) };
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// To set the default print handler, use the [`set_printerr_handler`] function.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unset_printerr_handler</span>() {
     <span class="kw-2">*</span><span class="ident">PRINTERR_HANDLER</span>
@@ -1115,6 +1396,7 @@
 
 <span class="kw">static</span> <span class="ident">DEFAULT_HANDLER</span>: <span class="ident">Lazy</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">LogCallback</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Lazy::new</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">Mutex::new</span>(<span class="prelude-val">None</span>));
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// To set back the default print handler, use the [`log_unset_default_handler`] function.</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_set_default_handler&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_set_default_handler</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">Fn</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">LogLevel</span>, <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
@@ -1135,7 +1417,7 @@
             <span class="kw">let</span> <span class="ident">log_domain</span>: <span class="ident">Borrowed</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">GString</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">from_glib_borrow</span>(<span class="ident">log_domain</span>);
             <span class="kw">let</span> <span class="ident">message</span>: <span class="ident">Borrowed</span><span class="op">&lt;</span><span class="ident">GString</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">from_glib_borrow</span>(<span class="ident">message</span>);
             (<span class="kw-2">*</span><span class="ident">callback</span>)(
-                (<span class="kw-2">*</span><span class="ident">log_domain</span>).<span class="ident">as_deref</span>(),
+                (<span class="kw-2">*</span><span class="ident">log_domain</span>).<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">as_str</span>()),
                 <span class="ident">from_glib</span>(<span class="ident">log_levels</span>),
                 <span class="ident">message</span>.<span class="ident">as_str</span>(),
             );
@@ -1147,6 +1429,7 @@
     <span class="kw">unsafe</span> { <span class="ident">ffi::g_log_set_default_handler</span>(<span class="prelude-val">Some</span>(<span class="ident">func_func</span> <span class="kw">as</span> <span class="kw">_</span>), <span class="ident">std::ptr::null_mut</span>()) };
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// To set the default print handler, use the [`log_set_default_handler`] function.</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_set_default_handler&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_unset_default_handler</span>() {
@@ -1170,9 +1453,149 @@
     }
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
+<span class="doccomment">/// Structure representing a single field in a structured log entry.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// See [`g_log_structured`][gls] for details. Log fields may contain UTF-8 strings, binary with</span>
+<span class="doccomment">/// embedded nul bytes, or arbitrary pointers.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [gls]: https://docs.gtk.org/glib/func.log_structured.html</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GLogField&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogField</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">ffi::GLogField</span>, <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">GStr</span><span class="op">&gt;</span>);
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">LogField</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
+    <span class="doccomment">/// Creates a field from a borrowed key and value.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">GStr</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="self">Self</span> {
+        <span class="kw">let</span> (<span class="ident">value</span>, <span class="ident">length</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">value</span>.<span class="ident">is_empty</span>() {
+            <span class="comment">// Use an empty C string to represent empty data, since length: 0 is reserved for user</span>
+            <span class="comment">// data fields.</span>
+            (<span class="kw-2">&amp;</span>[<span class="number">0u8</span>] <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="op">-</span><span class="number">1isize</span>)
+        } <span class="kw">else</span> {
+            (<span class="ident">value</span>, <span class="ident">value</span>.<span class="ident">len</span>().<span class="ident">try_into</span>().<span class="ident">unwrap</span>())
+        };
+        <span class="self">Self</span>(
+            <span class="ident">ffi::GLogField</span> {
+                <span class="ident">key</span>: <span class="ident">key</span>.<span class="ident">as_ptr</span>(),
+                <span class="ident">value</span>: <span class="ident">value</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>,
+                <span class="ident">length</span>,
+            },
+            <span class="ident">Default::default</span>(),
+        )
+    }
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
+    <span class="doccomment">/// Creates a field with an empty value and `data` as a user data key. Fields created with this</span>
+    <span class="doccomment">/// function are ignored by the default log writer. These fields are used to pass custom data</span>
+    <span class="doccomment">/// into a writer function set with [`log_set_writer_func`], where it can be retreived using</span>
+    <span class="doccomment">/// [`Self::user_data`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The passed `usize` can be used by the log writer as a key into a static data structure.</span>
+    <span class="doccomment">/// Thread locals are preferred since the log writer function will run in the same thread that</span>
+    <span class="doccomment">/// invoked [`log_structured_array`].</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_user_data</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">GStr</span>, <span class="ident">data</span>: <span class="ident">usize</span>) -&gt; <span class="self">Self</span> {
+        <span class="self">Self</span>(
+            <span class="ident">ffi::GLogField</span> {
+                <span class="ident">key</span>: <span class="ident">key</span>.<span class="ident">as_ptr</span>(),
+                <span class="ident">value</span>: <span class="ident">data</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>,
+                <span class="ident">length</span>: <span class="number">0</span>,
+            },
+            <span class="ident">Default::default</span>(),
+        )
+    }
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
+    <span class="doccomment">/// Retreives the field key.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">key</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
+        <span class="kw">unsafe</span> { <span class="ident">std::ffi::CStr::from_ptr</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">key</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>) }
+            .<span class="ident">to_str</span>()
+            .<span class="ident">unwrap</span>()
+    }
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
+    <span class="doccomment">/// Retrieves a byte array of the field value. Returns `None` if the field was created with</span>
+    <span class="doccomment">/// [`Self::new_user_data`].</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value_bytes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">length</span> {
+            <span class="number">0</span> =&gt; <span class="prelude-val">None</span>,
+            <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">0</span> =&gt; {
+                <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="ident">std::ffi::CStr::from_ptr</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">value</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>) }.<span class="ident">to_bytes</span>())
+            }
+            <span class="kw">_</span> =&gt; <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> {
+                <span class="ident">std::slice::from_raw_parts</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">value</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">u8</span>, <span class="self">self</span>.<span class="number">0</span>.<span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span>)
+            }),
+        }
+    }
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
+    <span class="doccomment">/// Retrieves a string of the field value, or `None` if the string is not valid UTF-8. Also</span>
+    <span class="doccomment">/// returns `None` if the field was created with [`Self::new_user_data`].</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> {
+        <span class="ident">std::str::from_utf8</span>(<span class="self">self</span>.<span class="ident">value_bytes</span>()<span class="question-mark">?</span>).<span class="ident">ok</span>()
+    }
+    <span class="comment">// rustdoc-stripper-ignore-next</span>
+    <span class="doccomment">/// Retrieves the the user data value from a field created with [`Self::new_user_data`].</span>
+    <span class="doccomment">/// Returns `None` if the field was created with [`Self::new`].</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">user_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        (<span class="self">self</span>.<span class="number">0</span>.<span class="ident">length</span> <span class="op">==</span> <span class="number">0</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">value</span> <span class="kw">as</span> <span class="ident">usize</span>)
+    }
+}
+
+<span class="kw">type</span> <span class="ident">WriterCallback</span> <span class="op">=</span> <span class="kw">dyn</span> <span class="ident">Fn</span>(<span class="ident">LogLevel</span>, <span class="kw-2">&amp;</span>[<span class="ident">LogField</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>]) -&gt; <span class="ident">LogWriterOutput</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
+
+<span class="kw">static</span> <span class="ident">WRITER_FUNC</span>: <span class="ident">once_cell::sync::OnceCell</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">WriterCallback</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span>
+    <span class="ident">once_cell::sync::OnceCell::new</span>();
+
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_set_writer_func&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_set_writer_func</span><span class="op">&lt;</span>
+    <span class="ident">P</span>: <span class="ident">Fn</span>(<span class="ident">LogLevel</span>, <span class="kw-2">&amp;</span>[<span class="ident">LogField</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>]) -&gt; <span class="ident">LogWriterOutput</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+<span class="op">&gt;</span>(
+    <span class="ident">writer_func</span>: <span class="ident">P</span>,
+) {
+    <span class="kw">if</span> <span class="ident">WRITER_FUNC</span>.<span class="ident">set</span>(<span class="ident">Box::new</span>(<span class="ident">writer_func</span>)).<span class="ident">is_err</span>() {
+        <span class="macro">panic!</span>(<span class="string">&quot;Writer func can only be set once&quot;</span>);
+    }
+    <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">writer_trampoline</span>(
+        <span class="ident">log_level</span>: <span class="ident">ffi::GLogLevelFlags</span>,
+        <span class="ident">fields</span>: <span class="kw-2">*const</span> <span class="ident">ffi::GLogField</span>,
+        <span class="ident">n_fields</span>: <span class="ident">libc::size_t</span>,
+        <span class="ident">_user_data</span>: <span class="ident">ffi::gpointer</span>,
+    ) -&gt; <span class="ident">ffi::GLogWriterOutput</span> {
+        <span class="kw">let</span> <span class="ident">writer_func</span> <span class="op">=</span> <span class="ident">WRITER_FUNC</span>.<span class="ident">get</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">fields</span> <span class="op">=</span> <span class="ident">std::slice::from_raw_parts</span>(<span class="ident">fields</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">LogField</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">n_fields</span>);
+        <span class="ident">writer_func</span>(<span class="ident">from_glib</span>(<span class="ident">log_level</span>), <span class="ident">fields</span>).<span class="ident">into_glib</span>()
+    }
+    <span class="kw">unsafe</span> {
+        <span class="ident">ffi::g_log_set_writer_func</span>(<span class="prelude-val">Some</span>(<span class="ident">writer_trampoline</span>), <span class="ident">std::ptr::null_mut</span>(), <span class="prelude-val">None</span>);
+    }
+}
+
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="macro">macro_rules!</span> <span class="ident">g_log_inner</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_domain</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">literal</span> $(,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>)<span class="op">*</span> $(,)<span class="question-mark">?</span>) =&gt; {{
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">w</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::GStringBuilder::default</span>();
+
+        <span class="comment">// Can&#39;t really happen but better safe than sorry</span>
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">std::fmt::Write::write_fmt</span>(<span class="kw-2">&amp;mut</span> <span class="ident">w</span>, <span class="macro">std::format_args!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>)).<span class="ident">is_err</span>() {
+            <span class="kw">unsafe</span> {
+                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::ffi::g_log</span>(
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::translate::ToGlibPtr::to_glib_none</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_domain</span>).<span class="number">0</span>,
+                    <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::LogLevel</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::translate::IntoGlib</span><span class="op">&gt;</span><span class="ident">::into_glib</span>(
+                        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>
+                    ),
+                    <span class="string">b&quot;%s\0&quot;</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>,
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::translate::ToGlibPtr</span>::<span class="op">&lt;</span><span class="kw-2">*const</span> <span class="ident">std::os::raw::c_char</span><span class="op">&gt;</span><span class="ident">::to_glib_none</span>(
+                        <span class="kw-2">&amp;</span><span class="ident">w</span>.<span class="ident">into_string</span>()
+                    ).<span class="number">0</span>,
+                );
+            }
+        }
+    }};
+}
+
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Macro used to log using GLib logging system. It uses [g_log].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [g_log]: https://developer.gnome.org/glib/stable/glib-Message-Logging.html#g-log</span>
+<span class="doccomment">/// [g_log]: https://docs.gtk.org/glib/func.log.html</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Example:</span>
 <span class="doccomment">///</span>
@@ -1211,83 +1634,19 @@
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">g_log</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">literal</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>),<span class="op">*</span> $(,)<span class="question-mark">?</span>) =&gt; {{
-        <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::translate</span>::{<span class="ident">IntoGlib</span>, <span class="ident">ToGlibPtr</span>};
-        <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::LogLevel</span>;
-
-        <span class="kw">fn</span> <span class="ident">check_log_args</span>(<span class="ident">_log_level</span>: <span class="ident">LogLevel</span>, <span class="ident">_format</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {}
-
-        <span class="ident">check_log_args</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>);
-        <span class="comment">// to prevent the glib formatter to look for arguments which don&#39;t exist</span>
-        <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>).<span class="ident">replace</span>(<span class="string">&quot;%&quot;</span>, <span class="string">&quot;%%&quot;</span>);
-        <span class="kw">unsafe</span> {
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::ffi::g_log</span>(
-                <span class="ident">std::ptr::null</span>(),
-                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>.<span class="ident">into_glib</span>(),
-                <span class="ident">f</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
-            );
-        }
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">literal</span> $(,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>)<span class="op">*</span> $(,)<span class="question-mark">?</span>) =&gt; {{
+        <span class="macro-nonterminal">$</span><span class="macro">crate::g_log_inner!</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="macro-nonterminal">str</span><span class="op">&gt;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>);
     }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">literal</span> $(,)<span class="question-mark">?</span>) =&gt; {{
-        <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::translate</span>::{<span class="ident">IntoGlib</span>, <span class="ident">ToGlibPtr</span>};
-        <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::LogLevel</span>;
-
-        <span class="kw">fn</span> <span class="ident">check_log_args</span>(<span class="ident">_log_level</span>: <span class="ident">LogLevel</span>, <span class="ident">_format</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {}
-
-        <span class="ident">check_log_args</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>);
-        <span class="comment">// to prevent the glib formatter to look for arguments which don&#39;t exist</span>
-        <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>.<span class="ident">replace</span>(<span class="string">&quot;%&quot;</span>, <span class="string">&quot;%%&quot;</span>);
-        <span class="kw">unsafe</span> {
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::ffi::g_log</span>(
-                <span class="ident">std::ptr::null</span>(),
-                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>.<span class="ident">into_glib</span>(),
-                <span class="ident">f</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
-            );
-        }
-    }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_domain</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">literal</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>),<span class="op">*</span> $(,)<span class="question-mark">?</span>) =&gt; {{
-        <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::translate</span>::{<span class="ident">IntoGlib</span>, <span class="ident">ToGlibPtr</span>};
-        <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::LogLevel</span>;
-
-        <span class="kw">fn</span> <span class="ident">check_log_args</span>(<span class="ident">_log_level</span>: <span class="ident">LogLevel</span>, <span class="ident">_format</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {}
-
-        <span class="comment">// the next line is used to enforce the type for the macro checker...</span>
-        <span class="kw">let</span> <span class="ident">log_domain</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_domain</span>.<span class="ident">into</span>();
-        <span class="ident">check_log_args</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>);
-        <span class="comment">// to prevent the glib formatter to look for arguments which don&#39;t exist</span>
-        <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>).<span class="ident">replace</span>(<span class="string">&quot;%&quot;</span>, <span class="string">&quot;%%&quot;</span>);
-        <span class="kw">unsafe</span> {
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::ffi::g_log</span>(
-                <span class="ident">log_domain</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
-                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>.<span class="ident">into_glib</span>(),
-                <span class="ident">f</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
-            );
-        }
-    }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_domain</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">literal</span> $(,)<span class="question-mark">?</span>) =&gt; {{
-        <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::translate</span>::{<span class="ident">IntoGlib</span>, <span class="ident">ToGlibPtr</span>};
-        <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::LogLevel</span>;
-
-        <span class="kw">fn</span> <span class="ident">check_log_args</span>(<span class="ident">_log_level</span>: <span class="ident">LogLevel</span>, <span class="ident">_format</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {}
-
-        <span class="comment">// the next line is used to enforce the type for the macro checker...</span>
-        <span class="kw">let</span> <span class="ident">log_domain</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_domain</span>.<span class="ident">into</span>();
-        <span class="ident">check_log_args</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>);
-        <span class="comment">// to prevent the glib formatter to look for arguments which don&#39;t exist</span>
-        <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>.<span class="ident">replace</span>(<span class="string">&quot;%&quot;</span>, <span class="string">&quot;%%&quot;</span>);
-        <span class="kw">unsafe</span> {
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::ffi::g_log</span>(
-                <span class="ident">log_domain</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
-                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>.<span class="ident">into_glib</span>(),
-                <span class="ident">f</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
-            );
-        }
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_domain</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">literal</span> $(,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>)<span class="op">*</span> $(,)<span class="question-mark">?</span>) =&gt; {{
+        <span class="kw">let</span> <span class="ident">log_domain</span> <span class="op">=</span> <span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">std::convert::From</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_domain</span>);
+        <span class="macro-nonterminal">$</span><span class="macro">crate::g_log_inner!</span>(<span class="macro-nonterminal">log_domain</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>);
     }};
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Macro used to log using GLib logging system. It uses [g_log].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [g_log]: https://developer.gnome.org/glib/stable/glib-Message-Logging.html#g-log</span>
+<span class="doccomment">/// [g_log]: https://docs.gtk.org/glib/func.log.html</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// It is the same as calling the [`g_log!`] macro with [`LogLevel::Error`].</span>
 <span class="doccomment">///</span>
@@ -1321,9 +1680,10 @@
     }};
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Macro used to log using GLib logging system. It uses [g_log].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [g_log]: https://developer.gnome.org/glib/stable/glib-Message-Logging.html#g-log</span>
+<span class="doccomment">/// [g_log]: https://docs.gtk.org/glib/func.log.html</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// It is the same as calling the [`g_log!`] macro with [`LogLevel::Critical`].</span>
 <span class="doccomment">///</span>
@@ -1357,9 +1717,10 @@
     }};
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Macro used to log using GLib logging system. It uses [g_log].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [g_log]: https://developer.gnome.org/glib/stable/glib-Message-Logging.html#g-log</span>
+<span class="doccomment">/// [g_log]: https://docs.gtk.org/glib/func.log.html</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// It is the same as calling the [`g_log!`] macro with [`LogLevel::Warning`].</span>
 <span class="doccomment">///</span>
@@ -1393,9 +1754,10 @@
     }};
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Macro used to log using GLib logging system. It uses [g_log].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [g_log]: https://developer.gnome.org/glib/stable/glib-Message-Logging.html#g-log</span>
+<span class="doccomment">/// [g_log]: https://docs.gtk.org/glib/func.log.html</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// It is the same as calling the [`g_log!`] macro with [`LogLevel::Message`].</span>
 <span class="doccomment">///</span>
@@ -1429,9 +1791,10 @@
     }};
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Macro used to log using GLib logging system. It uses [g_log].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [g_log]: https://developer.gnome.org/glib/stable/glib-Message-Logging.html#g-log</span>
+<span class="doccomment">/// [g_log]: https://docs.gtk.org/glib/func.log.html</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// It is the same as calling the [`g_log!`] macro with [`LogLevel::Info`].</span>
 <span class="doccomment">///</span>
@@ -1465,9 +1828,10 @@
     }};
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Macro used to log using GLib logging system. It uses [g_log].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [g_log]: https://developer.gnome.org/glib/stable/glib-Message-Logging.html#g-log</span>
+<span class="doccomment">/// [g_log]: https://docs.gtk.org/glib/func.log.html</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// It is the same as calling the [`g_log!`] macro with [`LogLevel::Debug`].</span>
 <span class="doccomment">///</span>
@@ -1504,35 +1868,27 @@
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">g_print_inner</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">expr</span>) =&gt; {{
-        <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::translate::ToGlibPtr</span>;
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">expr</span> $(, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>)<span class="op">*</span> $(,)<span class="question-mark">?</span>) =&gt; {{
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">w</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::GStringBuilder::default</span>();
 
-        <span class="kw">fn</span> <span class="ident">check_arg</span>(<span class="ident">_format</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {}
-
-        <span class="ident">check_arg</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>);
-        <span class="comment">// to prevent the glib formatter to look for arguments which don&#39;t exist</span>
-        <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>.<span class="ident">replace</span>(<span class="string">&quot;%&quot;</span>, <span class="string">&quot;%%&quot;</span>);
-        <span class="kw">unsafe</span> {
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::ffi</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>(<span class="ident">f</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>);
-        }
-    }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">expr</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>),<span class="kw-2">*</span>) =&gt; {{
-        <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::translate::ToGlibPtr</span>;
-
-        <span class="kw">fn</span> <span class="ident">check_arg</span>(<span class="ident">_format</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {}
-
-        <span class="ident">check_arg</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>);
-        <span class="comment">// to prevent the glib formatter to look for arguments which don&#39;t exist</span>
-        <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>).<span class="ident">replace</span>(<span class="string">&quot;%&quot;</span>, <span class="string">&quot;%%&quot;</span>);
-        <span class="kw">unsafe</span> {
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::ffi</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>(<span class="ident">f</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>);
+        <span class="comment">// Can&#39;t really happen but better safe than sorry</span>
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">std::fmt::Write::write_fmt</span>(<span class="kw-2">&amp;mut</span> <span class="ident">w</span>, <span class="macro">std::format_args!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>)).<span class="ident">is_err</span>() {
+            <span class="kw">unsafe</span> {
+                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::ffi</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>(
+                    <span class="string">b&quot;%s\0&quot;</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>,
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::translate::ToGlibPtr</span>::<span class="op">&lt;</span><span class="kw-2">*const</span> <span class="ident">std::os::raw::c_char</span><span class="op">&gt;</span><span class="ident">::to_glib_none</span>(
+                        <span class="kw-2">&amp;</span><span class="ident">w</span>.<span class="ident">into_string</span>()
+                    ).<span class="number">0</span>,
+                );
+            }
         }
     }};
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Macro used to print messages. It uses [g_print].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [g_print]: https://developer.gnome.org/glib/stable/glib-Warnings-and-Assertions.html#g-print</span>
+<span class="doccomment">/// [g_print]: https://docs.gtk.org/glib/func.print.html</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Example:</span>
 <span class="doccomment">///</span>
@@ -1551,17 +1907,15 @@
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">g_print</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">expr</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>),<span class="op">*</span> $(,)<span class="question-mark">?</span>) =&gt; {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">expr</span> $(,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>)<span class="op">*</span> $(,)<span class="question-mark">?</span>) =&gt; {{
         <span class="macro-nonterminal">$</span><span class="macro">crate::g_print_inner!</span>(<span class="macro-nonterminal">g_print</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>);
-    }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span>) =&gt; {{
-        <span class="macro-nonterminal">$</span><span class="macro">crate::g_print_inner!</span>(<span class="macro-nonterminal">g_print</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>);
     }};
 }
 
+<span class="comment">// rustdoc-stripper-ignore-next</span>
 <span class="doccomment">/// Macro used to print error messages. It uses [g_printerr].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [g_printerr]: https://developer.gnome.org/glib/stable/glib-Warnings-and-Assertions.html#g-printerr</span>
+<span class="doccomment">/// [g_printerr]: https://docs.gtk.org/glib/func.printerr.html</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Example:</span>
 <span class="doccomment">///</span>
@@ -1580,48 +1934,226 @@
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">g_printerr</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span>) =&gt; {{
-        <span class="macro-nonterminal">$</span><span class="macro">crate::g_print_inner!</span>(<span class="macro-nonterminal">g_printerr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>);
-    }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">expr</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>),<span class="op">*</span> $(,)<span class="question-mark">?</span>) =&gt; {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">expr</span> $(, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>)<span class="op">*</span> $(,)<span class="question-mark">?</span>) =&gt; {{
         <span class="macro-nonterminal">$</span><span class="macro">crate::g_print_inner!</span>(<span class="macro-nonterminal">g_printerr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>);
     }};
 }
 
-<span class="comment">// /// Macro used to log using GLib logging system. It uses [g_log_structured][gls].</span>
-<span class="comment">// ///</span>
-<span class="comment">// /// [gls]: https://developer.gnome.org/glib/stable/glib-Message-Logging.html#g-log-structured)</span>
-<span class="comment">// ///</span>
-<span class="comment">// /// Example:</span>
-<span class="comment">// ///</span>
-<span class="comment">// /// ```no_run</span>
-<span class="comment">// /// use glib::{LogLevel, g_log_structured};</span>
-<span class="comment">// ///</span>
-<span class="comment">// /// g_log_structured!(&quot;test&quot;, LogLevel::Debug, {&quot;MESSAGE&quot; =&gt; &quot;tadam!&quot;});</span>
-<span class="comment">// /// g_log_structured!(&quot;test&quot;, LogLevel::Debug, {&quot;MESSAGE&quot; =&gt; &quot;tadam!&quot;, &quot;random&quot; =&gt; &quot;yes&quot;});</span>
-<span class="comment">// /// ```</span>
-<span class="comment">// #[cfg(any(feature = &quot;v2_50&quot;, feature = &quot;dox&quot;))]</span>
-<span class="comment">// #[macro_export]</span>
-<span class="comment">// macro_rules! g_log_structured {</span>
-<span class="comment">//     ($log_domain:expr, $log_level:expr, {$($key:expr =&gt; $value:expr),+}) =&gt; {{</span>
-<span class="comment">//         use $crate::translate::{Stash, IntoGlib, ToGlibPtr};</span>
-<span class="comment">//         use $crate::LogLevel;</span>
-<span class="comment">//         use std::ffi::CString;</span>
+<span class="comment">// rustdoc-stripper-ignore-next</span>
+<span class="doccomment">/// Macro used to log using GLib structured logging system.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The structured data is provided inside braces as key-value pairs using the `=&gt;` token and</span>
+<span class="doccomment">/// separated by semicolons. The key can be a string literal or an expression that satisfies</span>
+<span class="doccomment">/// [`AsRef&lt;GStr&gt;`]. The value can be a format string with arguments, or a single expression that</span>
+<span class="doccomment">/// satisfies `AsRef&lt;[u8]&gt;`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// See [`g_log_structured`][gls] for more details.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [gls]: https://docs.gtk.org/glib/func.log_structured.html</span>
+<span class="doccomment">/// [`AsRef&lt;GStr&gt;`]: crate::GStr</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Example:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```no_run</span>
+<span class="doccomment">/// use glib::{GString, LogLevel, log_structured};</span>
+<span class="doccomment">/// use std::ffi::CString;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// log_structured!(</span>
+<span class="doccomment">///     &quot;test&quot;,</span>
+<span class="doccomment">///     LogLevel::Debug,</span>
+<span class="doccomment">///     {</span>
+<span class="doccomment">///         // a normal string field</span>
+<span class="doccomment">///         &quot;MY_FIELD&quot; =&gt; &quot;123&quot;;</span>
+<span class="doccomment">///         // fields can also take format arguments</span>
+<span class="doccomment">///         &quot;MY_FIELD2&quot; =&gt; &quot;abc {}&quot;, &quot;def&quot;;</span>
+<span class="doccomment">///         // single argument can be a &amp;str or a &amp;[u8] or anything else satsfying AsRef&lt;[u8]&gt;</span>
+<span class="doccomment">///         &quot;MY_FIELD3&quot; =&gt; CString::new(&quot;my string&quot;).unwrap().to_bytes();</span>
+<span class="doccomment">///         // field names can also be dynamic</span>
+<span class="doccomment">///         GString::from(&quot;MY_FIELD4&quot;) =&gt; b&quot;a binary string&quot;.to_owned();</span>
+<span class="doccomment">///         // the main log message goes in the MESSAGE field</span>
+<span class="doccomment">///         &quot;MESSAGE&quot; =&gt; &quot;test: {} {}&quot;, 1, 2, ;</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">/// );</span>
+<span class="doccomment">/// ```</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="macro">macro_rules!</span> <span class="ident">log_structured</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_domain</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>:<span class="ident">expr</span>, {$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">key</span>:<span class="ident">expr</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">expr</span> $(,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>)<span class="op">*</span> $(,)<span class="question-mark">?</span>);<span class="op">+</span> $(;)<span class="question-mark">?</span>} $(,)<span class="question-mark">?</span>) =&gt; {
+        (<span class="op">|</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="ident">log_domain</span> <span class="op">=</span> <span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">std::convert::From</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_domain</span>);
+            <span class="kw">let</span> <span class="ident">log_domain_str</span> <span class="op">=</span> <span class="ident">log_domain</span>.<span class="ident">unwrap_or_default</span>();
+            <span class="kw">let</span> <span class="ident">level</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::LogLevel</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">log_level</span>;
+            <span class="kw">let</span> <span class="ident">field_count</span> <span class="op">=</span>
+                <span class="op">&lt;</span>[()]<span class="op">&gt;</span><span class="ident">::len</span>(<span class="kw-2">&amp;</span>[$(<span class="macro-nonterminal">$</span><span class="macro">crate::log_structured_inner!</span>(@<span class="macro-nonterminal">clear</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">key</span>)),<span class="op">+</span>])
+                <span class="op">+</span> <span class="ident">log_domain</span>.<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="number">2usize</span>).<span class="ident">unwrap_or</span>(<span class="number">1usize</span>);
 
-<span class="comment">//         fn check_log_args(_log_domain: &amp;str, _log_level: LogLevel) {}</span>
-<span class="comment">//         fn check_key(key: &amp;str) -&gt; Stash&lt;*const i8, str&gt; { key.to_glib_none() }</span>
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::log_structured_array</span>(
+                <span class="ident">level</span>,
+                <span class="kw-2">&amp;</span>[
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::LogField::new</span>(
+                        <span class="macro-nonterminal">$</span><span class="macro">crate::gstr!</span>(<span class="string">&quot;PRIORITY&quot;</span>),
+                        <span class="macro-nonterminal">level</span>.<span class="ident">priority</span>().<span class="ident">as_bytes</span>(),
+                    ),
+                    $(
+                        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::LogField::new</span>(
+                            <span class="macro-nonterminal">$</span><span class="macro">crate::log_structured_inner!</span>(@<span class="macro-nonterminal">key</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">key</span>),
+                            <span class="macro-nonterminal">$</span><span class="macro">crate::log_structured_inner!</span>(@<span class="macro-nonterminal">value</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span> $(,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>)<span class="kw-2">*</span>),
+                        ),
+                    )<span class="op">+</span>
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::LogField::new</span>(
+                        <span class="macro-nonterminal">$</span><span class="macro">crate::gstr!</span>(<span class="string">&quot;GLIB_DOMAIN&quot;</span>),
+                        <span class="macro-nonterminal">log_domain_str</span>.<span class="ident">as_bytes</span>(),
+                    ),
+                ][<span class="number">0</span>..<span class="ident">field_count</span>],
+            )
+        })()
+    };
+}
 
-<span class="comment">//         check_log_args(&amp;$log_domain, $log_level);</span>
-<span class="comment">//         unsafe {</span>
-<span class="comment">//             ffi::g_log_structured(</span>
-<span class="comment">//                 $log_domain.to_glib_none().0,</span>
-<span class="comment">//                 $log_level.into_glib(),</span>
-<span class="comment">//                 $(check_key($key).0, check_key(format!(&quot;{}&quot;, $value).as_str()).0 ),+</span>
-<span class="comment">//             )</span>
-<span class="comment">//         }</span>
-<span class="comment">//     }};</span>
-<span class="comment">// }</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="macro">macro_rules!</span> <span class="ident">log_structured_inner</span> {
+    (@<span class="ident">clear</span> $(<span class="macro-nonterminal">$</span><span class="kw">_</span>:<span class="macro-nonterminal">tt</span>)<span class="kw-2">*</span>) =&gt; { () };
+    (@<span class="ident">key</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">key</span>:<span class="ident">literal</span>) =&gt; { <span class="macro-nonterminal">$</span><span class="macro">crate::gstr!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">key</span>) };
+    (@<span class="ident">key</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">key</span>:<span class="ident">expr</span>) =&gt; { <span class="ident">std::convert::AsRef</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::GStr</span><span class="op">&gt;</span><span class="ident">::as_ref</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">key</span>) };
+    (@<span class="ident">value</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>:<span class="ident">expr</span>) =&gt; { <span class="ident">std::convert::AsRef</span>::<span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span><span class="ident">::as_ref</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>) };
+    (@<span class="ident">value</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>:<span class="ident">expr</span> $(,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">expr</span>)<span class="op">+</span>) =&gt; {
+        {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">builder</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::GStringBuilder::default</span>();
+            <span class="kw">if</span> <span class="ident">std::fmt::Write::write_fmt</span>(<span class="kw-2">&amp;mut</span> <span class="ident">builder</span>, <span class="macro">format_args!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">format</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="op">+</span>)).<span class="ident">is_err</span>() {
+                <span class="kw">return</span>;
+            }
+            <span class="ident">builder</span>.<span class="ident">into_string</span>()
+        }.<span class="ident">as_str</span>().<span class="ident">as_bytes</span>()
+    };
+}
+
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_structured_array&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_structured_array</span>(<span class="ident">log_level</span>: <span class="ident">LogLevel</span>, <span class="ident">fields</span>: <span class="kw-2">&amp;</span>[<span class="ident">LogField</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>]) {
+    <span class="kw">unsafe</span> {
+        <span class="ident">ffi::g_log_structured_array</span>(
+            <span class="ident">log_level</span>.<span class="ident">into_glib</span>(),
+            <span class="ident">fields</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">ffi::GLogField</span>,
+            <span class="ident">fields</span>.<span class="ident">len</span>(),
+        )
+    }
+}
+
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_variant&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_variant</span>(<span class="ident">log_domain</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">log_level</span>: <span class="ident">LogLevel</span>, <span class="ident">fields</span>: <span class="kw-2">&amp;</span><span class="ident"><span class="kw">crate</span>::Variant</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="ident">ffi::g_log_variant</span>(
+            <span class="ident">log_domain</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
+            <span class="ident">log_level</span>.<span class="ident">into_glib</span>(),
+            <span class="ident">fields</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
+        );
+    }
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_writer_supports_color&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_writer_supports_color</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRawFd</span><span class="op">&gt;</span>(<span class="ident">output_fd</span>: <span class="ident">T</span>) -&gt; <span class="ident">bool</span> {
+    <span class="kw">unsafe</span> { <span class="ident">from_glib</span>(<span class="ident">ffi::g_log_writer_supports_color</span>(<span class="ident">output_fd</span>.<span class="ident">as_raw_fd</span>())) }
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_writer_is_journald&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_writer_is_journald</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRawFd</span><span class="op">&gt;</span>(<span class="ident">output_fd</span>: <span class="ident">T</span>) -&gt; <span class="ident">bool</span> {
+    <span class="kw">unsafe</span> { <span class="ident">from_glib</span>(<span class="ident">ffi::g_log_writer_is_journald</span>(<span class="ident">output_fd</span>.<span class="ident">as_raw_fd</span>())) }
+}
+
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_writer_format_fields&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_writer_format_fields</span>(
+    <span class="ident">log_level</span>: <span class="ident">LogLevel</span>,
+    <span class="ident">fields</span>: <span class="kw-2">&amp;</span>[<span class="ident">LogField</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>],
+    <span class="ident">use_color</span>: <span class="ident">bool</span>,
+) -&gt; <span class="ident">GString</span> {
+    <span class="kw">unsafe</span> {
+        <span class="ident">from_glib_full</span>(<span class="ident">ffi::g_log_writer_format_fields</span>(
+            <span class="ident">log_level</span>.<span class="ident">into_glib</span>(),
+            <span class="ident">fields</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">ffi::GLogField</span>,
+            <span class="ident">fields</span>.<span class="ident">len</span>(),
+            <span class="ident">use_color</span>.<span class="ident">into_glib</span>(),
+        ))
+    }
+}
+
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_writer_journald&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_writer_journald</span>(<span class="ident">log_level</span>: <span class="ident">LogLevel</span>, <span class="ident">fields</span>: <span class="kw-2">&amp;</span>[<span class="ident">LogField</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>]) -&gt; <span class="ident">LogWriterOutput</span> {
+    <span class="kw">unsafe</span> {
+        <span class="ident">from_glib</span>(<span class="ident">ffi::g_log_writer_journald</span>(
+            <span class="ident">log_level</span>.<span class="ident">into_glib</span>(),
+            <span class="ident">fields</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">ffi::GLogField</span>,
+            <span class="ident">fields</span>.<span class="ident">len</span>(),
+            <span class="ident">std::ptr::null_mut</span>(),
+        ))
+    }
+}
+
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_writer_standard_streams&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_writer_standard_streams</span>(
+    <span class="ident">log_level</span>: <span class="ident">LogLevel</span>,
+    <span class="ident">fields</span>: <span class="kw-2">&amp;</span>[<span class="ident">LogField</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>],
+) -&gt; <span class="ident">LogWriterOutput</span> {
+    <span class="kw">unsafe</span> {
+        <span class="ident">from_glib</span>(<span class="ident">ffi::g_log_writer_standard_streams</span>(
+            <span class="ident">log_level</span>.<span class="ident">into_glib</span>(),
+            <span class="ident">fields</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">ffi::GLogField</span>,
+            <span class="ident">fields</span>.<span class="ident">len</span>(),
+            <span class="ident">std::ptr::null_mut</span>(),
+        ))
+    }
+}
+
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_writer_default&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_writer_default</span>(<span class="ident">log_level</span>: <span class="ident">LogLevel</span>, <span class="ident">fields</span>: <span class="kw-2">&amp;</span>[<span class="ident">LogField</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>]) -&gt; <span class="ident">LogWriterOutput</span> {
+    <span class="kw">unsafe</span> {
+        <span class="ident">from_glib</span>(<span class="ident">ffi::g_log_writer_default</span>(
+            <span class="ident">log_level</span>.<span class="ident">into_glib</span>(),
+            <span class="ident">fields</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">ffi::GLogField</span>,
+            <span class="ident">fields</span>.<span class="ident">len</span>(),
+            <span class="ident">std::ptr::null_mut</span>(),
+        ))
+    }
+}
+
+<span class="comment">// rustdoc-stripper-ignore-next</span>
+<span class="doccomment">/// Sets whether GLib log functions output to stderr or stdout.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// By default, log messages of level [`LogLevel::Info`] and [`LogLevel::Debug`] are sent to stdout,</span>
+<span class="doccomment">/// and other log messages are sent to stderr. Passing `true` will send all messages to stderr.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Safety</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function sets global state and is not thread-aware, as such it should be called before any</span>
+<span class="doccomment">/// threads may try to use GLib logging.</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_68&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_68&quot;</span>)))]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_writer_default_set_use_stderr&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">log_writer_default_set_use_stderr</span>(<span class="ident">use_stderr</span>: <span class="ident">bool</span>) {
+    <span class="ident">ffi::g_log_writer_default_set_use_stderr</span>(<span class="ident">use_stderr</span>.<span class="ident">into_glib</span>());
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_68&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_68&quot;</span>)))]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_log_writer_default_would_drop&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log_writer_default_would_drop</span>(<span class="ident">log_level</span>: <span class="ident">LogLevel</span>, <span class="ident">log_domain</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) -&gt; <span class="ident">bool</span> {
+    <span class="kw">unsafe</span> {
+        <span class="ident">from_glib</span>(<span class="ident">ffi::g_log_writer_default_would_drop</span>(
+            <span class="ident">log_level</span>.<span class="ident">into_glib</span>(),
+            <span class="ident">log_domain</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
+        ))
+    }
+}
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="glib" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="glib" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (4c5f6e627 2022-05-17)" ></div>
 </body></html>

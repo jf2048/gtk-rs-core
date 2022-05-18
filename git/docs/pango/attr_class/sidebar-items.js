@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["AttrClass","The [`AttrClass`][crate::AttrClass] structure stores the type and operations for a particular type of attribute."]]});

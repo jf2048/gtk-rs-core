@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib&#x2F;src&#x2F;auto&#x2F;flags.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>flags.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/auto/flags.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>flags.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,105 +72,111 @@
 </script>
 
 
-<nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../glib/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
-<span id="2">  2</span>
-<span id="3">  3</span>
-<span id="4">  4</span>
-<span id="5">  5</span>
-<span id="6">  6</span>
-<span id="7">  7</span>
-<span id="8">  8</span>
-<span id="9">  9</span>
-<span id="10"> 10</span>
-<span id="11"> 11</span>
-<span id="12"> 12</span>
-<span id="13"> 13</span>
-<span id="14"> 14</span>
-<span id="15"> 15</span>
-<span id="16"> 16</span>
-<span id="17"> 17</span>
-<span id="18"> 18</span>
-<span id="19"> 19</span>
-<span id="20"> 20</span>
-<span id="21"> 21</span>
-<span id="22"> 22</span>
-<span id="23"> 23</span>
-<span id="24"> 24</span>
-<span id="25"> 25</span>
-<span id="26"> 26</span>
-<span id="27"> 27</span>
-<span id="28"> 28</span>
-<span id="29"> 29</span>
-<span id="30"> 30</span>
-<span id="31"> 31</span>
-<span id="32"> 32</span>
-<span id="33"> 33</span>
-<span id="34"> 34</span>
-<span id="35"> 35</span>
-<span id="36"> 36</span>
-<span id="37"> 37</span>
-<span id="38"> 38</span>
-<span id="39"> 39</span>
-<span id="40"> 40</span>
-<span id="41"> 41</span>
-<span id="42"> 42</span>
-<span id="43"> 43</span>
-<span id="44"> 44</span>
-<span id="45"> 45</span>
-<span id="46"> 46</span>
-<span id="47"> 47</span>
-<span id="48"> 48</span>
-<span id="49"> 49</span>
-<span id="50"> 50</span>
-<span id="51"> 51</span>
-<span id="52"> 52</span>
-<span id="53"> 53</span>
-<span id="54"> 54</span>
-<span id="55"> 55</span>
-<span id="56"> 56</span>
-<span id="57"> 57</span>
-<span id="58"> 58</span>
-<span id="59"> 59</span>
-<span id="60"> 60</span>
-<span id="61"> 61</span>
-<span id="62"> 62</span>
-<span id="63"> 63</span>
-<span id="64"> 64</span>
-<span id="65"> 65</span>
-<span id="66"> 66</span>
-<span id="67"> 67</span>
-<span id="68"> 68</span>
-<span id="69"> 69</span>
-<span id="70"> 70</span>
-<span id="71"> 71</span>
-<span id="72"> 72</span>
-<span id="73"> 73</span>
-<span id="74"> 74</span>
-<span id="75"> 75</span>
-<span id="76"> 76</span>
-<span id="77"> 77</span>
-<span id="78"> 78</span>
-<span id="79"> 79</span>
-<span id="80"> 80</span>
-<span id="81"> 81</span>
-<span id="82"> 82</span>
-<span id="83"> 83</span>
-<span id="84"> 84</span>
-<span id="85"> 85</span>
-<span id="86"> 86</span>
-<span id="87"> 87</span>
-<span id="88"> 88</span>
-<span id="89"> 89</span>
-<span id="90"> 90</span>
-<span id="91"> 91</span>
-<span id="92"> 92</span>
-<span id="93"> 93</span>
-<span id="94"> 94</span>
-<span id="95"> 95</span>
-<span id="96"> 96</span>
-<span id="97"> 97</span>
-<span id="98"> 98</span>
-<span id="99"> 99</span>
+<nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../glib/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../../../glib/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../glib/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
 <span id="100">100</span>
 <span id="101">101</span>
 <span id="102">102</span>
@@ -694,78 +701,6 @@
 <span id="621">621</span>
 <span id="622">622</span>
 <span id="623">623</span>
-<span id="624">624</span>
-<span id="625">625</span>
-<span id="626">626</span>
-<span id="627">627</span>
-<span id="628">628</span>
-<span id="629">629</span>
-<span id="630">630</span>
-<span id="631">631</span>
-<span id="632">632</span>
-<span id="633">633</span>
-<span id="634">634</span>
-<span id="635">635</span>
-<span id="636">636</span>
-<span id="637">637</span>
-<span id="638">638</span>
-<span id="639">639</span>
-<span id="640">640</span>
-<span id="641">641</span>
-<span id="642">642</span>
-<span id="643">643</span>
-<span id="644">644</span>
-<span id="645">645</span>
-<span id="646">646</span>
-<span id="647">647</span>
-<span id="648">648</span>
-<span id="649">649</span>
-<span id="650">650</span>
-<span id="651">651</span>
-<span id="652">652</span>
-<span id="653">653</span>
-<span id="654">654</span>
-<span id="655">655</span>
-<span id="656">656</span>
-<span id="657">657</span>
-<span id="658">658</span>
-<span id="659">659</span>
-<span id="660">660</span>
-<span id="661">661</span>
-<span id="662">662</span>
-<span id="663">663</span>
-<span id="664">664</span>
-<span id="665">665</span>
-<span id="666">666</span>
-<span id="667">667</span>
-<span id="668">668</span>
-<span id="669">669</span>
-<span id="670">670</span>
-<span id="671">671</span>
-<span id="672">672</span>
-<span id="673">673</span>
-<span id="674">674</span>
-<span id="675">675</span>
-<span id="676">676</span>
-<span id="677">677</span>
-<span id="678">678</span>
-<span id="679">679</span>
-<span id="680">680</span>
-<span id="681">681</span>
-<span id="682">682</span>
-<span id="683">683</span>
-<span id="684">684</span>
-<span id="685">685</span>
-<span id="686">686</span>
-<span id="687">687</span>
-<span id="688">688</span>
-<span id="689">689</span>
-<span id="690">690</span>
-<span id="691">691</span>
-<span id="692">692</span>
-<span id="693">693</span>
-<span id="694">694</span>
-<span id="695">695</span>
 </pre><pre class="rust"><code><span class="comment">// This file was generated by gir (https://github.com/gtk-rs/gir)</span>
 <span class="comment">// from gir-files (https://github.com/gtk-rs/gir-files)</span>
 <span class="comment">// DO NOT EDIT</span>
@@ -780,33 +715,15 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_66&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
 <span class="macro">bitflags!</span> {
-    <span class="doccomment">/// Flags to pass to [`file_set_contents_full()`][crate::file_set_contents_full()] to affect its safety and</span>
-    <span class="doccomment">/// performance.</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_66&quot;</span>)))]</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GFileSetContentsFlags&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FileSetContentsFlags</span>: <span class="ident">u32</span> {
-        <span class="doccomment">/// No guarantees about file consistency or durability.</span>
-        <span class="doccomment">///  The most dangerous setting, which is slightly faster than other settings.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FILE_SET_CONTENTS_NONE&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">NONE</span> <span class="op">=</span> <span class="ident">ffi::G_FILE_SET_CONTENTS_NONE</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// Guarantee file consistency: after a crash,</span>
-        <span class="doccomment">///  either the old version of the file or the new version of the file will be</span>
-        <span class="doccomment">///  available, but not a mixture. On Unix systems this equates to an ``fsync()``</span>
-        <span class="doccomment">///  on the file and use of an atomic ``rename()`` of the new version of the file</span>
-        <span class="doccomment">///  over the old.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FILE_SET_CONTENTS_CONSISTENT&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">CONSISTENT</span> <span class="op">=</span> <span class="ident">ffi::G_FILE_SET_CONTENTS_CONSISTENT</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// Guarantee file durability: after a crash, the</span>
-        <span class="doccomment">///  new version of the file will be available. On Unix systems this equates to</span>
-        <span class="doccomment">///  an ``fsync()`` on the file (if [`CONSISTENT`][Self::CONSISTENT] is unset), or</span>
-        <span class="doccomment">///  the effects of [`CONSISTENT`][Self::CONSISTENT] plus an ``fsync()`` on the</span>
-        <span class="doccomment">///  directory containing the file after calling ``rename()``.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FILE_SET_CONTENTS_DURABLE&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">DURABLE</span> <span class="op">=</span> <span class="ident">ffi::G_FILE_SET_CONTENTS_DURABLE</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// Only apply consistency and durability</span>
-        <span class="doccomment">///  guarantees if the file already exists. This may speed up file operations</span>
-        <span class="doccomment">///  if the file doesn’t currently exist, but may result in a corrupted version</span>
-        <span class="doccomment">///  of the new file if the system crashes while writing it.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FILE_SET_CONTENTS_ONLY_EXISTING&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">ONLY_EXISTING</span> <span class="op">=</span> <span class="ident">ffi::G_FILE_SET_CONTENTS_ONLY_EXISTING</span> <span class="kw">as</span> <span class="ident">u32</span>;
     }
@@ -841,25 +758,16 @@
 }
 
 <span class="macro">bitflags!</span> {
-    <span class="doccomment">/// A test to perform on a file using [`file_test()`][crate::file_test()].</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GFileTest&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FileTest</span>: <span class="ident">u32</span> {
-        <span class="doccomment">/// [`true`] if the file is a regular file</span>
-        <span class="doccomment">///  (not a directory). Note that this test will also return [`true`]</span>
-        <span class="doccomment">///  if the tested file is a symlink to a regular file.</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">FileTest</span>: <span class="ident">u32</span> {
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FILE_TEST_IS_REGULAR&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">IS_REGULAR</span> <span class="op">=</span> <span class="ident">ffi::G_FILE_TEST_IS_REGULAR</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// [`true`] if the file is a symlink.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FILE_TEST_IS_SYMLINK&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">IS_SYMLINK</span> <span class="op">=</span> <span class="ident">ffi::G_FILE_TEST_IS_SYMLINK</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// [`true`] if the file is a directory.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FILE_TEST_IS_DIR&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">IS_DIR</span> <span class="op">=</span> <span class="ident">ffi::G_FILE_TEST_IS_DIR</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// [`true`] if the file is executable.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FILE_TEST_IS_EXECUTABLE&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">IS_EXECUTABLE</span> <span class="op">=</span> <span class="ident">ffi::G_FILE_TEST_IS_EXECUTABLE</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// [`true`] if the file exists. It may or may not</span>
-        <span class="doccomment">///  be a regular file.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FILE_TEST_EXISTS&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">EXISTS</span> <span class="op">=</span> <span class="ident">ffi::G_FILE_TEST_EXISTS</span> <span class="kw">as</span> <span class="ident">u32</span>;
     }
@@ -888,26 +796,24 @@
 }
 
 <span class="macro">bitflags!</span> {
-    <span class="doccomment">/// Flags to modify the format of the string returned by [`format_size_full()`][crate::format_size_full()].</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GFormatSizeFlags&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FormatSizeFlags</span>: <span class="ident">u32</span> {
-        <span class="doccomment">/// behave the same as [`format_size()`][crate::format_size()]</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FORMAT_SIZE_DEFAULT&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">DEFAULT</span> <span class="op">=</span> <span class="ident">ffi::G_FORMAT_SIZE_DEFAULT</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// include the exact number of bytes as part</span>
-        <span class="doccomment">///  of the returned string. For example, &quot;45.6 kB (45,612 bytes)&quot;.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FORMAT_SIZE_LONG_FORMAT&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">LONG_FORMAT</span> <span class="op">=</span> <span class="ident">ffi::G_FORMAT_SIZE_LONG_FORMAT</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// use IEC (base 1024) units with &quot;KiB&quot;-style</span>
-        <span class="doccomment">///  suffixes. IEC units should only be used for reporting things with</span>
-        <span class="doccomment">///  a strong &quot;power of 2&quot; basis, like RAM sizes or RAID stripe sizes.</span>
-        <span class="doccomment">///  Network and storage sizes should be reported in the normal SI units.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FORMAT_SIZE_IEC_UNITS&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">IEC_UNITS</span> <span class="op">=</span> <span class="ident">ffi::G_FORMAT_SIZE_IEC_UNITS</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// set the size as a quantity in bits, rather than</span>
-        <span class="doccomment">///  bytes, and return units in bits. For example, ‘Mb’ rather than ‘MB’.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FORMAT_SIZE_BITS&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">BITS</span> <span class="op">=</span> <span class="ident">ffi::G_FORMAT_SIZE_BITS</span> <span class="kw">as</span> <span class="ident">u32</span>;
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_74&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
+        <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_74&quot;</span>)))]</span>
+        <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FORMAT_SIZE_ONLY_VALUE&quot;</span>)]</span>
+        <span class="kw">const</span> <span class="ident">ONLY_VALUE</span> <span class="op">=</span> <span class="ident">ffi::G_FORMAT_SIZE_ONLY_VALUE</span> <span class="kw">as</span> <span class="ident">u32</span>;
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_74&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
+        <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_74&quot;</span>)))]</span>
+        <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_FORMAT_SIZE_ONLY_UNIT&quot;</span>)]</span>
+        <span class="kw">const</span> <span class="ident">ONLY_UNIT</span> <span class="op">=</span> <span class="ident">ffi::G_FORMAT_SIZE_ONLY_UNIT</span> <span class="kw">as</span> <span class="ident">u32</span>;
     }
 }
 
@@ -934,27 +840,18 @@
 }
 
 <span class="macro">bitflags!</span> {
-    <span class="doccomment">/// A bitwise combination representing a condition to watch for on an</span>
-    <span class="doccomment">/// event source.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GIOCondition&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IOCondition</span>: <span class="ident">u32</span> {
-        <span class="doccomment">/// There is data to read.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_IO_IN&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">IN</span> <span class="op">=</span> <span class="ident">ffi::G_IO_IN</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// Data can be written (without blocking).</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_IO_OUT&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">OUT</span> <span class="op">=</span> <span class="ident">ffi::G_IO_OUT</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// There is urgent data to read.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_IO_PRI&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">PRI</span> <span class="op">=</span> <span class="ident">ffi::G_IO_PRI</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// Error condition.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_IO_ERR&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">ERR</span> <span class="op">=</span> <span class="ident">ffi::G_IO_ERR</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// Hung up (the connection has been broken, usually for</span>
-        <span class="doccomment">///  pipes and sockets).</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_IO_HUP&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">HUP</span> <span class="op">=</span> <span class="ident">ffi::G_IO_HUP</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// Invalid request. The file descriptor is not open.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_IO_NVAL&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">NVAL</span> <span class="op">=</span> <span class="ident">ffi::G_IO_NVAL</span> <span class="kw">as</span> <span class="ident">u32</span>;
     }
@@ -1017,22 +914,12 @@
 }
 
 <span class="macro">bitflags!</span> {
-    <span class="doccomment">/// Flags which influence the parsing.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GKeyFileFlags&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeyFileFlags</span>: <span class="ident">u32</span> {
-        <span class="doccomment">/// No flags, default behaviour</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_KEY_FILE_NONE&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">NONE</span> <span class="op">=</span> <span class="ident">ffi::G_KEY_FILE_NONE</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// Use this flag if you plan to write the</span>
-        <span class="doccomment">///  (possibly modified) contents of the key file back to a file;</span>
-        <span class="doccomment">///  otherwise all comments will be lost when the key file is</span>
-        <span class="doccomment">///  written back.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_KEY_FILE_KEEP_COMMENTS&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">KEEP_COMMENTS</span> <span class="op">=</span> <span class="ident">ffi::G_KEY_FILE_KEEP_COMMENTS</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// Use this flag if you plan to write the</span>
-        <span class="doccomment">///  (possibly modified) contents of the key file back to a file;</span>
-        <span class="doccomment">///  otherwise only the translations for the current language will be</span>
-        <span class="doccomment">///  written back.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_KEY_FILE_KEEP_TRANSLATIONS&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">KEEP_TRANSLATIONS</span> <span class="op">=</span> <span class="ident">ffi::G_KEY_FILE_KEEP_TRANSLATIONS</span> <span class="kw">as</span> <span class="ident">u32</span>;
     }
@@ -1061,41 +948,24 @@
 }
 
 <span class="macro">bitflags!</span> {
-    <span class="doccomment">/// Flags specifying the level of log messages.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// It is possible to change how GLib treats messages of the various</span>
-    <span class="doccomment">/// levels using `g_log_set_handler()` and `g_log_set_fatal_mask()`.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GLogLevelFlags&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogLevelFlags</span>: <span class="ident">u32</span> {
-        <span class="doccomment">/// internal flag</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_LOG_FLAG_RECURSION&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">FLAG_RECURSION</span> <span class="op">=</span> <span class="ident">ffi::G_LOG_FLAG_RECURSION</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// internal flag</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_LOG_FLAG_FATAL&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">FLAG_FATAL</span> <span class="op">=</span> <span class="ident">ffi::G_LOG_FLAG_FATAL</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// log level for errors, see `g_error()`.</span>
-        <span class="doccomment">///  This level is also used for messages produced by `g_assert()`.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_LOG_LEVEL_ERROR&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">LEVEL_ERROR</span> <span class="op">=</span> <span class="ident">ffi::G_LOG_LEVEL_ERROR</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// log level for critical warning messages, see</span>
-        <span class="doccomment">///  `g_critical()`.</span>
-        <span class="doccomment">///  This level is also used for messages produced by `g_return_if_fail()`</span>
-        <span class="doccomment">///  and `g_return_val_if_fail()`.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_LOG_LEVEL_CRITICAL&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">LEVEL_CRITICAL</span> <span class="op">=</span> <span class="ident">ffi::G_LOG_LEVEL_CRITICAL</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// log level for warnings, see `g_warning()`</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_LOG_LEVEL_WARNING&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">LEVEL_WARNING</span> <span class="op">=</span> <span class="ident">ffi::G_LOG_LEVEL_WARNING</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// log level for messages, see `g_message()`</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_LOG_LEVEL_MESSAGE&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">LEVEL_MESSAGE</span> <span class="op">=</span> <span class="ident">ffi::G_LOG_LEVEL_MESSAGE</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// log level for informational messages, see `g_info()`</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_LOG_LEVEL_INFO&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">LEVEL_INFO</span> <span class="op">=</span> <span class="ident">ffi::G_LOG_LEVEL_INFO</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// log level for debug messages, see `g_debug()`</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_LOG_LEVEL_DEBUG&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">LEVEL_DEBUG</span> <span class="op">=</span> <span class="ident">ffi::G_LOG_LEVEL_DEBUG</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// a mask including all log levels</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_LOG_LEVEL_MASK&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">LEVEL_MASK</span> <span class="op">=</span> <span class="ident">ffi::G_LOG_LEVEL_MASK</span> <span class="kw">as</span> <span class="ident">u32</span>;
     }
@@ -1123,46 +993,63 @@
     }
 }
 
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_72&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
 <span class="macro">bitflags!</span> {
-    <span class="doccomment">/// Flags which modify individual options.</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_72&quot;</span>)))]</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GMainContextFlags&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MainContextFlags</span>: <span class="ident">u32</span> {
+        <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_MAIN_CONTEXT_FLAGS_NONE&quot;</span>)]</span>
+        <span class="kw">const</span> <span class="ident">NONE</span> <span class="op">=</span> <span class="ident">ffi::G_MAIN_CONTEXT_FLAGS_NONE</span> <span class="kw">as</span> <span class="ident">u32</span>;
+        <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_MAIN_CONTEXT_FLAGS_OWNERLESS_POLLING&quot;</span>)]</span>
+        <span class="kw">const</span> <span class="ident">OWNERLESS_POLLING</span> <span class="op">=</span> <span class="ident">ffi::G_MAIN_CONTEXT_FLAGS_OWNERLESS_POLLING</span> <span class="kw">as</span> <span class="ident">u32</span>;
+    }
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_72&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_72&quot;</span>)))]</span>
+<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">MainContextFlags</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> {
+        <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">fmt::Debug</span><span class="op">&gt;</span><span class="ident">::fmt</span>(<span class="self">self</span>, <span class="ident">f</span>)
+    }
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_72&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_72&quot;</span>)))]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">impl</span> <span class="ident">IntoGlib</span> <span class="kw">for</span> <span class="ident">MainContextFlags</span> {
+    <span class="kw">type</span> <span class="ident">GlibType</span> <span class="op">=</span> <span class="ident">ffi::GMainContextFlags</span>;
+
+    <span class="kw">fn</span> <span class="ident">into_glib</span>(<span class="self">self</span>) -&gt; <span class="ident">ffi::GMainContextFlags</span> {
+        <span class="self">self</span>.<span class="ident">bits</span>()
+    }
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_72&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dox&quot;</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;v2_72&quot;</span>)))]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">impl</span> <span class="ident">FromGlib</span><span class="op">&lt;</span><span class="ident">ffi::GMainContextFlags</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MainContextFlags</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_glib</span>(<span class="ident">value</span>: <span class="ident">ffi::GMainContextFlags</span>) -&gt; <span class="self">Self</span> {
+        <span class="ident"><span class="self">Self</span>::from_bits_truncate</span>(<span class="ident">value</span>)
+    }
+}
+
+<span class="macro">bitflags!</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GOptionFlags&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OptionFlags</span>: <span class="ident">u32</span> {
-        <span class="doccomment">/// No flags. Since: 2.42.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_OPTION_FLAG_NONE&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">NONE</span> <span class="op">=</span> <span class="ident">ffi::G_OPTION_FLAG_NONE</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// The option doesn&#39;t appear in `--help` output.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_OPTION_FLAG_HIDDEN&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">HIDDEN</span> <span class="op">=</span> <span class="ident">ffi::G_OPTION_FLAG_HIDDEN</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// The option appears in the main section of the</span>
-        <span class="doccomment">///  `--help` output, even if it is defined in a group.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_OPTION_FLAG_IN_MAIN&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">IN_MAIN</span> <span class="op">=</span> <span class="ident">ffi::G_OPTION_FLAG_IN_MAIN</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// For options of the [`OptionArg::None`][crate::OptionArg::None] kind, this</span>
-        <span class="doccomment">///  flag indicates that the sense of the option is reversed.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_OPTION_FLAG_REVERSE&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">REVERSE</span> <span class="op">=</span> <span class="ident">ffi::G_OPTION_FLAG_REVERSE</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// For options of the [`OptionArg::Callback`][crate::OptionArg::Callback] kind,</span>
-        <span class="doccomment">///  this flag indicates that the callback does not take any argument</span>
-        <span class="doccomment">///  (like a [`OptionArg::None`][crate::OptionArg::None] option). Since 2.8</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_OPTION_FLAG_NO_ARG&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">NO_ARG</span> <span class="op">=</span> <span class="ident">ffi::G_OPTION_FLAG_NO_ARG</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// For options of the [`OptionArg::Callback`][crate::OptionArg::Callback]</span>
-        <span class="doccomment">///  kind, this flag indicates that the argument should be passed to the</span>
-        <span class="doccomment">///  callback in the GLib filename encoding rather than UTF-8. Since 2.8</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_OPTION_FLAG_FILENAME&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">FILENAME</span> <span class="op">=</span> <span class="ident">ffi::G_OPTION_FLAG_FILENAME</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// For options of the [`OptionArg::Callback`][crate::OptionArg::Callback]</span>
-        <span class="doccomment">///  kind, this flag indicates that the argument supply is optional.</span>
-        <span class="doccomment">///  If no argument is given then data of `GOptionParseFunc` will be</span>
-        <span class="doccomment">///  set to NULL. Since 2.8</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_OPTION_FLAG_OPTIONAL_ARG&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">OPTIONAL_ARG</span> <span class="op">=</span> <span class="ident">ffi::G_OPTION_FLAG_OPTIONAL_ARG</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// This flag turns off the automatic conflict</span>
-        <span class="doccomment">///  resolution which prefixes long option names with `groupname-` if</span>
-        <span class="doccomment">///  there is a conflict. This option should only be used in situations</span>
-        <span class="doccomment">///  where aliasing is necessary to model some legacy commandline interface.</span>
-        <span class="doccomment">///  It is not safe to use this option, unless all option groups are under</span>
-        <span class="doccomment">///  your direct control. Since 2.8.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_OPTION_FLAG_NOALIAS&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">NOALIAS</span> <span class="op">=</span> <span class="ident">ffi::G_OPTION_FLAG_NOALIAS</span> <span class="kw">as</span> <span class="ident">u32</span>;
     }
@@ -1191,50 +1078,26 @@
 }
 
 <span class="macro">bitflags!</span> {
-    <span class="doccomment">/// Flags passed to `g_spawn_sync()`, [`spawn_async()`][crate::spawn_async()] and `g_spawn_async_with_pipes()`.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;GSpawnFlags&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SpawnFlags</span>: <span class="ident">u32</span> {
-        <span class="doccomment">/// no flags, default behaviour</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_SPAWN_DEFAULT&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">DEFAULT</span> <span class="op">=</span> <span class="ident">ffi::G_SPAWN_DEFAULT</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// the parent&#39;s open file descriptors will</span>
-        <span class="doccomment">///  be inherited by the child; otherwise all descriptors except stdin,</span>
-        <span class="doccomment">///  stdout and stderr will be closed before calling `exec()` in the child.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_SPAWN_LEAVE_DESCRIPTORS_OPEN&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">LEAVE_DESCRIPTORS_OPEN</span> <span class="op">=</span> <span class="ident">ffi::G_SPAWN_LEAVE_DESCRIPTORS_OPEN</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// the child will not be automatically reaped;</span>
-        <span class="doccomment">///  you must use `g_child_watch_add()` yourself (or call `waitpid()` or handle</span>
-        <span class="doccomment">///  `SIGCHLD` yourself), or the child will become a zombie.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_SPAWN_DO_NOT_REAP_CHILD&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">DO_NOT_REAP_CHILD</span> <span class="op">=</span> <span class="ident">ffi::G_SPAWN_DO_NOT_REAP_CHILD</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// `argv[0]` need not be an absolute path, it will be</span>
-        <span class="doccomment">///  looked for in the user&#39;s `PATH`.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_SPAWN_SEARCH_PATH&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">SEARCH_PATH</span> <span class="op">=</span> <span class="ident">ffi::G_SPAWN_SEARCH_PATH</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// the child&#39;s standard output will be discarded,</span>
-        <span class="doccomment">///  instead of going to the same location as the parent&#39;s standard output.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_SPAWN_STDOUT_TO_DEV_NULL&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">STDOUT_TO_DEV_NULL</span> <span class="op">=</span> <span class="ident">ffi::G_SPAWN_STDOUT_TO_DEV_NULL</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// the child&#39;s standard error will be discarded.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_SPAWN_STDERR_TO_DEV_NULL&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">STDERR_TO_DEV_NULL</span> <span class="op">=</span> <span class="ident">ffi::G_SPAWN_STDERR_TO_DEV_NULL</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// the child will inherit the parent&#39;s standard</span>
-        <span class="doccomment">///  input (by default, the child&#39;s standard input is attached to `/dev/null`).</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_SPAWN_CHILD_INHERITS_STDIN&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">CHILD_INHERITS_STDIN</span> <span class="op">=</span> <span class="ident">ffi::G_SPAWN_CHILD_INHERITS_STDIN</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// the first element of `argv` is the file to</span>
-        <span class="doccomment">///  execute, while the remaining elements are the actual argument vector</span>
-        <span class="doccomment">///  to pass to the file. Normally `g_spawn_async_with_pipes()` uses `argv[0]`</span>
-        <span class="doccomment">///  as the file to execute, and passes all of `argv` to the child.</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_SPAWN_FILE_AND_ARGV_ZERO&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">FILE_AND_ARGV_ZERO</span> <span class="op">=</span> <span class="ident">ffi::G_SPAWN_FILE_AND_ARGV_ZERO</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// if `argv[0]` is not an absolute path,</span>
-        <span class="doccomment">///  it will be looked for in the `PATH` from the passed child environment.</span>
-        <span class="doccomment">///  Since: 2.34</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_SPAWN_SEARCH_PATH_FROM_ENVP&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">SEARCH_PATH_FROM_ENVP</span> <span class="op">=</span> <span class="ident">ffi::G_SPAWN_SEARCH_PATH_FROM_ENVP</span> <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="doccomment">/// create all pipes with the `O_CLOEXEC` flag set.</span>
-        <span class="doccomment">///  Since: 2.40</span>
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;G_SPAWN_CLOEXEC_PIPES&quot;</span>)]</span>
         <span class="kw">const</span> <span class="ident">CLOEXEC_PIPES</span> <span class="op">=</span> <span class="ident">ffi::G_SPAWN_CLOEXEC_PIPES</span> <span class="kw">as</span> <span class="ident">u32</span>;
     }
@@ -1462,6 +1325,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="glib" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="glib" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (4c5f6e627 2022-05-17)" ></div>
 </body></html>

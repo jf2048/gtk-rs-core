@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pango&#x2F;src&#x2F;auto&#x2F;renderer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>renderer.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pango/src/auto/renderer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>renderer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,105 +72,111 @@
 </script>
 
 
-<nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../pango/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
-<span id="2">  2</span>
-<span id="3">  3</span>
-<span id="4">  4</span>
-<span id="5">  5</span>
-<span id="6">  6</span>
-<span id="7">  7</span>
-<span id="8">  8</span>
-<span id="9">  9</span>
-<span id="10"> 10</span>
-<span id="11"> 11</span>
-<span id="12"> 12</span>
-<span id="13"> 13</span>
-<span id="14"> 14</span>
-<span id="15"> 15</span>
-<span id="16"> 16</span>
-<span id="17"> 17</span>
-<span id="18"> 18</span>
-<span id="19"> 19</span>
-<span id="20"> 20</span>
-<span id="21"> 21</span>
-<span id="22"> 22</span>
-<span id="23"> 23</span>
-<span id="24"> 24</span>
-<span id="25"> 25</span>
-<span id="26"> 26</span>
-<span id="27"> 27</span>
-<span id="28"> 28</span>
-<span id="29"> 29</span>
-<span id="30"> 30</span>
-<span id="31"> 31</span>
-<span id="32"> 32</span>
-<span id="33"> 33</span>
-<span id="34"> 34</span>
-<span id="35"> 35</span>
-<span id="36"> 36</span>
-<span id="37"> 37</span>
-<span id="38"> 38</span>
-<span id="39"> 39</span>
-<span id="40"> 40</span>
-<span id="41"> 41</span>
-<span id="42"> 42</span>
-<span id="43"> 43</span>
-<span id="44"> 44</span>
-<span id="45"> 45</span>
-<span id="46"> 46</span>
-<span id="47"> 47</span>
-<span id="48"> 48</span>
-<span id="49"> 49</span>
-<span id="50"> 50</span>
-<span id="51"> 51</span>
-<span id="52"> 52</span>
-<span id="53"> 53</span>
-<span id="54"> 54</span>
-<span id="55"> 55</span>
-<span id="56"> 56</span>
-<span id="57"> 57</span>
-<span id="58"> 58</span>
-<span id="59"> 59</span>
-<span id="60"> 60</span>
-<span id="61"> 61</span>
-<span id="62"> 62</span>
-<span id="63"> 63</span>
-<span id="64"> 64</span>
-<span id="65"> 65</span>
-<span id="66"> 66</span>
-<span id="67"> 67</span>
-<span id="68"> 68</span>
-<span id="69"> 69</span>
-<span id="70"> 70</span>
-<span id="71"> 71</span>
-<span id="72"> 72</span>
-<span id="73"> 73</span>
-<span id="74"> 74</span>
-<span id="75"> 75</span>
-<span id="76"> 76</span>
-<span id="77"> 77</span>
-<span id="78"> 78</span>
-<span id="79"> 79</span>
-<span id="80"> 80</span>
-<span id="81"> 81</span>
-<span id="82"> 82</span>
-<span id="83"> 83</span>
-<span id="84"> 84</span>
-<span id="85"> 85</span>
-<span id="86"> 86</span>
-<span id="87"> 87</span>
-<span id="88"> 88</span>
-<span id="89"> 89</span>
-<span id="90"> 90</span>
-<span id="91"> 91</span>
-<span id="92"> 92</span>
-<span id="93"> 93</span>
-<span id="94"> 94</span>
-<span id="95"> 95</span>
-<span id="96"> 96</span>
-<span id="97"> 97</span>
-<span id="98"> 98</span>
-<span id="99"> 99</span>
+<nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pango/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../../../pango/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pango/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
 <span id="100">100</span>
 <span id="101">101</span>
 <span id="102">102</span>
@@ -627,7 +634,7 @@
     <span class="doccomment">/// provided as [`GlyphString`][crate::GlyphString] or [`Layout`][crate::Layout].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// By subclassing [`Renderer`][crate::Renderer] and overriding operations such as</span>
-    <span class="doccomment">/// `draw_glyphs` and `draw_rectangle`, renderers for particular font</span>
+    <span class="doccomment">/// @draw_glyphs and @draw_rectangle, renderers for particular font</span>
     <span class="doccomment">/// backends and destinations can be created.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is an Abstract Base Class, you cannot instantiate it.</span>
@@ -653,21 +660,21 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`Renderer`][struct@crate::Renderer]</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RendererExt</span>: <span class="lifetime">&#39;static</span> {
-    <span class="doccomment">/// Does initial setup before rendering operations on `self`.</span>
+    <span class="doccomment">/// Does initial setup before rendering operations on @self.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [``deactivate()``][`Self::deactivate()`] should be called when done drawing.</span>
-    <span class="doccomment">/// Calls such as [``draw_layout()``][`Self::draw_layout()`] automatically</span>
+    <span class="doccomment">/// [`deactivate()`][Self::deactivate()] should be called when done drawing.</span>
+    <span class="doccomment">/// Calls such as [`draw_layout()`][Self::draw_layout()] automatically</span>
     <span class="doccomment">/// activate the layout before drawing on it.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Calls to [``activate()``][`Self::activate()`] and</span>
-    <span class="doccomment">/// [``deactivate()``][`Self::deactivate()`] can be nested and the</span>
+    <span class="doccomment">/// Calls to [`activate()`][Self::activate()] and</span>
+    <span class="doccomment">/// [`deactivate()`][Self::deactivate()] can be nested and the</span>
     <span class="doccomment">/// renderer will only be initialized and deinitialized once.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_activate&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">activate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>);
 
-    <span class="doccomment">/// Cleans up after rendering operations on `self`.</span>
+    <span class="doccomment">/// Cleans up after rendering operations on @self.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See docs for [``activate()``][`Self::activate()`].</span>
+    <span class="doccomment">/// See docs for [`activate()`][Self::activate()].</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_deactivate&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">deactivate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>);
 
@@ -678,8 +685,8 @@
     <span class="doccomment">/// of up/down segments and the resulting rectangle is centered</span>
     <span class="doccomment">/// in the original rectangle.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This should be called while `self` is already active.</span>
-    <span class="doccomment">/// Use [``activate()``][`Self::activate()`] to activate a renderer.</span>
+    <span class="doccomment">/// This should be called while @self is already active.</span>
+    <span class="doccomment">/// Use [`activate()`][Self::activate()] to activate a renderer.</span>
     <span class="doccomment">/// ## `x`</span>
     <span class="doccomment">/// X coordinate of underline, in Pango units in user coordinate system</span>
     <span class="doccomment">/// ## `y`</span>
@@ -703,67 +710,67 @@
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_draw_glyph&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">draw_glyph</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">font</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">IsA</span><span class="op">&lt;</span><span class="ident">Font</span><span class="op">&gt;</span>, <span class="ident">glyph</span>: <span class="ident">Glyph</span>, <span class="ident">x</span>: <span class="ident">f64</span>, <span class="ident">y</span>: <span class="ident">f64</span>);
 
-    <span class="doccomment">/// Draws the glyphs in `glyph_item` with the specified [`Renderer`][crate::Renderer],</span>
+    <span class="doccomment">/// Draws the glyphs in @glyph_item with the specified [`Renderer`][crate::Renderer],</span>
     <span class="doccomment">/// embedding the text associated with the glyphs in the output if the</span>
     <span class="doccomment">/// output format supports it.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is useful for rendering text in PDF.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that this method does not handle attributes in `glyph_item`.</span>
+    <span class="doccomment">/// Note that this method does not handle attributes in @glyph_item.</span>
     <span class="doccomment">/// If you want colors, shapes and lines handled automatically according</span>
-    <span class="doccomment">/// to those attributes, you need to use [`draw_layout_line()`][Self::draw_layout_line()]</span>
-    <span class="doccomment">/// or [`draw_layout()`][Self::draw_layout()].</span>
+    <span class="doccomment">/// to those attributes, you need to use pango_renderer_draw_layout_line()</span>
+    <span class="doccomment">/// or pango_renderer_draw_layout().</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that `text` is the start of the text for layout, which is then</span>
+    <span class="doccomment">/// Note that @text is the start of the text for layout, which is then</span>
     <span class="doccomment">/// indexed by `glyph_item-&gt;item-&gt;offset`.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// If `text` is [`None`], this simply calls [``draw_glyphs()``][`Self::draw_glyphs()`].</span>
+    <span class="doccomment">/// If @text is [`None`], this simply calls [`draw_glyphs()`][Self::draw_glyphs()].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The default implementation of this method simply falls back to</span>
-    <span class="doccomment">/// [``draw_glyphs()``][`Self::draw_glyphs()`].</span>
+    <span class="doccomment">/// [`draw_glyphs()`][Self::draw_glyphs()].</span>
     <span class="doccomment">/// ## `text`</span>
-    <span class="doccomment">/// the UTF-8 text that `glyph_item` refers to</span>
+    <span class="doccomment">/// the UTF-8 text that @glyph_item refers to</span>
     <span class="doccomment">/// ## `glyph_item`</span>
     <span class="doccomment">/// a [`GlyphItem`][crate::GlyphItem]</span>
     <span class="doccomment">/// ## `x`</span>
     <span class="doccomment">/// X position of left edge of baseline, in user space coordinates</span>
-    <span class="doccomment">///  in Pango units</span>
+    <span class="doccomment">///   in Pango units</span>
     <span class="doccomment">/// ## `y`</span>
     <span class="doccomment">/// Y position of left edge of baseline, in user space coordinates</span>
-    <span class="doccomment">///  in Pango units</span>
+    <span class="doccomment">///   in Pango units</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_draw_glyph_item&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">draw_glyph_item</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">text</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">glyph_item</span>: <span class="kw-2">&amp;mut</span> <span class="ident">GlyphItem</span>, <span class="ident">x</span>: <span class="ident">i32</span>, <span class="ident">y</span>: <span class="ident">i32</span>);
 
-    <span class="doccomment">/// Draws the glyphs in `glyphs` with the specified [`Renderer`][crate::Renderer].</span>
+    <span class="doccomment">/// Draws the glyphs in @glyphs with the specified [`Renderer`][crate::Renderer].</span>
     <span class="doccomment">/// ## `font`</span>
     <span class="doccomment">/// a [`Font`][crate::Font]</span>
     <span class="doccomment">/// ## `glyphs`</span>
     <span class="doccomment">/// a [`GlyphString`][crate::GlyphString]</span>
     <span class="doccomment">/// ## `x`</span>
     <span class="doccomment">/// X position of left edge of baseline, in user space coordinates</span>
-    <span class="doccomment">///  in Pango units.</span>
+    <span class="doccomment">///   in Pango units.</span>
     <span class="doccomment">/// ## `y`</span>
     <span class="doccomment">/// Y position of left edge of baseline, in user space coordinates</span>
-    <span class="doccomment">///  in Pango units.</span>
+    <span class="doccomment">///   in Pango units.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_draw_glyphs&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">draw_glyphs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">font</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">IsA</span><span class="op">&lt;</span><span class="ident">Font</span><span class="op">&gt;</span>, <span class="ident">glyphs</span>: <span class="kw-2">&amp;mut</span> <span class="ident">GlyphString</span>, <span class="ident">x</span>: <span class="ident">i32</span>, <span class="ident">y</span>: <span class="ident">i32</span>);
 
-    <span class="doccomment">/// Draws `layout` with the specified [`Renderer`][crate::Renderer].</span>
+    <span class="doccomment">/// Draws @layout with the specified [`Renderer`][crate::Renderer].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is equivalent to drawing the lines of the layout, at their</span>
-    <span class="doccomment">/// respective positions relative to `x`, `y`.</span>
+    <span class="doccomment">/// respective positions relative to @x, @y.</span>
     <span class="doccomment">/// ## `layout`</span>
     <span class="doccomment">/// a [`Layout`][crate::Layout]</span>
     <span class="doccomment">/// ## `x`</span>
     <span class="doccomment">/// X position of left edge of baseline, in user space coordinates</span>
-    <span class="doccomment">///  in Pango units.</span>
+    <span class="doccomment">///   in Pango units.</span>
     <span class="doccomment">/// ## `y`</span>
     <span class="doccomment">/// Y position of left edge of baseline, in user space coordinates</span>
-    <span class="doccomment">///  in Pango units.</span>
+    <span class="doccomment">///   in Pango units.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_draw_layout&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">draw_layout</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="ident">Layout</span>, <span class="ident">x</span>: <span class="ident">i32</span>, <span class="ident">y</span>: <span class="ident">i32</span>);
 
-    <span class="doccomment">/// Draws `line` with the specified [`Renderer`][crate::Renderer].</span>
+    <span class="doccomment">/// Draws @line with the specified [`Renderer`][crate::Renderer].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This draws the glyph items that make up the line, as well as</span>
     <span class="doccomment">/// shapes, backgrounds and lines that are specified by the attributes</span>
@@ -772,26 +779,26 @@
     <span class="doccomment">/// a [`LayoutLine`][crate::LayoutLine]</span>
     <span class="doccomment">/// ## `x`</span>
     <span class="doccomment">/// X position of left edge of baseline, in user space coordinates</span>
-    <span class="doccomment">///  in Pango units.</span>
+    <span class="doccomment">///   in Pango units.</span>
     <span class="doccomment">/// ## `y`</span>
     <span class="doccomment">/// Y position of left edge of baseline, in user space coordinates</span>
-    <span class="doccomment">///  in Pango units.</span>
+    <span class="doccomment">///   in Pango units.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_draw_layout_line&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">draw_layout_line</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">line</span>: <span class="kw-2">&amp;</span><span class="ident">LayoutLine</span>, <span class="ident">x</span>: <span class="ident">i32</span>, <span class="ident">y</span>: <span class="ident">i32</span>);
 
     <span class="doccomment">/// Draws an axis-aligned rectangle in user space coordinates with the</span>
     <span class="doccomment">/// specified [`Renderer`][crate::Renderer].</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This should be called while `self` is already active.</span>
-    <span class="doccomment">/// Use [``activate()``][`Self::activate()`] to activate a renderer.</span>
+    <span class="doccomment">/// This should be called while @self is already active.</span>
+    <span class="doccomment">/// Use [`activate()`][Self::activate()] to activate a renderer.</span>
     <span class="doccomment">/// ## `part`</span>
     <span class="doccomment">/// type of object this rectangle is part of</span>
     <span class="doccomment">/// ## `x`</span>
     <span class="doccomment">/// X position at which to draw rectangle, in user space coordinates</span>
-    <span class="doccomment">///  in Pango units</span>
+    <span class="doccomment">///   in Pango units</span>
     <span class="doccomment">/// ## `y`</span>
     <span class="doccomment">/// Y position at which to draw rectangle, in user space coordinates</span>
-    <span class="doccomment">///  in Pango units</span>
+    <span class="doccomment">///   in Pango units</span>
     <span class="doccomment">/// ## `width`</span>
     <span class="doccomment">/// width of rectangle in Pango units</span>
     <span class="doccomment">/// ## `height`</span>
@@ -834,8 +841,8 @@
     <span class="doccomment">/// # Returns</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// the alpha for the specified part,</span>
-    <span class="doccomment">///  or 0 if it hasn&#39;t been set and should be</span>
-    <span class="doccomment">///  inherited from the environment.</span>
+    <span class="doccomment">///   or 0 if it hasn&#39;t been set and should be</span>
+    <span class="doccomment">///   inherited from the environment.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_get_alpha&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;get_alpha&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">alpha</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">part</span>: <span class="ident">RenderPart</span>) -&gt; <span class="ident">u16</span>;
@@ -847,13 +854,13 @@
     <span class="doccomment">/// # Returns</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// the color for the</span>
-    <span class="doccomment">///  specified part, or [`None`] if it hasn&#39;t been set and should be</span>
-    <span class="doccomment">///  inherited from the environment.</span>
+    <span class="doccomment">///   specified part, or [`None`] if it hasn&#39;t been set and should be</span>
+    <span class="doccomment">///   inherited from the environment.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_get_color&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;get_color&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">color</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">part</span>: <span class="ident">RenderPart</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>;
 
-    <span class="doccomment">/// Gets the layout currently being rendered using `self`.</span>
+    <span class="doccomment">/// Gets the layout currently being rendered using @self.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Calling this function only makes sense from inside a subclass&#39;s</span>
     <span class="doccomment">/// methods, like in its draw_shape vfunc, for example.</span>
@@ -864,12 +871,12 @@
     <span class="doccomment">/// # Returns</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// the layout, or [`None`] if</span>
-    <span class="doccomment">///  no layout is being rendered using `self` at this time.</span>
+    <span class="doccomment">///   no layout is being rendered using @self at this time.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_get_layout&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;get_layout&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">layout</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Layout</span><span class="op">&gt;</span>;
 
-    <span class="doccomment">/// Gets the layout line currently being rendered using `self`.</span>
+    <span class="doccomment">/// Gets the layout line currently being rendered using @self.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Calling this function only makes sense from inside a subclass&#39;s</span>
     <span class="doccomment">/// methods, like in its draw_shape vfunc, for example.</span>
@@ -880,7 +887,7 @@
     <span class="doccomment">/// # Returns</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// the layout line, or [`None`]</span>
-    <span class="doccomment">///  if no layout line is being rendered using `self` at this time.</span>
+    <span class="doccomment">///   if no layout line is being rendered using @self at this time.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_get_layout_line&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;get_layout_line&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">layout_line</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LayoutLine</span><span class="op">&gt;</span>;
@@ -888,19 +895,19 @@
     <span class="doccomment">/// Gets the transformation matrix that will be applied when</span>
     <span class="doccomment">/// rendering.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [``set_matrix()``][`Self::set_matrix()`].</span>
+    <span class="doccomment">/// See [`set_matrix()`][Self::set_matrix()].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Returns</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// the matrix, or [`None`] if no matrix has</span>
-    <span class="doccomment">///  been set (which is the same as the identity matrix). The returned</span>
-    <span class="doccomment">///  matrix is owned by Pango and must not be modified or freed.</span>
+    <span class="doccomment">///   been set (which is the same as the identity matrix). The returned</span>
+    <span class="doccomment">///   matrix is owned by Pango and must not be modified or freed.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_get_matrix&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;get_matrix&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">matrix</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Matrix</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Informs Pango that the way that the rendering is done</span>
-    <span class="doccomment">/// for `part` has changed.</span>
+    <span class="doccomment">/// for @part has changed.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This should be called if the rendering changes in a way that would</span>
     <span class="doccomment">/// prevent multiple pieces being joined together into one drawing call.</span>
@@ -913,7 +920,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// When the stipple changes or underlines with different stipples</span>
     <span class="doccomment">/// might be joined together. Pango automatically calls this for</span>
-    <span class="doccomment">/// changes to colors. (See [``set_color()``][`Self::set_color()`])</span>
+    <span class="doccomment">/// changes to colors. (See [`set_color()`][Self::set_color()])</span>
     <span class="doccomment">/// ## `part`</span>
     <span class="doccomment">/// the part for which rendering has changed.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;pango_renderer_part_changed&quot;</span>)]</span>
@@ -922,7 +929,7 @@
     <span class="doccomment">/// Sets the alpha for part of the rendering.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Note that the alpha may only be used if a color is</span>
-    <span class="doccomment">/// specified for `part` as well.</span>
+    <span class="doccomment">/// specified for @part as well.</span>
     <span class="doccomment">/// ## `part`</span>
     <span class="doccomment">/// the part to set the alpha for</span>
     <span class="doccomment">/// ## `alpha`</span>
@@ -932,7 +939,7 @@
 
     <span class="doccomment">/// Sets the color for part of the rendering.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Also see [``set_alpha()``][`Self::set_alpha()`].</span>
+    <span class="doccomment">/// Also see [`set_alpha()`][Self::set_alpha()].</span>
     <span class="doccomment">/// ## `part`</span>
     <span class="doccomment">/// the part to change the color of</span>
     <span class="doccomment">/// ## `color`</span>
@@ -1140,6 +1147,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pango" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pango" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (4c5f6e627 2022-05-17)" ></div>
 </body></html>
