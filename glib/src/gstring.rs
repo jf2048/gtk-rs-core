@@ -159,13 +159,13 @@ impl PartialEq<str> for GStr {
     }
 }
 
-impl<'a> PartialEq<&'a str> for GStr {
-    fn eq(&self, other: &&'a str) -> bool {
+impl PartialEq<&str> for GStr {
+    fn eq(&self, other: &&str) -> bool {
         self.as_str() == *other
     }
 }
 
-impl<'a> PartialEq<GStr> for &'a str {
+impl PartialEq<GStr> for &str {
     fn eq(&self, other: &GStr) -> bool {
         *self == other.as_str()
     }
@@ -434,18 +434,21 @@ impl IntoGlibPtr<*mut c_char> for GString {
 }
 
 impl Clone for GString {
+    #[inline]
     fn clone(&self) -> GString {
         self.as_str().into()
     }
 }
 
 impl fmt::Debug for GString {
+    #[inline]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         <&str as fmt::Debug>::fmt(&self.as_str(), f)
     }
 }
 
 impl Drop for GString {
+    #[inline]
     fn drop(&mut self) {
         if let Inner::Foreign { ptr, .. } = self.0 {
             unsafe {
@@ -456,138 +459,161 @@ impl Drop for GString {
 }
 
 impl fmt::Display for GString {
+    #[inline]
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.write_str(self.as_str())
     }
 }
 
 impl hash::Hash for GString {
+    #[inline]
     fn hash<H: hash::Hasher>(&self, state: &mut H) {
         self.as_str().hash(state)
     }
 }
 
 impl Borrow<GStr> for GString {
+    #[inline]
     fn borrow(&self) -> &GStr {
         self.as_gstr()
     }
 }
 
 impl Borrow<str> for GString {
+    #[inline]
     fn borrow(&self) -> &str {
         self.as_str()
     }
 }
 
 impl Ord for GString {
+    #[inline]
     fn cmp(&self, other: &GString) -> Ordering {
         self.as_str().cmp(other.as_str())
     }
 }
 
 impl PartialOrd for GString {
+    #[inline]
     fn partial_cmp(&self, other: &GString) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
 
 impl PartialEq for GString {
+    #[inline]
     fn eq(&self, other: &GString) -> bool {
         self.as_str() == other.as_str()
     }
 }
 
 impl PartialEq<GString> for String {
+    #[inline]
     fn eq(&self, other: &GString) -> bool {
         self.as_str() == other.as_str()
     }
 }
 
 impl PartialEq<GStr> for GString {
+    #[inline]
     fn eq(&self, other: &GStr) -> bool {
         self.as_str() == other.as_str()
     }
 }
 
 impl PartialEq<&GStr> for GString {
+    #[inline]
     fn eq(&self, other: &&GStr) -> bool {
         self.as_str() == other.as_str()
     }
 }
 
 impl PartialEq<str> for GString {
+    #[inline]
     fn eq(&self, other: &str) -> bool {
         self.as_str() == other
     }
 }
 
 impl PartialEq<&str> for GString {
+    #[inline]
     fn eq(&self, other: &&str) -> bool {
         self.as_str() == *other
     }
 }
 
 impl PartialEq<GString> for &GStr {
+    #[inline]
     fn eq(&self, other: &GString) -> bool {
         self.as_str() == other.as_str()
     }
 }
 
 impl PartialEq<GString> for &str {
+    #[inline]
     fn eq(&self, other: &GString) -> bool {
         *self == other.as_str()
     }
 }
 
 impl PartialEq<String> for GString {
+    #[inline]
     fn eq(&self, other: &String) -> bool {
         self.as_str() == other.as_str()
     }
 }
 
 impl PartialEq<GString> for str {
+    #[inline]
     fn eq(&self, other: &GString) -> bool {
         self == other.as_str()
     }
 }
 
 impl PartialEq<GString> for GStr {
+    #[inline]
     fn eq(&self, other: &GString) -> bool {
         self.as_str() == other.as_str()
     }
 }
 
 impl PartialOrd<GString> for String {
+    #[inline]
     fn partial_cmp(&self, other: &GString) -> Option<Ordering> {
         Some(self.cmp(&String::from(other.as_str())))
     }
 }
 
 impl PartialOrd<String> for GString {
+    #[inline]
     fn partial_cmp(&self, other: &String) -> Option<Ordering> {
         Some(self.as_str().cmp(other.as_str()))
     }
 }
 
 impl PartialOrd<GString> for GStr {
+    #[inline]
     fn partial_cmp(&self, other: &GString) -> Option<Ordering> {
         Some(self.as_str().cmp(other))
     }
 }
 
 impl PartialOrd<GStr> for GString {
+    #[inline]
     fn partial_cmp(&self, other: &GStr) -> Option<Ordering> {
         Some(self.as_str().cmp(other.as_str()))
     }
 }
 
 impl PartialOrd<GString> for str {
+    #[inline]
     fn partial_cmp(&self, other: &GString) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
 
 impl PartialOrd<str> for GString {
+    #[inline]
     fn partial_cmp(&self, other: &str) -> Option<Ordering> {
         Some(self.as_str().cmp(other))
     }
@@ -596,12 +622,14 @@ impl PartialOrd<str> for GString {
 impl Eq for GString {}
 
 impl AsRef<GStr> for GString {
+    #[inline]
     fn as_ref(&self) -> &GStr {
         self.as_gstr()
     }
 }
 
 impl AsRef<str> for GString {
+    #[inline]
     fn as_ref(&self) -> &str {
         self.as_str()
     }
@@ -614,18 +642,21 @@ impl AsRef<CStr> for GString {
 }
 
 impl AsRef<OsStr> for GString {
+    #[inline]
     fn as_ref(&self) -> &OsStr {
         OsStr::new(self.as_str())
     }
 }
 
 impl AsRef<Path> for GString {
+    #[inline]
     fn as_ref(&self) -> &Path {
         Path::new(self.as_str())
     }
 }
 
 impl AsRef<[u8]> for GString {
+    #[inline]
     fn as_ref(&self) -> &[u8] {
         self.as_str().as_bytes()
     }
@@ -634,6 +665,7 @@ impl AsRef<[u8]> for GString {
 impl Deref for GString {
     type Target = str;
 
+    #[inline]
     fn deref(&self) -> &str {
         self.as_str()
     }
@@ -1007,6 +1039,7 @@ impl GlibPtrDefault for GString {
 }
 
 impl StaticType for GString {
+    #[inline]
     fn static_type() -> Type {
         String::static_type()
     }
@@ -1021,28 +1054,33 @@ impl crate::value::ValueTypeOptional for GString {}
 unsafe impl<'a> crate::value::FromValue<'a> for GString {
     type Checker = crate::value::GenericValueTypeOrNoneChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a crate::Value) -> Self {
         Self::from(<&str>::from_value(value))
     }
 }
 
 impl crate::value::ToValue for GString {
+    #[inline]
     fn to_value(&self) -> crate::Value {
         <&str>::to_value(&self.as_str())
     }
 
+    #[inline]
     fn value_type(&self) -> Type {
         String::static_type()
     }
 }
 
 impl crate::value::ToValueOptional for GString {
+    #[inline]
     fn to_value_optional(s: Option<&Self>) -> crate::Value {
         <str>::to_value_optional(s.as_ref().map(|s| s.as_str()))
     }
 }
 
 impl StaticType for Vec<GString> {
+    #[inline]
     fn static_type() -> Type {
         <Vec<String>>::static_type()
     }
@@ -1071,6 +1109,7 @@ impl crate::value::ToValue for Vec<GString> {
         }
     }
 
+    #[inline]
     fn value_type(&self) -> Type {
         <Vec<GString>>::static_type()
     }
