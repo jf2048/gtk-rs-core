@@ -892,63 +892,32 @@ impl FromGlibPtrBorrow<*mut i8> for GString {
     }
 }
 
-#[doc(hidden)]
-impl<'a> ToGlibPtr<'a, *const u8> for GString {
+impl<'a> ToGlibPtr<'a, *const c_char> for GString {
     type Storage = &'a Self;
 
     #[inline]
-    fn to_glib_none(&'a self) -> Stash<'a, *const u8, Self> {
-        Stash(self.as_ptr() as *const u8, self)
+    fn to_glib_none(&'a self) -> Stash<'a, *const c_char, Self> {
+        Stash(self.as_ptr() as *const c_char, self)
     }
 
     #[inline]
-    fn to_glib_full(&self) -> *const u8 {
-        unsafe { self.clone().into_glib_ptr() as *const u8 }
+    fn to_glib_full(&self) -> *const c_char {
+        unsafe { self.clone().into_glib_ptr() as *const _ }
     }
 }
 
 #[doc(hidden)]
-impl<'a> ToGlibPtr<'a, *const i8> for GString {
+impl<'a> ToGlibPtr<'a, *mut c_char> for GString {
     type Storage = &'a Self;
 
     #[inline]
-    fn to_glib_none(&'a self) -> Stash<'a, *const i8, Self> {
-        Stash(self.as_ptr() as *const i8, self)
+    fn to_glib_none(&'a self) -> Stash<'a, *mut c_char, Self> {
+        Stash(self.as_ptr() as *mut c_char, self)
     }
 
     #[inline]
-    fn to_glib_full(&self) -> *const i8 {
-        unsafe { self.clone().into_glib_ptr() as *const i8 }
-    }
-}
-
-#[doc(hidden)]
-impl<'a> ToGlibPtr<'a, *mut u8> for GString {
-    type Storage = &'a Self;
-
-    #[inline]
-    fn to_glib_none(&'a self) -> Stash<'a, *mut u8, Self> {
-        Stash(self.as_ptr() as *mut u8, self)
-    }
-
-    #[inline]
-    fn to_glib_full(&self) -> *mut u8 {
-        unsafe { self.clone().into_glib_ptr() as *mut u8 }
-    }
-}
-
-#[doc(hidden)]
-impl<'a> ToGlibPtr<'a, *mut i8> for GString {
-    type Storage = &'a Self;
-
-    #[inline]
-    fn to_glib_none(&'a self) -> Stash<'a, *mut i8, Self> {
-        Stash(self.as_ptr() as *mut i8, self)
-    }
-
-    #[inline]
-    fn to_glib_full(&self) -> *mut i8 {
-        unsafe { self.clone().into_glib_ptr() as *mut i8 }
+    fn to_glib_full(&self) -> *mut c_char {
+        unsafe { self.clone().into_glib_ptr() }
     }
 }
 
