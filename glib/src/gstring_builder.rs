@@ -105,12 +105,11 @@ impl GStringBuilder {
     /// If the string builder contains invalid UTF-8 this function panics.
     #[must_use = "String returned from the builder should probably be used"]
     pub fn into_string(self) -> crate::GString {
+        let s = mem::ManuallyDrop::new(self);
+        let len = s.len();
         unsafe {
-            let s = mem::ManuallyDrop::new(self);
-            from_glib_full(ffi::g_string_free(
-                mut_override(s.to_glib_none().0),
-                ffi::GFALSE,
-            ))
+            let ptr = ffi::g_string_free(mut_override(s.to_glib_none().0), ffi::GFALSE);
+            FromGlibContainer::from_glib_full_num(ptr, len)
         }
     }
 }
