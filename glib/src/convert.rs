@@ -1,6 +1,6 @@
 // Take a look at the license at the top of the repository in the LICENSE file.
 
-use crate::{translate::*, ConvertError, Error, GStr, GString, Slice};
+use crate::{translate::*, ConvertError, Error, GString, IntoGStr, IntoOptionalGStr, Slice};
 use std::{io, os::raw::c_char, path::PathBuf, ptr};
 
 // rustdoc-stripper-ignore-next
@@ -35,24 +35,26 @@ impl CvtError {
 #[doc(alias = "g_convert")]
 pub fn convert(
     str_: &[u8],
-    to_codeset: &str,
-    from_codeset: &str,
+    to_codeset: impl IntoGStr,
+    from_codeset: impl IntoGStr,
 ) -> Result<(Slice<u8>, usize), CvtError> {
     assert!(str_.len() <= isize::MAX as usize);
     let mut bytes_read = 0;
     let mut bytes_written = 0;
     let mut error = ptr::null_mut();
-    let result = unsafe {
-        ffi::g_convert(
-            str_.as_ptr(),
-            str_.len() as isize,
-            to_codeset.to_glib_none().0,
-            from_codeset.to_glib_none().0,
-            &mut bytes_read,
-            &mut bytes_written,
-            &mut error,
-        )
-    };
+    let result = to_codeset.run_with_gstr(|to_codeset| {
+        from_codeset.run_with_gstr(|from_codeset| unsafe {
+            ffi::g_convert(
+                str_.as_ptr(),
+                str_.len() as isize,
+                to_codeset.to_glib_none().0,
+                from_codeset.to_glib_none().0,
+                &mut bytes_read,
+                &mut bytes_written,
+                &mut error,
+            )
+        })
+    });
     if result.is_null() {
         Err(CvtError::new(unsafe { from_glib_full(error) }, bytes_read))
     } else {
@@ -64,26 +66,30 @@ pub fn convert(
 #[doc(alias = "g_convert_with_fallback")]
 pub fn convert_with_fallback(
     str_: &[u8],
-    to_codeset: &str,
-    from_codeset: &str,
-    fallback: Option<&str>,
+    to_codeset: impl IntoGStr,
+    from_codeset: impl IntoGStr,
+    fallback: Option<impl IntoGStr>,
 ) -> Result<(Slice<u8>, usize), CvtError> {
     assert!(str_.len() <= isize::MAX as usize);
     let mut bytes_read = 0;
     let mut bytes_written = 0;
     let mut error = ptr::null_mut();
-    let result = unsafe {
-        ffi::g_convert_with_fallback(
-            str_.as_ptr(),
-            str_.len() as isize,
-            to_codeset.to_glib_none().0,
-            from_codeset.to_glib_none().0,
-            fallback.to_glib_none().0,
-            &mut bytes_read,
-            &mut bytes_written,
-            &mut error,
-        )
-    };
+    let result = to_codeset.run_with_gstr(|to_codeset| {
+        from_codeset.run_with_gstr(|from_codeset| {
+            fallback.run_with_gstr(|fallback| unsafe {
+                ffi::g_convert_with_fallback(
+                    str_.as_ptr(),
+                    str_.len() as isize,
+                    to_codeset.to_glib_none().0,
+                    from_codeset.to_glib_none().0,
+                    fallback.to_glib_none().0,
+                    &mut bytes_read,
+                    &mut bytes_written,
+                    &mut error,
+                )
+            })
+        })
+    });
     if result.is_null() {
         Err(CvtError::new(unsafe { from_glib_full(error) }, bytes_read))
     } else {
@@ -116,10 +122,12 @@ unsafe impl Send for IConv {}
 impl IConv {
     #[doc(alias = "g_iconv_open")]
     #[allow(clippy::unnecessary_lazy_evaluations)]
-    pub fn new(to_codeset: &str, from_codeset: &str) -> Option<Self> {
-        let iconv = unsafe {
-            ffi::g_iconv_open(to_codeset.to_glib_none().0, from_codeset.to_glib_none().0)
-        };
+    pub fn new(to_codeset: impl IntoGStr, from_codeset: impl IntoGStr) -> Option<Self> {
+        let iconv = to_codeset.run_with_gstr(|to_codeset| {
+            from_codeset.run_with_gstr(|from_codeset| unsafe {
+                ffi::g_iconv_open(to_codeset.to_glib_none().0, from_codeset.to_glib_none().0)
+            })
+        });
         (iconv as isize != -1).then(|| Self(iconv))
     }
     #[doc(alias = "g_convert_with_iconv")]
@@ -208,20 +216,23 @@ pub fn filename_charsets() -> (bool, Vec<GString>) {
 }
 
 #[doc(alias = "g_filename_from_utf8")]
-pub fn filename_from_utf8(utf8string: &str) -> Result<(PathBuf, usize), CvtError> {
-    let len = utf8string.len() as isize;
+pub fn filename_from_utf8(utf8string: impl IntoGStr) -> Result<(PathBuf, usize), CvtError> {
     let mut bytes_read = 0;
     let mut bytes_written = std::mem::MaybeUninit::uninit();
     let mut error = ptr::null_mut();
-    let ret = unsafe {
-        ffi::g_filename_from_utf8(
-            utf8string.to_glib_none().0,
-            len,
-            &mut bytes_read,
-            bytes_written.as_mut_ptr(),
-            &mut error,
-        )
-    };
+    let ret = utf8string.run_with_gstr(|utf8string| {
+        assert!(utf8string.len() <= isize::MAX as usize);
+        let len = utf8string.len() as isize;
+        unsafe {
+            ffi::g_filename_from_utf8(
+                utf8string.to_glib_none().0,
+                len,
+                &mut bytes_read,
+                bytes_written.as_mut_ptr(),
+                &mut error,
+            )
+        }
+    });
     if error.is_null() {
         Ok(unsafe {
             (
@@ -264,20 +275,22 @@ pub fn filename_to_utf8(
 }
 
 #[doc(alias = "g_locale_from_utf8")]
-pub fn locale_from_utf8(utf8string: &GStr) -> Result<(Slice<u8>, usize), CvtError> {
-    assert!(utf8string.len() <= isize::MAX as usize);
+pub fn locale_from_utf8(utf8string: impl IntoGStr) -> Result<(Slice<u8>, usize), CvtError> {
     let mut bytes_read = 0;
     let mut bytes_written = std::mem::MaybeUninit::uninit();
     let mut error = ptr::null_mut();
-    let ret = unsafe {
-        ffi::g_locale_from_utf8(
-            utf8string.as_ptr(),
-            utf8string.len() as isize,
-            &mut bytes_read,
-            bytes_written.as_mut_ptr(),
-            &mut error,
-        )
-    };
+    let ret = utf8string.run_with_gstr(|utf8string| {
+        assert!(utf8string.len() <= isize::MAX as usize);
+        unsafe {
+            ffi::g_locale_from_utf8(
+                utf8string.as_ptr(),
+                utf8string.len() as isize,
+                &mut bytes_read,
+                bytes_written.as_mut_ptr(),
+                &mut error,
+            )
+        }
+    });
     if error.is_null() {
         Ok(unsafe {
             (
@@ -324,7 +337,7 @@ mod tests {
         assert!(super::convert(b"Hello", "utf-8", "ascii").is_ok());
         assert!(super::convert(b"He\xaallo", "utf-8", "ascii").is_err());
         assert_eq!(
-            super::convert_with_fallback(b"H\xc3\xa9llo", "ascii", "utf-8", None)
+            super::convert_with_fallback(b"H\xc3\xa9llo", "ascii", "utf-8", crate::NONE_STR)
                 .unwrap()
                 .0
                 .as_slice(),

@@ -1,5 +1,6 @@
 // Take a look at the license at the top of the repository in the LICENSE file.
 
+use crate::GStr;
 #[cfg(not(windows))]
 use std::boxed::Box as Box_;
 #[cfg(not(windows))]
@@ -15,7 +16,6 @@ use std::os::unix::io::{FromRawFd, IntoRawFd, RawFd};
 use crate::translate::*;
 #[cfg(not(windows))]
 use crate::Error;
-use crate::GString;
 #[cfg(not(windows))]
 use crate::Pid;
 #[cfg(not(windows))]
@@ -216,7 +216,7 @@ pub fn spawn_async_with_pipes<
 /// charset if available.
 #[doc(alias = "g_get_charset")]
 #[doc(alias = "get_charset")]
-pub fn charset() -> (bool, Option<GString>) {
+pub fn charset() -> (bool, Option<&'static GStr>) {
     unsafe {
         let mut out_charset = ptr::null();
         let is_utf8 = from_glib(ffi::g_get_charset(&mut out_charset));
