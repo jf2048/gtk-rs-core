@@ -131,6 +131,7 @@
 //! ```
 
 use libc::{c_char, size_t};
+use std::borrow::Cow;
 use std::char;
 use std::cmp::{Eq, Ordering, PartialEq};
 use std::collections::HashMap;
@@ -501,17 +502,28 @@ impl<'a, P: Ptr, T: ?Sized + ToGlibPtr<'a, P>> ToGlibPtr<'a, P> for &'a T {
 }
 
 impl<'a> ToGlibPtr<'a, *const c_char> for str {
-    type Storage = CString;
+    type Storage = Cow<'static, [u8]>;
 
-    #[inline]
     fn to_glib_none(&'a self) -> Stash<'a, *const c_char, Self> {
-        let tmp =
-            CString::new(self).expect("str::ToGlibPtr<*const c_char>: unexpected '\0' character");
-        Stash(tmp.as_ptr(), tmp)
+        let bytes = if self.is_empty() {
+            Cow::Borrowed([0u8].as_slice())
+        } else {
+            if cfg!(debug_assertions) {
+                crate::GStr::check_interior_nuls(self).unwrap();
+            }
+            let mut bytes = self.as_bytes().to_owned();
+            bytes.reserve_exact(1);
+            bytes.push(0);
+            Cow::Owned(bytes)
+        };
+        Stash(bytes.as_ptr() as *const c_char, bytes)
     }
 
     #[inline]
     fn to_glib_full(&self) -> *const c_char {
+        if cfg!(debug_assertions) {
+            crate::GStr::check_interior_nuls(self).unwrap();
+        }
         unsafe {
             ffi::g_strndup(self.as_ptr() as *const c_char, self.len() as size_t) as *const c_char
         }
@@ -519,33 +531,57 @@ impl<'a> ToGlibPtr<'a, *const c_char> for str {
 }
 
 impl<'a> ToGlibPtr<'a, *mut c_char> for str {
-    type Storage = CString;
+    type Storage = Cow<'static, [u8]>;
 
     #[inline]
     fn to_glib_none(&'a self) -> Stash<'a, *mut c_char, Self> {
-        let tmp =
-            CString::new(self).expect("str::ToGlibPtr<*mut c_char>: unexpected '\0' character");
-        Stash(tmp.as_ptr() as *mut c_char, tmp)
+        let bytes = if self.is_empty() {
+            Cow::Borrowed([0u8].as_slice())
+        } else {
+            if cfg!(debug_assertions) {
+                crate::GStr::check_interior_nuls(self).unwrap();
+            }
+            let mut bytes = self.as_bytes().to_owned();
+            bytes.reserve_exact(1);
+            bytes.push(0);
+            Cow::Owned(bytes)
+        };
+        Stash(bytes.as_ptr() as *mut c_char, bytes)
     }
 
     #[inline]
     fn to_glib_full(&self) -> *mut c_char {
+        if cfg!(debug_assertions) {
+            crate::GStr::check_interior_nuls(self).unwrap();
+        }
         unsafe { ffi::g_strndup(self.as_ptr() as *mut c_char, self.len() as size_t) }
     }
 }
 
 impl<'a> ToGlibPtr<'a, *const c_char> for String {
-    type Storage = CString;
+    type Storage = Cow<'static, [u8]>;
 
     #[inline]
     fn to_glib_none(&self) -> Stash<'a, *const c_char, String> {
-        let tmp = CString::new(&self[..])
-            .expect("String::ToGlibPtr<*const c_char>: unexpected '\0' character");
-        Stash(tmp.as_ptr(), tmp)
+        let bytes = if self.is_empty() {
+            Cow::Borrowed([0u8].as_slice())
+        } else {
+            if cfg!(debug_assertions) {
+                crate::GStr::check_interior_nuls(self).unwrap();
+            }
+            let mut bytes = self.as_bytes().to_owned();
+            bytes.reserve_exact(1);
+            bytes.push(0);
+            Cow::Owned(bytes)
+        };
+        Stash(bytes.as_ptr() as *const c_char, bytes)
     }
 
     #[inline]
     fn to_glib_full(&self) -> *const c_char {
+        if cfg!(debug_assertions) {
+            crate::GStr::check_interior_nuls(self).unwrap();
+        }
         unsafe {
             ffi::g_strndup(self.as_ptr() as *const c_char, self.len() as size_t) as *const c_char
         }
@@ -553,17 +589,29 @@ impl<'a> ToGlibPtr<'a, *const c_char> for String {
 }
 
 impl<'a> ToGlibPtr<'a, *mut c_char> for String {
-    type Storage = CString;
+    type Storage = Cow<'static, [u8]>;
 
     #[inline]
     fn to_glib_none(&self) -> Stash<'a, *mut c_char, String> {
-        let tmp = CString::new(&self[..])
-            .expect("String::ToGlibPtr<*mut c_char>: unexpected '\0' character");
-        Stash(tmp.as_ptr() as *mut c_char, tmp)
+        let bytes = if self.is_empty() {
+            Cow::Borrowed([0u8].as_slice())
+        } else {
+            if cfg!(debug_assertions) {
+                crate::GStr::check_interior_nuls(self).unwrap();
+            }
+            let mut bytes = self.as_bytes().to_owned();
+            bytes.reserve_exact(1);
+            bytes.push(0);
+            Cow::Owned(bytes)
+        };
+        Stash(bytes.as_ptr() as *mut c_char, bytes)
     }
 
     #[inline]
     fn to_glib_full(&self) -> *mut c_char {
+        if cfg!(debug_assertions) {
+            crate::GStr::check_interior_nuls(self).unwrap();
+        }
         unsafe {
             ffi::g_strndup(self.as_ptr() as *const c_char, self.len() as size_t) as *mut c_char
         }
