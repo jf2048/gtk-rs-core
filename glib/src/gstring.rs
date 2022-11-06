@@ -436,11 +436,16 @@ impl ToOwned for GStr {
 
     #[inline]
     fn to_owned(&self) -> Self::Owned {
-        if self.is_empty() {
-            return GString::default();
-        }
-        // Always copy with the GLib allocator
         let b = self.as_bytes_with_nul();
+        if self.len() < INLINE_LEN {
+            let mut data = <[u8; INLINE_LEN]>::default();
+            let b = self.as_bytes();
+            unsafe { data.get_unchecked_mut(..b.len()) }.copy_from_slice(b);
+            return GString(Inner::Inline {
+                len: self.len() as u8,
+                data,
+            });
+        }
         let inner = unsafe {
             let copy = ffi::g_strndup(b.as_ptr() as *const c_char, b.len());
             Inner::Foreign {
@@ -630,6 +635,10 @@ impl Drop for GStringBuilderInline {
     }
 }
 
+// size_of::<Inner>() minus two bytes for length and enum discriminant
+const INLINE_LEN: usize =
+    mem::size_of::<Option<Box<str>>>() + mem::size_of::<usize>() - mem::size_of::<u8>() * 2;
+
 // rustdoc-stripper-ignore-next
 /// A type representing an owned, C-compatible, nul-terminated UTF-8 string.
 ///
@@ -652,6 +661,10 @@ enum Inner {
         ptr: ptr::NonNull<c_char>,
         len: usize,
     },
+    Inline {
+        len: u8,
+        data: [u8; INLINE_LEN],
+    },
 }
 
 unsafe impl Send for GString {}
@@ -664,7 +677,10 @@ impl GString {
     /// Does not allocate.
     #[inline]
     pub fn new() -> Self {
-        Self(Inner::Native(None))
+        Self(Inner::Inline {
+            len: 0,
+            data: Default::default(),
+        })
     }
     // rustdoc-stripper-ignore-next
     /// Formats an [`Arguments`](std::fmt::Arguments) into a [`GString`].
@@ -718,7 +734,7 @@ impl GString {
     #[inline]
     pub unsafe fn from_utf8_unchecked(mut v: Vec<u8>) -> Self {
         if v.is_empty() {
-            Self(Inner::Native(None))
+            Self::new()
         } else {
             v.reserve_exact(1);
             v.push(0);
@@ -738,7 +754,7 @@ impl GString {
             return Err(GStringNoTrailingNulError(s.into_bytes()).into());
         }
         if s.len() == 1 {
-            Ok(Self(Inner::Native(None)))
+            Ok(Self::new())
         } else {
             Ok(Self(Inner::Native(Some(s.into()))))
         }
@@ -775,7 +791,7 @@ impl GString {
             String::from_utf8_unchecked(v)
         };
         if s.len() == 1 {
-            Self(Inner::Native(None))
+            Self::new()
         } else {
             Self(Inner::Native(Some(s.into())))
         }
@@ -793,7 +809,7 @@ impl GString {
             return Err(GStringNoTrailingNulError(bytes).into());
         };
         if nul_pos == 0 {
-            Ok(Self(Inner::Native(None)))
+            Ok(Self::new())
         } else {
             if let Err(e) = std::str::from_utf8(unsafe { bytes.get_unchecked(..nul_pos) }) {
                 return Err(GStringUtf8Error(bytes, e).into());
@@ -824,7 +840,7 @@ impl GString {
     #[inline]
     pub fn from_string_unchecked(mut s: String) -> Self {
         if s.is_empty() {
-            Self(Inner::Native(None))
+            Self::new()
         } else {
             s.reserve_exact(1);
             s.push('\0');
@@ -837,9 +853,10 @@ impl GString {
     pub fn as_str(&self) -> &str {
         unsafe {
             let (ptr, len) = match self.0 {
-                Inner::Native(None) => (ptr::null(), 0),
+                Inner::Native(None) => unreachable!(),
                 Inner::Native(Some(ref s)) => (s.as_ptr() as *const u8, s.len() - 1),
                 Inner::Foreign { ptr, len } => (ptr.as_ptr() as *const u8, len),
+                Inner::Inline { len, ref data } => (data.as_ptr(), len as usize),
             };
             if len == 0 {
                 ""
@@ -855,12 +872,13 @@ impl GString {
     #[inline]
     pub fn as_gstr(&self) -> &GStr {
         let bytes = match self.0 {
-            Inner::Native(None) => return <&GStr>::default(),
+            Inner::Native(None) => unreachable!(),
             Inner::Native(Some(ref s)) => s.as_bytes(),
             Inner::Foreign { len, .. } if len == 0 => &[0],
             Inner::Foreign { ptr, len } => unsafe {
                 slice::from_raw_parts(ptr.as_ptr() as *const _, len + 1)
             },
+            Inner::Inline { len, ref data } => unsafe { data.get_unchecked(..len as usize + 1) },
         };
         unsafe { GStr::from_utf8_with_nul_unchecked(bytes) }
     }
@@ -870,9 +888,10 @@ impl GString {
     #[inline]
     pub fn as_ptr(&self) -> *const c_char {
         match self.0 {
-            Inner::Native(None) => <&GStr>::default().as_ptr(),
+            Inner::Native(None) => unreachable!(),
             Inner::Native(Some(ref s)) => s.as_ptr() as *const _,
             Inner::Foreign { ptr, .. } => ptr.as_ptr(),
+            Inner::Inline { ref data, .. } => data.as_ptr() as *const _,
         }
     }
 
@@ -883,7 +902,7 @@ impl GString {
     pub fn into_bytes(mut self) -> Vec<u8> {
         match &mut self.0 {
             Inner::Native(s) => match s.take() {
-                None => Vec::new(),
+                None => unreachable!(),
                 Some(s) => {
                     let mut s = String::from(s);
                     let _nul = s.pop();
@@ -895,6 +914,9 @@ impl GString {
                 let bytes = unsafe { slice::from_raw_parts(ptr.as_ptr() as *const u8, *len - 1) };
                 bytes.to_owned()
             }
+            Inner::Inline { len, data } => {
+                unsafe { data.get_unchecked(..*len as usize) }.to_owned()
+            }
         }
     }
 
@@ -903,12 +925,15 @@ impl GString {
     pub fn into_bytes_with_nul(mut self) -> Vec<u8> {
         match &mut self.0 {
             Inner::Native(s) => match s.take() {
-                None => vec![0u8],
+                None => unreachable!(),
                 Some(s) => str::into_boxed_bytes(s).into(),
             },
             Inner::Foreign { ptr, len } => {
                 let bytes = unsafe { slice::from_raw_parts(ptr.as_ptr() as *const u8, *len) };
                 bytes.to_owned()
+            }
+            Inner::Inline { len, data } => {
+                unsafe { data.get_unchecked(..*len as usize + 1) }.to_owned()
             }
         }
     }
@@ -1041,11 +1066,14 @@ impl IntoGlibPtr<*mut c_char> for GString {
     /// Transform into a nul-terminated raw C string pointer.
     unsafe fn into_glib_ptr(self) -> *mut c_char {
         match self.0 {
-            Inner::Native(None) => ffi::g_malloc0(1) as *mut _,
+            Inner::Native(None) => unreachable!(),
             Inner::Native(Some(ref s)) => ffi::g_strndup(s.as_ptr() as *const _, s.len()),
             Inner::Foreign { ptr, .. } => {
                 let _s = mem::ManuallyDrop::new(self);
                 ptr.as_ptr()
+            }
+            Inner::Inline { len, ref data } => {
+                ffi::g_strndup(data.as_ptr() as *const _, len as usize)
             }
         }
     }
@@ -1295,7 +1323,7 @@ impl From<GString> for String {
     fn from(mut s: GString) -> Self {
         match &mut s.0 {
             Inner::Native(s) => match s.take() {
-                None => Self::default(),
+                None => unreachable!(),
                 Some(s) => {
                     // Moves the underlying string
                     let mut s = String::from(s);
@@ -1309,6 +1337,9 @@ impl From<GString> for String {
                 // Creates a copy
                 let slice = slice::from_raw_parts(ptr.as_ptr() as *const u8, *len);
                 std::str::from_utf8_unchecked(slice).into()
+            },
+            Inner::Inline { len, data } => unsafe {
+                std::str::from_utf8_unchecked(data.get_unchecked(..*len as usize)).to_owned()
             },
         }
     }
@@ -1366,7 +1397,7 @@ impl From<String> for GString {
             GStr::check_interior_nuls(&s).unwrap();
         }
         if s.is_empty() {
-            Self(Inner::Native(None))
+            Self::new()
         } else {
             s.reserve_exact(1);
             s.push('\0');
@@ -1407,8 +1438,14 @@ impl From<&str> for GString {
         if cfg!(debug_assertions) {
             GStr::check_interior_nuls(s).unwrap();
         }
-        if s.is_empty() {
-            return Self::default();
+        if s.len() < INLINE_LEN {
+            let mut data = <[u8; INLINE_LEN]>::default();
+            let b = s.as_bytes();
+            unsafe { data.get_unchecked_mut(..b.len()) }.copy_from_slice(b);
+            return Self(Inner::Inline {
+                len: b.len() as u8,
+                data,
+            });
         }
         // Allocates with the GLib allocator
         unsafe {
@@ -1427,7 +1464,7 @@ impl TryFrom<CString> for GString {
     #[inline]
     fn try_from(value: CString) -> Result<Self, Self::Error> {
         if value.as_bytes().is_empty() {
-            Ok(Self(Inner::Native(None)))
+            Ok(Self::new())
         } else {
             // Moves the content of the CString
             // Also check if it's valid UTF-8
