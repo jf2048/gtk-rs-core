@@ -2,18 +2,16 @@
 
 use crate::translate::*;
 use crate::types::{StaticType, Type};
-use std::borrow::{Borrow, Cow};
-use std::cmp::Ordering;
-use std::ffi::{CStr, CString, OsStr, OsString};
-use std::fmt;
-use std::hash;
-use std::mem;
-use std::ops::Deref;
-use std::os::raw::{c_char, c_void};
-use std::path::{Path, PathBuf};
-use std::ptr;
-use std::slice;
-use std::string::String;
+use std::{
+    borrow::{Borrow, Cow},
+    cmp::Ordering,
+    ffi::{CStr, CString, OsStr, OsString},
+    fmt, hash, mem,
+    ops::Deref,
+    os::raw::{c_char, c_void},
+    path::{Path, PathBuf},
+    ptr, slice,
+};
 
 // rustdoc-stripper-ignore-next
 /// Representaion of a borrowed [`GString`].
