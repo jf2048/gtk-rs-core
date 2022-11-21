@@ -301,6 +301,14 @@ macro_rules! gstr {
     };
 }
 
+#[macro_export]
+macro_rules! gstr_concat {
+    () => { unsafe { $crate::GStr::from_utf8_with_nul_unchecked(&[0]) } };
+    ($s:literal $(, $ss:literal)* $(,)?) => {
+        unsafe { $crate::GStr::from_utf8_with_nul_unchecked($crate::cstr_bytes_concat!($s $(, $ss)*)) }
+    };
+}
+
 impl Default for &GStr {
     fn default() -> Self {
         const SLICE: &[c_char] = &[0];
@@ -631,6 +639,100 @@ impl Drop for GStringBuilderInline {
     fn drop(&mut self) {
         unsafe { ffi::g_free(self.0.str as *mut _) };
     }
+}
+
+#[doc(hidden)]
+pub fn replace_i18n_args<'args>(
+    input: &str,
+    args: impl IntoIterator<Item = &'args dyn Fn(&mut dyn std::fmt::Write)>,
+) -> GString {
+    struct FormatParser<'a> {
+        input: &'a str,
+        cur: std::iter::Peekable<std::str::CharIndices<'a>>,
+        index: usize,
+    }
+
+    impl<'a> Iterator for FormatParser<'a> {
+        type Item = Piece<'a>;
+        fn next(&mut self) -> Option<Self::Item> {
+            while let Some(&(i, c)) = self.cur.peek() {
+                if c == '{' {
+                    if i > self.index {
+                        let (start, _) = self.input.split_at(i - self.index);
+                        self.index = i;
+                        return Some(Piece::String(start));
+                    }
+                    self.cur.next();
+                    let escaped = self.cur.peek().map(|&(_, c)| c == '{').unwrap_or(false);
+                    if escaped {
+                        self.cur.next();
+                        self.input = &self.input[2..];
+                        self.index += 2;
+                        return Some(Piece::Char('{'));
+                    } else {
+                        while let Some((j, c)) = self.cur.next() {
+                            if c == ':' {
+                                // skip past fill as it can be '}'
+                                self.cur.next();
+                                if self.cur.peek().is_some() {
+                                    if let Some((_, '>' | '<' | '^')) = self.cur.clone().nth(1) {
+                                        self.cur.next();
+                                        self.cur.next();
+                                    }
+                                }
+                            } else if c == '}' {
+                                self.cur.next();
+                                let j = j + 1;
+                                self.input = self.input.split_at(j - self.index).1;
+                                self.index = j;
+                                return Some(Piece::NextArgument);
+                            }
+                        }
+                        panic!("invalid format string: expected `'}}'` but string was terminated");
+                    }
+                } else if c == '}' {
+                    self.cur.next();
+                    if self.cur.next().map(|(_, c)| c == '}').unwrap_or(false) {
+                        panic!("invalid format string: unmatched `}}` found");
+                    }
+                    self.input = &self.input[2..];
+                    self.index += 2;
+                    return Some(Piece::Char('}'));
+                }
+            }
+            if self.index < self.input.len() {
+                let (_, end) = self.input.split_at(self.index);
+                self.index = self.input.len();
+                Some(Piece::String(end))
+            } else {
+                None
+            }
+        }
+    }
+
+    enum Piece<'a> {
+        String(&'a str),
+        Char(char),
+        NextArgument,
+    }
+
+    let mut args = args.into_iter();
+    let parser = FormatParser {
+        input,
+        cur: input.char_indices().peekable(),
+        index: 0,
+    };
+    let mut s = GStringBuilderInline::default();
+    for piece in parser {
+        use std::fmt::Write;
+
+        match piece {
+            Piece::String(i) => s.write_str(i).unwrap(),
+            Piece::Char(c) => s.write_char(c).unwrap(),
+            Piece::NextArgument => (*args.next().unwrap())(&mut s),
+        }
+    }
+    s.into_gstring()
 }
 
 // size_of::<Inner>() minus two bytes for length and enum discriminant

@@ -1,0 +1,20 @@
+[package]
+name = "glib-i18n"
+documentation = "https://gtk-rs.org/gtk-rs-core/stable/latest/docs/glib-i18n/"
+homepage = "https://gtk-rs.org/"
+authors = ["The gtk-rs Project Developers"]
+description = "Rust bindings for the GLib library internationalization features"
+readme = "README.md"
+version = "0.17.0"
+keywords = ["glib", "gtk-rs", "gnome", "GUI", "i18n", "l10n", "gettext", "libintl", "locale"]
+repository = "https://github.com/gtk-rs/gtk-rs-core"
+license = "MIT"
+edition = "2021"
+rust-version = "1.63"
+
+[dependencies]
+glib = { package = "glib", path = "../glib" }
+libc = "0.2.137"
+libloading = "0.7.4"
+once_cell = "1.16.0"
+smallvec = "1.10.0"

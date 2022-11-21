@@ -136,66 +136,6 @@ pub fn compute_hmac_for_data(digest_type: ChecksumType, key: &[u8], data: &[u8])
     }
 }
 
-#[doc(alias = "g_dcgettext")]
-pub fn dcgettext(domain: Option<&str>, msgid: &str, category: i32) -> crate::GString {
-    unsafe {
-        from_glib_none(ffi::g_dcgettext(
-            domain.to_glib_none().0,
-            msgid.to_glib_none().0,
-            category,
-        ))
-    }
-}
-
-#[doc(alias = "g_dgettext")]
-pub fn dgettext(domain: Option<&str>, msgid: &str) -> crate::GString {
-    unsafe {
-        from_glib_none(ffi::g_dgettext(
-            domain.to_glib_none().0,
-            msgid.to_glib_none().0,
-        ))
-    }
-}
-
-#[doc(alias = "g_dngettext")]
-pub fn dngettext(
-    domain: Option<&str>,
-    msgid: &str,
-    msgid_plural: &str,
-    n: libc::c_ulong,
-) -> crate::GString {
-    unsafe {
-        from_glib_none(ffi::g_dngettext(
-            domain.to_glib_none().0,
-            msgid.to_glib_none().0,
-            msgid_plural.to_glib_none().0,
-            n,
-        ))
-    }
-}
-
-#[doc(alias = "g_dpgettext")]
-pub fn dpgettext(domain: Option<&str>, msgctxtid: &str, msgidoffset: usize) -> crate::GString {
-    unsafe {
-        from_glib_none(ffi::g_dpgettext(
-            domain.to_glib_none().0,
-            msgctxtid.to_glib_none().0,
-            msgidoffset,
-        ))
-    }
-}
-
-#[doc(alias = "g_dpgettext2")]
-pub fn dpgettext2(domain: Option<&str>, context: &str, msgid: &str) -> crate::GString {
-    unsafe {
-        from_glib_none(ffi::g_dpgettext2(
-            domain.to_glib_none().0,
-            context.to_glib_none().0,
-            msgid.to_glib_none().0,
-        ))
-    }
-}
-
 #[doc(alias = "g_file_set_contents")]
 pub fn file_set_contents(
     filename: impl AsRef<std::path::Path>,

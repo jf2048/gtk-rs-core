@@ -22,7 +22,7 @@ pub use glib_macros::{
 };
 
 #[doc(hidden)]
-pub use glib_macros::cstr_bytes;
+pub use glib_macros::{cstr_bytes, cstr_bytes_concat, i18n_format};
 
 pub use self::byte_array::ByteArray;
 pub use self::bytes::Bytes;

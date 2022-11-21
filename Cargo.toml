@@ -10,6 +10,7 @@ members = [
   "glib",
   "glib/gobject-sys",
   "glib/sys",
+  "glib-i18n",
   "glib-macros",
   "graphene",
   "graphene/sys",

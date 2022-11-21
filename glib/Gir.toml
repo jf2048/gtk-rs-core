@@ -97,6 +97,9 @@ status = "generate"
     doc_struct_name = "IConv"
     manual = true
     [[object.function]]
+    pattern = ".*gettext.*"
+    ignore = true
+    [[object.function]]
     pattern = "convert_with_iconv"
     doc_struct_name = "IConv"
     manual = true

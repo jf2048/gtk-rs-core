@@ -7,6 +7,7 @@ mod downgrade_derive;
 mod enum_derive;
 mod error_domain_derive;
 mod flags_attribute;
+mod i18n_format;
 mod object_interface_attribute;
 mod object_subclass_attribute;
 mod shared_boxed_derive;
@@ -835,4 +836,76 @@ pub fn cstr_bytes(item: TokenStream) -> TokenStream {
         item.into(),
     )
     .unwrap_or_else(|e| e.into_compile_error().into())
+}
+
+#[proc_macro]
+pub fn cstr_bytes_concat(item: TokenStream) -> TokenStream {
+    syn::parse::Parser::parse2(
+        |stream: syn::parse::ParseStream<'_>| {
+            let mut bytes = Vec::new();
+            while !stream.is_empty() {
+                let literal = stream.parse::<syn::Lit>()?;
+                match &literal {
+                    syn::Lit::Str(s) => {
+                        let b = std::ffi::CString::new(s.value())
+                            .map_err(|e| syn::Error::new_spanned(&literal, format!("{e}")))?
+                            .into_bytes();
+                        bytes.extend_from_slice(&b);
+                    }
+                    syn::Lit::ByteStr(_) => {
+                        return Err(syn::Error::new_spanned(
+                            &literal,
+                            "cannot concatenate a byte string literal",
+                        ));
+                    }
+                    syn::Lit::Byte(b) => {
+                        let b = b.value();
+                        if b == 0 {
+                            return Err(syn::Error::new_spanned(
+                                &literal,
+                                "cannot concatenate a nul byte",
+                            ));
+                        }
+                        bytes.extend_from_slice(b.to_string().as_bytes());
+                    }
+                    syn::Lit::Char(c) => {
+                        let c = c.value();
+                        if c == '\0' {
+                            return Err(syn::Error::new_spanned(
+                                &literal,
+                                "cannot concatenate a nul byte",
+                            ));
+                        }
+                        bytes.extend_from_slice(c.to_string().as_bytes());
+                    }
+                    syn::Lit::Int(i) => {
+                        bytes.extend_from_slice(i.base10_digits().as_bytes());
+                    }
+                    syn::Lit::Float(f) => {
+                        bytes.extend_from_slice(f.base10_digits().as_bytes());
+                    }
+                    syn::Lit::Bool(b) => {
+                        bytes.extend_from_slice(b.value().to_string().as_bytes());
+                    }
+                    _ => {}
+                }
+                if !stream.is_empty() {
+                    stream.parse::<syn::Token![,]>()?;
+                }
+            }
+            bytes.push(0);
+            let bytes = proc_macro2::Literal::byte_string(&bytes);
+            Ok(quote::quote! { #bytes }.into())
+        },
+        item.into(),
+    )
+    .unwrap_or_else(|e| e.into_compile_error().into())
+}
+
+#[proc_macro]
+#[doc(hidden)]
+pub fn i18n_format(item: TokenStream) -> TokenStream {
+    syn::parse::Parser::parse2(i18n_format::impl_1i8n_format, item.into())
+        .map(|s| s.into())
+        .unwrap_or_else(|e| e.into_compile_error().into())
 }
