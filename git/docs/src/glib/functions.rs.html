@@ -352,20 +352,6 @@
 <a href="#279" id="279">279</a>
 <a href="#280" id="280">280</a>
 <a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-<a href="#284" id="284">284</a>
-<a href="#285" id="285">285</a>
-<a href="#286" id="286">286</a>
-<a href="#287" id="287">287</a>
-<a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a>
-<a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.
 
 </span><span class="attr">#[cfg(not(windows))]
@@ -593,7 +579,23 @@
     }
 }
 
-<span class="attr">#[cfg(unix)]
+<span class="doccomment">/// Similar to the UNIX `pipe()` call, but on modern systems like Linux
+/// uses the `pipe2()` system call, which atomically creates a pipe with
+/// the configured flags. The only supported flag currently is
+/// `FD_CLOEXEC`. If for example you want to configure `O_NONBLOCK`, that
+/// must still be done separately with `fcntl()`.
+///
+/// This function does not take `O_CLOEXEC`, it takes `FD_CLOEXEC` as if
+/// for `fcntl()`; these are different on Linux/glibc.
+/// ## `fds`
+/// Array of two integers
+/// ## `flags`
+/// Bitfield of file descriptor flags, as for `fcntl()`
+///
+/// # Returns
+///
+/// [`true`] on success, [`false`] if not (and errno will be set).
+</span><span class="attr">#[cfg(unix)]
 #[doc(alias = <span class="string">&quot;g_unix_open_pipe&quot;</span>)]
 </span><span class="kw">pub fn </span>unix_open_pipe(flags: i32) -&gt; <span class="prelude-ty">Result</span>&lt;(RawFd, RawFd), Error&gt; {
     <span class="kw">unsafe </span>{
@@ -611,37 +613,7 @@
     }
 }
 
-<span class="doccomment">/// Opens a file for writing in the preferred directory for temporary
-/// files (as returned by [`tmp_dir()`][crate::tmp_dir()]).
-///
-/// `tmpl` should be a string in the GLib file name encoding containing
-/// a sequence of six &#39;X&#39; characters, as the parameter to [`mkstemp()`][crate::mkstemp()].
-/// However, unlike these functions, the template should only be a
-/// basename, no directory components are allowed. If template is
-/// [`None`], a default template is used.
-///
-/// Note that in contrast to [`mkstemp()`][crate::mkstemp()] (and `mkstemp()`) `tmpl` is not
-/// modified, and might thus be a read-only literal string.
-///
-/// Upon success, and if `name_used` is non-[`None`], the actual name used
-/// is returned in `name_used`. This string should be freed with `g_free()`
-/// when not needed any longer. The returned name is in the GLib file
-/// name encoding.
-/// ## `tmpl`
-/// Template for file name, as in
-///  [`mkstemp()`][crate::mkstemp()], basename only, or [`None`] for a default template
-///
-/// # Returns
-///
-/// A file handle (as from `open()`) to the file opened for
-///  reading and writing. The file is opened in binary mode on platforms
-///  where there is a difference. The file handle should be closed with
-///  `close()`. In case of errors, -1 is returned and `error` will be set.
-///
-/// ## `name_used`
-/// location to store actual name used,
-///  or [`None`]
-</span><span class="attr">#[cfg(unix)]
+<span class="attr">#[cfg(unix)]
 #[doc(alias = <span class="string">&quot;g_file_open_tmp&quot;</span>)]
 </span><span class="kw">pub fn </span>file_open_tmp(
     tmpl: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>AsRef&lt;std::path::Path&gt;&gt;,
