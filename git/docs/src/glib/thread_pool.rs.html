@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/thread_pool.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>thread_pool.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-75894291877b32c0.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-458bffc4c06ccf37.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/thread_pool.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>thread_pool.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -290,6 +290,113 @@
 <a href="#217" id="217">217</a>
 <a href="#218" id="218">218</a>
 <a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
+<a href="#229" id="229">229</a>
+<a href="#230" id="230">230</a>
+<a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a>
+<a href="#233" id="233">233</a>
+<a href="#234" id="234">234</a>
+<a href="#235" id="235">235</a>
+<a href="#236" id="236">236</a>
+<a href="#237" id="237">237</a>
+<a href="#238" id="238">238</a>
+<a href="#239" id="239">239</a>
+<a href="#240" id="240">240</a>
+<a href="#241" id="241">241</a>
+<a href="#242" id="242">242</a>
+<a href="#243" id="243">243</a>
+<a href="#244" id="244">244</a>
+<a href="#245" id="245">245</a>
+<a href="#246" id="246">246</a>
+<a href="#247" id="247">247</a>
+<a href="#248" id="248">248</a>
+<a href="#249" id="249">249</a>
+<a href="#250" id="250">250</a>
+<a href="#251" id="251">251</a>
+<a href="#252" id="252">252</a>
+<a href="#253" id="253">253</a>
+<a href="#254" id="254">254</a>
+<a href="#255" id="255">255</a>
+<a href="#256" id="256">256</a>
+<a href="#257" id="257">257</a>
+<a href="#258" id="258">258</a>
+<a href="#259" id="259">259</a>
+<a href="#260" id="260">260</a>
+<a href="#261" id="261">261</a>
+<a href="#262" id="262">262</a>
+<a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.
 
 </span><span class="kw">use </span><span class="kw">crate</span>::translate::<span class="kw-2">*</span>;
@@ -298,7 +405,10 @@
 <span class="kw">use </span>std::future::Future;
 <span class="kw">use </span>std::ptr;
 
-<span class="attr">#[derive(Debug)]
+<span class="doccomment">/// The [`ThreadPool`][crate::ThreadPool] struct represents a thread pool. It has three
+/// public read-only members, but the underlying struct is bigger,
+/// so you must not copy this struct.
+</span><span class="attr">#[derive(Debug)]
 #[doc(alias = <span class="string">&quot;GThreadPool&quot;</span>)]
 </span><span class="kw">pub struct </span>ThreadPool(ptr::NonNull&lt;ffi::GThreadPool&gt;);
 
@@ -344,7 +454,25 @@
         }
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_push&quot;</span>)]
+    <span class="doccomment">/// Inserts `data` into the list of tasks to be executed by `self`.
+    ///
+    /// When the number of currently running threads is lower than the
+    /// maximal allowed number of threads, a new thread is started (or
+    /// reused) with the properties given to [`new()`][Self::new()].
+    /// Otherwise, `data` stays in the queue until a thread in this pool
+    /// finishes its previous task and processes `data`.
+    ///
+    /// `error` can be [`None`] to ignore errors, or non-[`None`] to report
+    /// errors. An error can only occur when a new thread couldn&#39;t be
+    /// created. In that case `data` is simply appended to the queue of
+    /// work to do.
+    ///
+    /// Before version 2.32, this function did not return a success status.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] on success, [`false`] if an error occurred
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_push&quot;</span>)]
     </span><span class="kw">pub fn </span>push&lt;F: FnOnce() + Send + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, func: F) -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::Error&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>func: Box&lt;<span class="kw">dyn </span>FnOnce() + Send + <span class="lifetime">&#39;static</span>&gt; = Box::new(func);
@@ -379,7 +507,34 @@
         <span class="prelude-val">Ok</span>(<span class="kw">async move </span>{ receiver.<span class="kw">await</span>.expect(<span class="string">&quot;Dropped before executing&quot;</span>) })
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_set_max_threads&quot;</span>)]
+    <span class="doccomment">/// Sets the maximal allowed number of threads for `self`.
+    /// A value of -1 means that the maximal number of threads
+    /// is unlimited. If `self` is an exclusive thread pool, setting
+    /// the maximal number of threads to -1 is not allowed.
+    ///
+    /// Setting `max_threads` to 0 means stopping all work for `self`.
+    /// It is effectively frozen until `max_threads` is set to a non-zero
+    /// value again.
+    ///
+    /// A thread is never terminated while calling `func`, as supplied by
+    /// [`new()`][Self::new()]. Instead the maximal number of threads only
+    /// has effect for the allocation of new threads in [`push()`][Self::push()].
+    /// A new thread is allocated, whenever the number of currently
+    /// running threads in `self` is smaller than the maximal number.
+    ///
+    /// `error` can be [`None`] to ignore errors, or non-[`None`] to report
+    /// errors. An error can only occur when a new thread couldn&#39;t be
+    /// created.
+    ///
+    /// Before version 2.32, this function did not return a success status.
+    /// ## `max_threads`
+    /// a new maximal number of threads for `self`,
+    ///  or -1 for unlimited
+    ///
+    /// # Returns
+    ///
+    /// [`true`] on success, [`false`] if an error occurred
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_set_max_threads&quot;</span>)]
     </span><span class="kw">pub fn </span>set_max_threads(<span class="kw-2">&amp;</span><span class="self">self</span>, max_threads: <span class="prelude-ty">Option</span>&lt;u32&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::Error&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>err = ptr::null_mut();
@@ -396,7 +551,12 @@
         }
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_get_max_threads&quot;</span>)]
+    <span class="doccomment">/// Returns the maximal number of threads for `self`.
+    ///
+    /// # Returns
+    ///
+    /// the maximal number of threads
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_get_max_threads&quot;</span>)]
     #[doc(alias = <span class="string">&quot;get_max_threads&quot;</span>)]
     </span><span class="kw">pub fn </span>max_threads(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
         <span class="kw">unsafe </span>{
@@ -409,26 +569,48 @@
         }
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_get_num_threads&quot;</span>)]
+    <span class="doccomment">/// Returns the number of threads currently running in `self`.
+    ///
+    /// # Returns
+    ///
+    /// the number of threads currently running
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_get_num_threads&quot;</span>)]
     #[doc(alias = <span class="string">&quot;get_num_threads&quot;</span>)]
     </span><span class="kw">pub fn </span>num_threads(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
         <span class="kw">unsafe </span>{ ffi::g_thread_pool_get_num_threads(<span class="self">self</span>.<span class="number">0</span>.as_ptr()) }
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_unprocessed&quot;</span>)]
+    <span class="doccomment">/// Returns the number of tasks still unprocessed in `self`.
+    ///
+    /// # Returns
+    ///
+    /// the number of unprocessed tasks
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_unprocessed&quot;</span>)]
     #[doc(alias = <span class="string">&quot;get_unprocessed&quot;</span>)]
     </span><span class="kw">pub fn </span>unprocessed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
         <span class="kw">unsafe </span>{ ffi::g_thread_pool_unprocessed(<span class="self">self</span>.<span class="number">0</span>.as_ptr()) }
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_set_max_unused_threads&quot;</span>)]
+    <span class="doccomment">/// Sets the maximal number of unused threads to `max_threads`.
+    /// If `max_threads` is -1, no limit is imposed on the number
+    /// of unused threads.
+    ///
+    /// The default value is 2.
+    /// ## `max_threads`
+    /// maximal number of unused threads
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_set_max_unused_threads&quot;</span>)]
     </span><span class="kw">pub fn </span>set_max_unused_threads(max_threads: <span class="prelude-ty">Option</span>&lt;u32&gt;) {
         <span class="kw">unsafe </span>{
             ffi::g_thread_pool_set_max_unused_threads(max_threads.map(|v| v <span class="kw">as </span>i32).unwrap_or(-<span class="number">1</span>))
         }
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_get_max_unused_threads&quot;</span>)]
+    <span class="doccomment">/// Returns the maximal allowed number of unused threads.
+    ///
+    /// # Returns
+    ///
+    /// the maximal number of unused threads
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_get_max_unused_threads&quot;</span>)]
     #[doc(alias = <span class="string">&quot;get_max_unused_threads&quot;</span>)]
     </span><span class="kw">pub fn </span>max_unused_threads() -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
         <span class="kw">unsafe </span>{
@@ -441,25 +623,57 @@
         }
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_get_num_unused_threads&quot;</span>)]
+    <span class="doccomment">/// Returns the number of currently unused threads.
+    ///
+    /// # Returns
+    ///
+    /// the number of currently unused threads
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_get_num_unused_threads&quot;</span>)]
     #[doc(alias = <span class="string">&quot;get_num_unused_threads&quot;</span>)]
     </span><span class="kw">pub fn </span>num_unused_threads() -&gt; u32 {
         <span class="kw">unsafe </span>{ ffi::g_thread_pool_get_num_unused_threads() }
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_stop_unused_threads&quot;</span>)]
+    <span class="doccomment">/// Stops all currently unused threads. This does not change the
+    /// maximal number of unused threads. This function can be used to
+    /// regularly stop all unused threads e.g. from `g_timeout_add()`.
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_stop_unused_threads&quot;</span>)]
     </span><span class="kw">pub fn </span>stop_unused_threads() {
         <span class="kw">unsafe </span>{
             ffi::g_thread_pool_stop_unused_threads();
         }
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_set_max_idle_time&quot;</span>)]
+    <span class="doccomment">/// This function will set the maximum `interval` that a thread
+    /// waiting in the pool for new tasks can be idle for before
+    /// being stopped. This function is similar to calling
+    /// [`stop_unused_threads()`][Self::stop_unused_threads()] on a regular timeout,
+    /// except this is done on a per thread basis.
+    ///
+    /// By setting `interval` to 0, idle threads will not be stopped.
+    ///
+    /// The default value is 15000 (15 seconds).
+    /// ## `interval`
+    /// the maximum `interval` (in milliseconds)
+    ///  a thread can be idle
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_set_max_idle_time&quot;</span>)]
     </span><span class="kw">pub fn </span>set_max_idle_time(max_idle_time: u32) {
         <span class="kw">unsafe </span>{ ffi::g_thread_pool_set_max_idle_time(max_idle_time) }
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_get_max_idle_time&quot;</span>)]
+    <span class="doccomment">/// This function will return the maximum `interval` that a
+    /// thread will wait in the thread pool for new tasks before
+    /// being stopped.
+    ///
+    /// If this function returns 0, threads waiting in the thread
+    /// pool for new work are not stopped.
+    ///
+    /// # Returns
+    ///
+    /// the maximum `interval` (milliseconds) to wait
+    ///  for new tasks in the thread pool before stopping the
+    ///  thread
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_thread_pool_get_max_idle_time&quot;</span>)]
     #[doc(alias = <span class="string">&quot;get_max_idle_time&quot;</span>)]
     </span><span class="kw">pub fn </span>max_idle_time() -&gt; u32 {
         <span class="kw">unsafe </span>{ ffi::g_thread_pool_get_max_idle_time() }
@@ -510,4 +724,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (80a96467e 2022-11-26)" data-search-js="search-df80cc3cb87b6482.js" data-settings-js="settings-7e1cf5cc683233f7.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/main_context.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>main_context.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-75894291877b32c0.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-458bffc4c06ccf37.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/main_context.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>main_context.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -351,6 +351,78 @@
 <a href="#278" id="278">278</a>
 <a href="#279" id="279">279</a>
 <a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.
 
 </span><span class="kw">use </span><span class="kw">crate</span>::source::Priority;
@@ -362,7 +434,21 @@
 <span class="kw">use </span>std::mem;
 
 <span class="kw">impl </span>MainContext {
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_main_context_prepare&quot;</span>)]
+    <span class="doccomment">/// Prepares to poll sources within a main loop. The resulting information
+    /// for polling is determined by calling g_main_context_query ().
+    ///
+    /// You must have successfully acquired the context with
+    /// [`acquire()`][Self::acquire()] before you may call this function.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] if some source is ready to be dispatched
+    ///  prior to polling.
+    ///
+    /// ## `priority`
+    /// location to store priority of highest priority
+    ///  source already ready.
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_main_context_prepare&quot;</span>)]
     </span><span class="kw">pub fn </span>prepare(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (bool, i32) {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>priority = mem::MaybeUninit::uninit();
@@ -376,7 +462,25 @@
         }
     }
 
-    <span class="attr">#[doc(alias = <span class="string">&quot;g_main_context_find_source_by_id&quot;</span>)]
+    <span class="doccomment">/// Finds a [`Source`][crate::Source] given a pair of context and ID.
+    ///
+    /// It is a programmer error to attempt to look up a non-existent source.
+    ///
+    /// More specifically: source IDs can be reissued after a source has been
+    /// destroyed and therefore it is never valid to use this function with a
+    /// source ID which may have already been removed. An example is when
+    /// scheduling an idle to run in another thread with `g_idle_add()`: the
+    /// idle may already have run and been removed by the time this function
+    /// is called on its (now invalid) source ID. This source ID may have
+    /// been reissued, leading to the operation being performed against the
+    /// wrong source.
+    /// ## `source_id`
+    /// the source ID, as returned by `g_source_get_id()`.
+    ///
+    /// # Returns
+    ///
+    /// the [`Source`][crate::Source]
+    </span><span class="attr">#[doc(alias = <span class="string">&quot;g_main_context_find_source_by_id&quot;</span>)]
     </span><span class="kw">pub fn </span>find_source_by_id(<span class="kw-2">&amp;</span><span class="self">self</span>, source_id: <span class="kw-2">&amp;</span>SourceId) -&gt; <span class="prelude-ty">Option</span>&lt;Source&gt; {
         <span class="kw">unsafe </span>{
             from_glib_none(ffi::g_main_context_find_source_by_id(
@@ -393,6 +497,30 @@
     /// owner then `func` will be called directly from inside this function. If this behaviour is
     /// not desired and `func` should always be called asynchronously then use [`MainContext::spawn`]
     /// [`glib::idle_add`](crate::idle_add) instead.
+    </span><span class="comment">// rustdoc-stripper-ignore-next-stop
+    </span><span class="doccomment">/// Invokes a function in such a way that `self` is owned during the
+    /// invocation of `function`.
+    ///
+    /// If `self` is [`None`] then the global default main context — as
+    /// returned by [`default()`][Self::default()] — is used.
+    ///
+    /// If `self` is owned by the current thread, `function` is called
+    /// directly. Otherwise, if `self` is the thread-default main context
+    /// of the current thread and [`acquire()`][Self::acquire()] succeeds, then
+    /// `function` is called and [`release()`][Self::release()] is called
+    /// afterwards.
+    ///
+    /// In any other case, an idle source is created to call `function` and
+    /// that source is attached to `self` (presumably to be run in another
+    /// thread). The idle source is attached with `G_PRIORITY_DEFAULT`
+    /// priority. If you want a different priority, use
+    /// [`invoke_full()`][Self::invoke_full()].
+    ///
+    /// Note that, as with normal idle functions, `function` should probably
+    /// return [`false`]. If it returns [`true`], it will be continuously run in a
+    /// loop (and may prevent this call from returning).
+    /// ## `function`
+    /// function to call
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_main_context_invoke&quot;</span>)]
     </span><span class="kw">pub fn </span>invoke&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, func: F)
     <span class="kw">where
@@ -515,6 +643,22 @@
     /// Ownership will automatically be released again once the returned acquire guard is dropped.
     ///
     /// This will fail if the main context is owned already by another thread.
+    </span><span class="comment">// rustdoc-stripper-ignore-next-stop
+    </span><span class="doccomment">/// Tries to become the owner of the specified context.
+    /// If some other thread is the owner of the context,
+    /// returns [`false`] immediately. Ownership is properly
+    /// recursive: the owner can require ownership again
+    /// and will release ownership when [`release()`][Self::release()]
+    /// is called as many times as [`acquire()`][Self::acquire()].
+    ///
+    /// You must be the owner of a context before you
+    /// can call [`prepare()`][Self::prepare()], `g_main_context_query()`,
+    /// `g_main_context_check()`, [`dispatch()`][Self::dispatch()].
+    ///
+    /// # Returns
+    ///
+    /// [`true`] if the operation succeeded, and
+    ///  this thread is now the owner of `self`.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_main_context_acquire&quot;</span>)]
     </span><span class="kw">pub fn </span>acquire(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;MainContextAcquireGuard, <span class="kw">crate</span>::BoolError&gt; {
         <span class="kw">unsafe </span>{
@@ -632,4 +776,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (80a96467e 2022-11-26)" data-search-js="search-df80cc3cb87b6482.js" data-settings-js="settings-7e1cf5cc683233f7.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
