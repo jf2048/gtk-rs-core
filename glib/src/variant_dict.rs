@@ -67,7 +67,10 @@ impl VariantDict {
     /// This will return `None` if the `key` is not present in the dictionary,
     /// and an error if the key is present but with the wrong type.
     #[doc(alias = "g_variant_dict_lookup")]
-    pub fn lookup<T: FromVariant>(&self, key: &str) -> Result<Option<T>, VariantTypeMismatchError> {
+    pub fn lookup<T: for<'a> FromVariant<'a>>(
+        &self,
+        key: &str,
+    ) -> Result<Option<T>, VariantTypeMismatchError> {
         self.lookup_value(key, None)
             .map(|v| Variant::try_get(&v))
             .transpose()
@@ -219,8 +222,8 @@ impl From<VariantDict> for Variant {
     }
 }
 
-impl FromVariant for VariantDict {
-    fn from_variant(variant: &Variant) -> Option<Self> {
+impl<'a> FromVariant<'a> for VariantDict {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
         if variant.type_() == VariantDict::static_variant_type() {
             Some(Self::new(Some(variant)))
         } else {

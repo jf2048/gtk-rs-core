@@ -263,13 +263,35 @@ impl Variant {
     ///
     /// Returns `Some` if `T` matches the variant's type.
     #[inline]
-    pub fn get<T: FromVariant>(&self) -> Option<T> {
+    pub fn get<'t, T: FromVariant<'t>>(&'t self) -> Option<T> {
+        T::from_variant(self)
+    }
+
+    // rustdoc-stripper-ignore-next
+    /// Tries to extract a value of an owned type `T`.
+    ///
+    /// Returns `Some` if `T` matches the variant's type.
+    #[inline]
+    pub fn get_owned<T: for<'t> FromVariant<'t> + 'static>(&self) -> Option<T> {
         T::from_variant(self)
     }
 
     // rustdoc-stripper-ignore-next
     /// Tries to extract a value of type `T`.
-    pub fn try_get<T: FromVariant>(&self) -> Result<T, VariantTypeMismatchError> {
+    pub fn try_get<'t, T: FromVariant<'t>>(&'t self) -> Result<T, VariantTypeMismatchError> {
+        self.get().ok_or_else(|| {
+            VariantTypeMismatchError::new(
+                self.type_().to_owned(),
+                T::static_variant_type().into_owned(),
+            )
+        })
+    }
+
+    // rustdoc-stripper-ignore-next
+    /// Tries to extract a value of an owned type `T`.
+    pub fn try_get_owned<T: for<'t> FromVariant<'t> + 'static>(
+        &self,
+    ) -> Result<T, VariantTypeMismatchError> {
         self.get().ok_or_else(|| {
             VariantTypeMismatchError::new(
                 self.type_().to_owned(),
@@ -333,7 +355,7 @@ impl Variant {
     /// It returns `Ok(None)` if `self` is not a container type or if the given
     /// `index` is larger than number of children.  An error is thrown if the
     /// type does not match.
-    pub fn try_child_get<T: StaticVariantType + FromVariant>(
+    pub fn try_child_get<T: StaticVariantType + for<'a> FromVariant<'a>>(
         &self,
         index: usize,
     ) -> Result<Option<T>, VariantTypeMismatchError> {
@@ -350,7 +372,7 @@ impl Variant {
     /// * if `self` is not a container type.
     /// * if given `index` is larger than number of children.
     /// * if the expected variant type does not match
-    pub fn child_get<T: StaticVariantType + FromVariant>(&self, index: usize) -> T {
+    pub fn child_get<T: StaticVariantType + for<'a> FromVariant<'a>>(&self, index: usize) -> T {
         // TODO: In the future optimize this by using g_variant_get_child()
         // directly to avoid allocating a GVariant.
         self.child_value(index).get().unwrap()
@@ -994,12 +1016,12 @@ pub trait ToVariant {
 
 // rustdoc-stripper-ignore-next
 /// Extracts a value.
-pub trait FromVariant: Sized + StaticVariantType {
+pub trait FromVariant<'a>: Sized + StaticVariantType {
     // rustdoc-stripper-ignore-next
     /// Tries to extract a value.
     ///
     /// Returns `Some` if the variant's type matches `Self`.
-    fn from_variant(variant: &Variant) -> Option<Self>;
+    fn from_variant(variant: &'a Variant) -> Option<Self>;
 }
 
 // rustdoc-stripper-ignore-next
@@ -1056,14 +1078,12 @@ macro_rules! impl_numeric {
             }
         }
 
-        impl FromVariant for $name {
-            fn from_variant(variant: &Variant) -> Option<Self> {
+        impl<'a> FromVariant<'a> for $name {
+            fn from_variant(variant: &'a Variant) -> Option<Self> {
                 unsafe {
-                    if variant.is::<Self>() {
-                        Some(ffi::$get_fn(variant.to_glib_none().0))
-                    } else {
-                        None
-                    }
+                    variant
+                        .is::<Self>()
+                        .then(|| ffi::$get_fn(variant.to_glib_none().0))
                 }
             }
         }
@@ -1133,13 +1153,9 @@ impl From<()> for Variant {
     }
 }
 
-impl FromVariant for () {
-    fn from_variant(variant: &Variant) -> Option<Self> {
-        if variant.is::<Self>() {
-            Some(())
-        } else {
-            None
-        }
+impl<'a> FromVariant<'a> for () {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        variant.is::<Self>().then(|| ())
     }
 }
 
@@ -1162,17 +1178,11 @@ impl From<bool> for Variant {
     }
 }
 
-impl FromVariant for bool {
+impl<'a> FromVariant<'a> for bool {
     fn from_variant(variant: &Variant) -> Option<Self> {
-        unsafe {
-            if variant.is::<Self>() {
-                Some(from_glib(ffi::g_variant_get_boolean(
-                    variant.to_glib_none().0,
-                )))
-            } else {
-                None
-            }
-        }
+        variant
+            .is::<Self>()
+            .then(|| unsafe { from_glib(ffi::g_variant_get_boolean(variant.to_glib_none().0)) })
     }
 }
 
@@ -1195,7 +1205,7 @@ impl From<String> for Variant {
     }
 }
 
-impl FromVariant for String {
+impl<'a> FromVariant<'a> for String {
     fn from_variant(variant: &Variant) -> Option<Self> {
         variant.str().map(String::from)
     }
@@ -1204,6 +1214,15 @@ impl FromVariant for String {
 impl StaticVariantType for str {
     fn static_variant_type() -> Cow<'static, VariantTy> {
         String::static_variant_type()
+    }
+}
+
+impl<'a> FromVariant<'a> for &'a str {
+    #[inline]
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        variant
+            .is::<Self>()
+            .then(|| unsafe { variant.gstr_unchecked().as_str() })
     }
 }
 
@@ -1239,12 +1258,12 @@ impl From<std::path::PathBuf> for Variant {
     }
 }
 
-impl FromVariant for std::path::PathBuf {
-    fn from_variant(variant: &Variant) -> Option<Self> {
-        unsafe {
+impl<'a> FromVariant<'a> for std::path::PathBuf {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        variant.is::<Self>().then(|| unsafe {
             let ptr = ffi::g_variant_get_bytestring(variant.to_glib_none().0);
-            Some(crate::translate::c_to_path_buf(ptr as *const _))
-        }
+            crate::translate::c_to_path_buf(ptr as *const _)
+        })
     }
 }
 
@@ -1268,6 +1287,12 @@ impl From<&std::path::Path> for Variant {
     }
 }
 
+impl<'a> FromVariant<'a> for &'a std::path::Path {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        <&std::ffi::OsStr>::from_variant(variant).map(std::path::Path::new)
+    }
+}
+
 impl StaticVariantType for std::ffi::OsString {
     fn static_variant_type() -> Cow<'static, VariantTy> {
         std::ffi::OsStr::static_variant_type()
@@ -1287,12 +1312,12 @@ impl From<std::ffi::OsString> for Variant {
     }
 }
 
-impl FromVariant for std::ffi::OsString {
-    fn from_variant(variant: &Variant) -> Option<Self> {
-        unsafe {
+impl<'a> FromVariant<'a> for std::ffi::OsString {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        variant.is::<Self>().then(|| unsafe {
             let ptr = ffi::g_variant_get_bytestring(variant.to_glib_none().0);
-            Some(crate::translate::c_to_os_string(ptr as *const _))
-        }
+            crate::translate::c_to_os_string(ptr as *const _)
+        })
     }
 }
 
@@ -1316,6 +1341,19 @@ impl From<&std::ffi::OsStr> for Variant {
     }
 }
 
+impl<'a> FromVariant<'a> for &'a std::ffi::OsStr {
+    #[cfg(unix)]
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        <&[u8]>::from_variant(variant).map(std::os::unix::ffi::OsStrExt::from_bytes)
+    }
+    #[cfg(not(unix))]
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        <&[u8]>::from_variant(variant)
+            .and_then(|s| std::str::from_utf8(s).ok())
+            .map(|s| s.as_ref())
+    }
+}
+
 impl<T: StaticVariantType> StaticVariantType for Option<T> {
     fn static_variant_type() -> Cow<'static, VariantTy> {
         Cow::Owned(VariantType::new_maybe(&T::static_variant_type()))
@@ -1335,8 +1373,8 @@ impl<T: StaticVariantType + Into<Variant>> From<Option<T>> for Variant {
     }
 }
 
-impl<T: StaticVariantType + FromVariant> FromVariant for Option<T> {
-    fn from_variant(variant: &Variant) -> Option<Self> {
+impl<'a, T: StaticVariantType + for<'b> FromVariant<'b>> FromVariant<'a> for Option<T> {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
         unsafe {
             if variant.is::<Self>() {
                 let c_child = ffi::g_variant_get_maybe(variant.to_glib_none().0);
@@ -1390,8 +1428,8 @@ impl<T: StaticVariantType + ToVariant> From<&[T]> for Variant {
     }
 }
 
-impl<T: FromVariant> FromVariant for Vec<T> {
-    fn from_variant(variant: &Variant) -> Option<Self> {
+impl<'a, T: for<'b> FromVariant<'b>> FromVariant<'a> for Vec<T> {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
         if !variant.is_container() {
             return None;
         }
@@ -1444,13 +1482,13 @@ impl<T: StaticVariantType> StaticVariantType for Vec<T> {
     }
 }
 
-impl<K, V, H> FromVariant for HashMap<K, V, H>
+impl<'a, K, V, H> FromVariant<'a> for HashMap<K, V, H>
 where
-    K: FromVariant + Eq + Hash,
-    V: FromVariant,
+    K: for<'k> FromVariant<'k> + Eq + Hash,
+    V: for<'v> FromVariant<'v>,
     H: BuildHasher + Default,
 {
-    fn from_variant(variant: &Variant) -> Option<Self> {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
         if !variant.is_container() {
             return None;
         }
@@ -1475,12 +1513,12 @@ where
     }
 }
 
-impl<K, V> FromVariant for BTreeMap<K, V>
+impl<'a, K, V> FromVariant<'a> for BTreeMap<K, V>
 where
-    K: FromVariant + Eq + Ord,
-    V: FromVariant,
+    K: for<'k> FromVariant<'k> + Eq + Ord,
+    V: for<'v> FromVariant<'v>,
 {
-    fn from_variant(variant: &Variant) -> Option<Self> {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
         if !variant.is_container() {
             return None;
         }
@@ -1655,12 +1693,12 @@ where
     }
 }
 
-impl<K, V> FromVariant for DictEntry<K, V>
+impl<'a, K, V> FromVariant<'a> for DictEntry<K, V>
 where
-    K: FromVariant,
-    V: FromVariant,
+    K: for<'k> FromVariant<'k>,
+    V: for<'v> FromVariant<'v>,
 {
-    fn from_variant(variant: &Variant) -> Option<Self> {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
         if !variant.type_().is_subtype_of(VariantTy::DICT_ENTRY) {
             return None;
         }
@@ -1704,8 +1742,8 @@ impl ToVariant for Variant {
     }
 }
 
-impl FromVariant for Variant {
-    fn from_variant(variant: &Variant) -> Option<Self> {
+impl<'a> FromVariant<'a> for Variant {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
         variant.as_variant()
     }
 }
@@ -1776,11 +1814,11 @@ macro_rules! tuple_impls {
                 }
             }
 
-            impl<$($name),+> FromVariant for ($($name,)+)
+            impl<'a, $($name),+> FromVariant<'a> for ($($name,)+)
             where
-                $($name: FromVariant,)+
+                $($name: for<'b> FromVariant<'b>,)+
             {
-                fn from_variant(variant: &Variant) -> Option<Self> {
+                fn from_variant(variant: &'a Variant) -> Option<Self> {
                     if !variant.type_().is_subtype_of(VariantTy::TUPLE) {
                         return None;
                     }
@@ -1876,6 +1914,13 @@ unsafe impl FixedSizeVariantType for u64 {}
 unsafe impl FixedSizeVariantType for f64 {}
 unsafe impl FixedSizeVariantType for bool {}
 
+impl<'a, T: FixedSizeVariantType> FromVariant<'a> for &'a [T] {
+    #[inline]
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        variant.fixed_array::<T>().ok()
+    }
+}
+
 /// Wrapper type for fixed size type arrays.
 ///
 /// Converting this from/to a `Variant` is generally more efficient than working on the type
@@ -1953,10 +1998,10 @@ impl<A: AsRef<[T]>, T: FixedSizeVariantType> StaticVariantType for FixedSizeVari
     }
 }
 
-impl<A: AsRef<[T]> + for<'a> From<&'a [T]>, T: FixedSizeVariantType> FromVariant
+impl<'a, A: AsRef<[T]> + for<'b> From<&'b [T]>, T: FixedSizeVariantType> FromVariant<'a>
     for FixedSizeVariantArray<A, T>
 {
-    fn from_variant(variant: &Variant) -> Option<Self> {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
         Some(FixedSizeVariantArray(
             A::from(variant.fixed_array::<T>().ok()?),
             std::marker::PhantomData,
@@ -2033,8 +2078,8 @@ impl From<Handle> for Variant {
     }
 }
 
-impl FromVariant for Handle {
-    fn from_variant(variant: &Variant) -> Option<Self> {
+impl<'a> FromVariant<'a> for Handle {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
         unsafe {
             if variant.is::<Self>() {
                 Some(Handle(ffi::g_variant_get_handle(variant.to_glib_none().0)))
@@ -2113,15 +2158,11 @@ impl From<ObjectPath> for Variant {
     }
 }
 
-impl FromVariant for ObjectPath {
-    #[allow(unused_unsafe)]
-    fn from_variant(variant: &Variant) -> Option<Self> {
-        unsafe {
-            if variant.is::<Self>() {
-                Some(ObjectPath(String::from(variant.str().unwrap())))
-            } else {
-                None
-            }
+impl<'a> FromVariant<'a> for ObjectPath {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        variant
+            .is::<Self>()
+            .then(|| ObjectPath(String::from(variant.str().unwrap())))
         }
     }
 }
@@ -2194,16 +2235,11 @@ impl From<Signature> for Variant {
     }
 }
 
-impl FromVariant for Signature {
-    #[allow(unused_unsafe)]
-    fn from_variant(variant: &Variant) -> Option<Self> {
-        unsafe {
-            if variant.is::<Self>() {
-                Some(Signature(String::from(variant.str().unwrap())))
-            } else {
-                None
-            }
-        }
+impl<'a> FromVariant<'a> for Signature {
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        variant
+            .is::<Self>()
+            .then(|| Signature(String::from(variant.str().unwrap())))
     }
 }
 

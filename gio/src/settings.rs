@@ -168,7 +168,7 @@ impl<'a> BindingBuilder<'a> {
 }
 
 pub trait SettingsExtManual {
-    fn get<U: FromVariant>(&self, key: &str) -> U;
+    fn get<U: for<'a> FromVariant<'a>>(&self, key: &str) -> U;
 
     fn set(&self, key: &str, value: impl Into<Variant>) -> Result<(), BoolError>;
 
@@ -190,7 +190,7 @@ pub trait SettingsExtManual {
 }
 
 impl<O: IsA<Settings>> SettingsExtManual for O {
-    fn get<U: FromVariant>(&self, key: &str) -> U {
+    fn get<U: for<'a> FromVariant<'a>>(&self, key: &str) -> U {
         let val = self.value(key);
         FromVariant::from_variant(&val).unwrap_or_else(|| {
             panic!(

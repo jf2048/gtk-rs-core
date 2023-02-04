@@ -31,6 +31,17 @@ pub fn impl_variant(input: DeriveInput) -> TokenStream {
     }
 }
 
+fn insert_lifetime(name: &str, generics: &mut syn::Generics) -> syn::Lifetime {
+    let mut ident = String::from(name);
+    while generics.lifetimes().any(|l| l.lifetime.ident == ident) {
+        ident.push('_');
+    }
+    ident.insert(0, '\'');
+    let lt = syn::Lifetime::new(&ident, proc_macro2::Span::mixed_site());
+    generics.params.insert(0, syn::parse_quote! { #lt });
+    lt
+}
+
 fn derive_variant_for_struct(
     ident: Ident,
     generics: Generics,
@@ -95,18 +106,19 @@ fn derive_variant_for_struct(
                 }
             };
 
+            let mut generics = generics.clone();
+            let fv_lt = insert_lifetime("fv", &mut generics);
+            let (impl_generics, _, where_clause) = generics.split_for_impl();
+
             let from_variant = quote! {
-                impl #impl_generics #glib::FromVariant for #ident #type_generics #where_clause {
-                    fn from_variant(variant: &#glib::Variant) -> ::core::option::Option<Self> {
+                impl #impl_generics #glib::FromVariant<#fv_lt> for #ident #type_generics #where_clause {
+                    fn from_variant(variant: &#fv_lt #glib::Variant) -> ::core::option::Option<Self> {
                         if !variant.is_container() {
                             return None;
                         }
                         Some(Self(
                             #(
-                                match variant.try_child_get::<#types>(#idents) {
-                                    Ok(Some(field)) => field,
-                                    _ => return None,
-                                }
+                                variant.try_child_get::<#types>(#idents).ok()?
                             ),*
                         ))
                     }
@@ -178,18 +190,19 @@ fn derive_variant_for_struct(
                 }
             };
 
+            let mut generics = generics.clone();
+            let fv_lt = insert_lifetime("fv", &mut generics);
+            let (impl_generics, _, where_clause) = generics.split_for_impl();
+
             let from_variant = quote! {
-                impl #impl_generics #glib::FromVariant for #ident #type_generics #where_clause {
-                    fn from_variant(variant: &#glib::Variant) -> ::core::option::Option<Self> {
+                impl #impl_generics #glib::FromVariant<#fv_lt> for #ident #type_generics #where_clause {
+                    fn from_variant(variant: &#fv_lt #glib::Variant) -> ::core::option::Option<Self> {
                         if !variant.is_container() {
                             return None;
                         }
                         Some(Self {
                             #(
-                                #idents: match variant.try_child_get::<#types>(#counts) {
-                                    Ok(Some(field)) => field,
-                                    _ => return None,
-                                }
+                                #idents: variant.try_child_get::<#types>(#counts).ok()?
                             ),*
                         })
                     }
@@ -224,9 +237,13 @@ fn derive_variant_for_struct(
                 }
             };
 
+            let mut generics = generics.clone();
+            let fv_lt = insert_lifetime("fv", &mut generics);
+            let (impl_generics, _, where_clause) = generics.split_for_impl();
+
             let from_variant = quote! {
-                impl #impl_generics #glib::FromVariant for #ident #type_generics #where_clause {
-                    fn from_variant(variant: &#glib::Variant) -> ::core::option::Option<Self> {
+                impl #impl_generics #glib::FromVariant<#fv_lt> for #ident #type_generics #where_clause {
+                    fn from_variant(variant: &#fv_lt #glib::Variant) -> ::core::option::Option<Self> {
                         Some(Self)
                     }
                 }
@@ -448,7 +465,7 @@ fn derive_variant_for_enum(
         _ => unimplemented!(),
     };
 
-    let derived = quote! {
+    let mut derived = quote! {
         impl #impl_generics #glib::StaticVariantType for #ident #type_generics #where_clause {
             #[inline]
             fn static_variant_type() -> ::std::borrow::Cow<'static, #glib::VariantTy> {
@@ -475,9 +492,15 @@ fn derive_variant_for_enum(
                 }
             }
         }
+    };
 
-        impl #impl_generics #glib::FromVariant for #ident #type_generics #where_clause {
-            fn from_variant(variant: &#glib::Variant) -> ::std::option::Option<Self> {
+    let mut generics = generics.clone();
+    let fv_lt = insert_lifetime("fv", &mut generics);
+    let (impl_generics, _, where_clause) = generics.split_for_impl();
+
+    derived.extend(quote! {
+        impl #impl_generics #glib::FromVariant<#fv_lt> for #ident #type_generics #where_clause {
+            fn from_variant(variant: &#fv_lt #glib::Variant) -> ::std::option::Option<Self> {
                 let (tag, value) = <(#repr, #glib::Variant) as #glib::FromVariant>::from_variant(&variant)?;
                 if !#glib::VariantTy::is_tuple(#glib::Variant::type_(&value)) {
                     return ::std::option::Option::None;
@@ -488,7 +511,8 @@ fn derive_variant_for_enum(
                 }
             }
         }
-    };
+    });
+
     derived.into()
 }
 
@@ -598,7 +622,7 @@ fn derive_variant_for_c_enum(
         ),
     };
 
-    let derived = quote! {
+    let mut derived = quote! {
         impl #impl_generics #glib::StaticVariantType for #ident #type_generics #where_clause {
             #[inline]
             fn static_variant_type() -> ::std::borrow::Cow<'static, #glib::VariantTy> {
@@ -622,13 +646,19 @@ fn derive_variant_for_c_enum(
                 <#ident #type_generics as #glib::ToVariant>::to_variant(&v)
             }
         }
+    };
 
-        impl #impl_generics #glib::FromVariant for #ident #type_generics #where_clause {
-            fn from_variant(variant: &#glib::Variant) -> ::std::option::Option<Self> {
+    let mut generics = generics.clone();
+    let fv_lt = insert_lifetime("fv", &mut generics);
+    let (impl_generics, _, where_clause) = generics.split_for_impl();
+
+    derived.extend(quote! {
+        impl #impl_generics #glib::FromVariant<#fv_lt> for #ident #type_generics #where_clause {
+            fn from_variant(variant: &#fv_lt #glib::Variant) -> ::std::option::Option<Self> {
                 #from_variant
             }
         }
-    };
+    });
     derived.into()
 }
 
