@@ -194,9 +194,10 @@ impl crate::value::ToValueOptional for Variant {
 }
 
 // rustdoc-stripper-ignore-next
-/// An error returned from the [`try_get`](struct.Variant.html#method.try_get) function
-/// on a [`Variant`](struct.Variant.html) when the expected type does not match the actual type.
-#[derive(Clone, PartialEq, Eq, Debug)]
+/// An error returned from the [`try_get`](Variant::try_get) function on a [`Variant`] when the
+/// expected type does not match the actual type.
+#[derive(thiserror::Error, Clone, PartialEq, Eq, Debug)]
+#[error("Type mismatch: Expected '{expected}' got '{actual}'")]
 pub struct VariantTypeMismatchError {
     pub actual: VariantType,
     pub expected: VariantType,
@@ -208,17 +209,17 @@ impl VariantTypeMismatchError {
     }
 }
 
-impl fmt::Display for VariantTypeMismatchError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "Type mismatch: Expected '{}' got '{}'",
-            self.expected, self.actual
-        )
-    }
+// rustdoc-stripper-ignore-next
+/// An error returned from the [`try_child_get`](Variant::try_child_get) function on a [`Variant`].
+#[derive(thiserror::Error, Clone, PartialEq, Eq, Debug)]
+pub enum VariantChildError {
+    #[error("Variant is not a container: Got {actual}")]
+    NotAContainer { actual: VariantType },
+    #[error("Child index {index} is out of range (0..{maximum})")]
+    IndexOutOfRange { index: usize, maximum: usize },
+    #[error(transparent)]
+    TypeMismatch(#[from] VariantTypeMismatchError),
 }
-
-impl std::error::Error for VariantTypeMismatchError {}
 
 impl Variant {
     // rustdoc-stripper-ignore-next
@@ -249,6 +250,33 @@ impl Variant {
                 type_.to_glib_none().0,
             ))
         }
+    }
+
+    pub fn child_is<T: StaticVariantType>(&self, index: usize) -> bool {
+        self.child_is_type(index, &T::static_variant_type())
+    }
+
+    pub fn child_is_type(&self, mut index: usize, type_: &VariantTy) -> bool {
+        let t = self.type_();
+        if t.is_array() || t.is_maybe() {
+            return t.element().is_subtype_of(type_);
+        }
+        if t.is_tuple() || t.is_dict_entry() {
+            let mut iter = t.first();
+            while let Some(child_type) = iter.take() {
+                if index == 0 {
+                    return child_type.is_subtype_of(type_);
+                }
+                iter = child_type.next();
+                index -= 1;
+            }
+        }
+        if t.is_variant() {
+            if let Some(variant) = self.as_variant() {
+                return variant.is_type(type_);
+            }
+        }
+        return false;
     }
 
     // rustdoc-stripper-ignore-next
@@ -355,13 +383,39 @@ impl Variant {
     /// It returns `Ok(None)` if `self` is not a container type or if the given
     /// `index` is larger than number of children.  An error is thrown if the
     /// type does not match.
-    pub fn try_child_get<T: StaticVariantType + for<'a> FromVariant<'a>>(
+    pub fn try_child_get<'t, T: StaticVariantType + FromVariant<'t>>(
+        &'t self,
+        index: usize,
+    ) -> Result<T, VariantChildError> {
+        if !self.is_container() {
+            return Err(VariantChildError::NotAContainer {
+                actual: self.type_().to_owned(),
+            });
+        }
+        let maximum = self.n_children();
+        if index >= maximum {
+            return Err(VariantChildError::IndexOutOfRange { index, maximum });
+        }
+        T::from_variant_child(self, index).ok_or_else(|| {
+            VariantTypeMismatchError::new(
+                self.child_value(index).type_().to_owned(),
+                T::static_variant_type().into_owned(),
+            )
+            .into()
+        })
+    }
+
+    // rustdoc-stripper-ignore-next
+    /// Try to read an owned child item out of a container `Variant` instance.
+    ///
+    /// It returns `Ok(None)` if `self` is not a container type or if the given
+    /// `index` is larger than number of children.  An error is thrown if the
+    /// type does not match.
+    pub fn try_child_get_owned<T: StaticVariantType + for<'a> FromVariant<'a> + 'static>(
         &self,
         index: usize,
-    ) -> Result<Option<T>, VariantTypeMismatchError> {
-        // TODO: In the future optimize this by using g_variant_get_child()
-        // directly to avoid allocating a GVariant.
-        self.try_child_value(index).map(|v| v.try_get()).transpose()
+    ) -> Result<T, VariantChildError> {
+        self.try_child_get(index)
     }
 
     // rustdoc-stripper-ignore-next
@@ -372,10 +426,25 @@ impl Variant {
     /// * if `self` is not a container type.
     /// * if given `index` is larger than number of children.
     /// * if the expected variant type does not match
-    pub fn child_get<T: StaticVariantType + for<'a> FromVariant<'a>>(&self, index: usize) -> T {
-        // TODO: In the future optimize this by using g_variant_get_child()
-        // directly to avoid allocating a GVariant.
-        self.child_value(index).get().unwrap()
+    #[inline]
+    pub fn child_get<'t, T: StaticVariantType + FromVariant<'t>>(&'t self, index: usize) -> T {
+        T::from_variant_child(self, index).unwrap()
+    }
+
+    // rustdoc-stripper-ignore-next
+    /// Read an owned child item out of a container `Variant` instance.
+    ///
+    /// # Panics
+    ///
+    /// * if `self` is not a container type.
+    /// * if given `index` is larger than number of children.
+    /// * if the expected variant type does not match
+    #[inline]
+    pub fn child_get_owned<T: StaticVariantType + for<'a> FromVariant<'a> + 'static>(
+        &self,
+        index: usize,
+    ) -> T {
+        T::from_variant_child(self, index).unwrap()
     }
 
     // rustdoc-stripper-ignore-next
@@ -1022,6 +1091,25 @@ pub trait FromVariant<'a>: Sized + StaticVariantType {
     ///
     /// Returns `Some` if the variant's type matches `Self`.
     fn from_variant(variant: &'a Variant) -> Option<Self>;
+
+    // rustdoc-stripper-ignore-next
+    /// Tries to extract a child value from a container.
+    ///
+    /// Returns `Some` if `variant` is a container, `index` is valid for the container, and the
+    /// child item's variant type matches `Self`.
+    fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+        unsafe {
+            // Force the variant to serialise. After this, the variant will hold
+            // internal references to all its child variants.
+            ffi::g_variant_get_data(variant.to_glib_none().0);
+            let child = variant.try_child_value(index)?;
+            // Temporarily extend the lifetime of &child to 'a. Safe as long as the parent variant
+            // stays alive.
+            let value = Self::from_variant(std::mem::transmute(&child));
+            drop(child);
+            value
+        }
+    }
 }
 
 // rustdoc-stripper-ignore-next
@@ -1085,6 +1173,20 @@ macro_rules! impl_numeric {
                         .is::<Self>()
                         .then(|| ffi::$get_fn(variant.to_glib_none().0))
                 }
+            }
+            fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+                variant.child_is::<Self>(index).then(|| unsafe {
+                    let mut value = std::mem::MaybeUninit::uninit();
+                    // Format string needs to be nul terminated
+                    const TY: [u8; 2] = [$typ.as_str().as_bytes()[0], 0];
+                    ffi::g_variant_get_child(
+                        variant.to_glib_none().0,
+                        index,
+                        TY.as_ptr() as *const _,
+                        value.as_mut_ptr(),
+                    );
+                    value.assume_init()
+                })
             }
         }
     };
@@ -1157,6 +1259,9 @@ impl<'a> FromVariant<'a> for () {
     fn from_variant(variant: &'a Variant) -> Option<Self> {
         variant.is::<Self>().then(|| ())
     }
+    fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+        variant.child_is::<Self>(index).then(|| ())
+    }
 }
 
 impl StaticVariantType for bool {
@@ -1183,6 +1288,18 @@ impl<'a> FromVariant<'a> for bool {
         variant
             .is::<Self>()
             .then(|| unsafe { from_glib(ffi::g_variant_get_boolean(variant.to_glib_none().0)) })
+    }
+    fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+        variant.child_is::<Self>(index).then(|| unsafe {
+            let mut value = std::mem::MaybeUninit::<ffi::gboolean>::uninit();
+            ffi::g_variant_get_child(
+                variant.to_glib_none().0,
+                index,
+                VariantTy::BOOLEAN.as_ptr() as *const _,
+                value.as_mut_ptr(),
+            );
+            value.assume_init() != ffi::GFALSE
+        })
     }
 }
 
@@ -1430,7 +1547,7 @@ impl<T: StaticVariantType + ToVariant> From<&[T]> for Variant {
 
 impl<'a, T: for<'b> FromVariant<'b>> FromVariant<'a> for Vec<T> {
     fn from_variant(variant: &'a Variant) -> Option<Self> {
-        if !variant.is_container() {
+        if !variant.is::<Self>() {
             return None;
         }
 
@@ -1825,10 +1942,7 @@ macro_rules! tuple_impls {
 
                     Some((
                         $(
-                            match variant.try_child_get::<$name>($n) {
-                                Ok(Some(field)) => field,
-                                _ => return None,
-                            },
+                            variant.try_child_get::<$name>($n).ok()?,
                         )+
                     ))
                 }
@@ -2396,9 +2510,9 @@ mod tests {
         assert_eq!(a.type_().as_str(), "as");
         assert_eq!(a.n_children(), 3);
 
-        assert_eq!(a.try_child_get::<String>(0), Ok(Some(String::from("foo"))));
-        assert_eq!(a.try_child_get::<String>(1), Ok(Some(String::from("bar"))));
-        assert_eq!(a.try_child_get::<String>(2), Ok(Some(String::from("baz"))));
+        assert_eq!(a.try_child_get::<String>(0), Ok(String::from("foo")));
+        assert_eq!(a.try_child_get::<String>(1), Ok(String::from("bar")));
+        assert_eq!(a.try_child_get::<String>(2), Ok(String::from("baz")));
     }
 
     #[test]
@@ -2407,9 +2521,9 @@ mod tests {
         assert_eq!(a.type_().as_str(), "as");
         assert_eq!(a.n_children(), 3);
 
-        assert_eq!(a.try_child_get::<String>(0), Ok(Some(String::from("foo"))));
-        assert_eq!(a.try_child_get::<String>(1), Ok(Some(String::from("bar"))));
-        assert_eq!(a.try_child_get::<String>(2), Ok(Some(String::from("baz"))));
+        assert_eq!(a.try_child_get::<String>(0), Ok(String::from("foo")));
+        assert_eq!(a.try_child_get::<String>(1), Ok(String::from("bar")));
+        assert_eq!(a.try_child_get::<String>(2), Ok(String::from("baz")));
     }
 
     #[test]
@@ -2418,9 +2532,9 @@ mod tests {
         assert_eq!(<(&str, u8, u32)>::static_variant_type().as_str(), "(syu)");
         let a = ("test", 1u8, 2u32).to_variant();
         assert_eq!(a.normal_form(), a);
-        assert_eq!(a.try_child_get::<String>(0), Ok(Some(String::from("test"))));
-        assert_eq!(a.try_child_get::<u8>(1), Ok(Some(1u8)));
-        assert_eq!(a.try_child_get::<u32>(2), Ok(Some(2u32)));
+        assert_eq!(a.try_child_get::<String>(0), Ok(String::from("test")));
+        assert_eq!(a.try_child_get::<u8>(1), Ok(1u8));
+        assert_eq!(a.try_child_get::<u32>(2), Ok(2u32));
         assert_eq!(
             a.try_get::<(String, u8, u32)>(),
             Ok((String::from("test"), 1u8, 2u32))
@@ -2433,9 +2547,9 @@ mod tests {
         assert_eq!(a.type_().as_str(), "(syi)");
         assert_eq!(a.n_children(), 3);
 
-        assert_eq!(a.try_child_get::<String>(0), Ok(Some(String::from("foo"))));
-        assert_eq!(a.try_child_get::<u8>(1), Ok(Some(1u8)));
-        assert_eq!(a.try_child_get::<i32>(2), Ok(Some(2i32)));
+        assert_eq!(a.try_child_get::<String>(0), Ok(String::from("foo")));
+        assert_eq!(a.try_child_get::<u8>(1), Ok(1u8));
+        assert_eq!(a.try_child_get::<i32>(2), Ok(2i32));
     }
 
     #[test]
@@ -2476,10 +2590,7 @@ mod tests {
         let n = v.n_children();
         assert_eq!(total, n);
         for n in 0..total {
-            let child = v
-                .try_child_get::<DictEntry<String, u32>>(n)
-                .unwrap()
-                .unwrap();
+            let child = v.try_child_get::<DictEntry<String, u32>>(n).unwrap();
             assert_eq!(*child.value(), n as u32);
         }
 
@@ -2508,14 +2619,14 @@ mod tests {
     fn test_try_child() {
         let a = ["foo"].to_variant();
         assert!(a.try_child_value(0).is_some());
-        assert_eq!(a.try_child_get::<String>(0).unwrap().unwrap(), "foo");
+        assert_eq!(a.try_child_get::<String>(0).unwrap(), "foo");
         assert_eq!(a.child_get::<String>(0), "foo");
         assert!(a.try_child_get::<u32>(0).is_err());
         assert!(a.try_child_value(1).is_none());
-        assert!(a.try_child_get::<String>(1).unwrap().is_none());
+        assert!(a.try_child_get::<String>(1).is_err());
         let u = 42u32.to_variant();
         assert!(u.try_child_value(0).is_none());
-        assert!(u.try_child_get::<String>(0).unwrap().is_none());
+        assert!(u.try_child_get::<String>(0).is_err());
     }
 
     #[test]
