@@ -1123,12 +1123,14 @@ pub trait StaticVariantType {
 }
 
 impl StaticVariantType for Variant {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
         Cow::Borrowed(VariantTy::VARIANT)
     }
 }
 
 impl<'a, T: ?Sized + ToVariant> ToVariant for &'a T {
+    #[inline]
     fn to_variant(&self) -> Variant {
         <T as ToVariant>::to_variant(self)
     }
@@ -1142,6 +1144,7 @@ impl<'a, T: ?Sized + Into<Variant> + Clone> From<&'a T> for Variant {
 }
 
 impl<'a, T: ?Sized + StaticVariantType> StaticVariantType for &'a T {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
         <T as StaticVariantType>::static_variant_type()
     }
@@ -1150,12 +1153,14 @@ impl<'a, T: ?Sized + StaticVariantType> StaticVariantType for &'a T {
 macro_rules! impl_numeric {
     ($name:ty, $typ:expr, $new_fn:ident, $get_fn:ident) => {
         impl StaticVariantType for $name {
+            #[inline]
             fn static_variant_type() -> Cow<'static, VariantTy> {
                 Cow::Borrowed($typ)
             }
         }
 
         impl ToVariant for $name {
+            #[inline]
             fn to_variant(&self) -> Variant {
                 unsafe { from_glib_none(ffi::$new_fn(*self)) }
             }
@@ -1239,12 +1244,14 @@ impl_numeric!(
 );
 
 impl StaticVariantType for () {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
         Cow::Borrowed(VariantTy::UNIT)
     }
 }
 
 impl ToVariant for () {
+    #[inline]
     fn to_variant(&self) -> Variant {
         unsafe { from_glib_none(ffi::g_variant_new_tuple(ptr::null(), 0)) }
     }
@@ -1267,12 +1274,14 @@ impl<'a> FromVariant<'a> for () {
 }
 
 impl StaticVariantType for bool {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
         Cow::Borrowed(VariantTy::BOOLEAN)
     }
 }
 
 impl ToVariant for bool {
+    #[inline]
     fn to_variant(&self) -> Variant {
         unsafe { from_glib_none(ffi::g_variant_new_boolean(self.into_glib())) }
     }
@@ -1306,12 +1315,14 @@ impl<'a> FromVariant<'a> for bool {
 }
 
 impl StaticVariantType for String {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
         Cow::Borrowed(VariantTy::STRING)
     }
 }
 
 impl ToVariant for String {
+    #[inline]
     fn to_variant(&self) -> Variant {
         self[..].to_variant()
     }
@@ -1354,6 +1365,7 @@ impl<'a> FromVariant<'a> for &'a str {
 }
 
 impl ToVariant for str {
+    #[inline]
     fn to_variant(&self) -> Variant {
         unsafe { from_glib_none(ffi::g_variant_new_take_string(self.to_glib_full())) }
     }
@@ -1472,12 +1484,14 @@ impl<'a> FromVariant<'a> for std::path::PathBuf {
 }
 
 impl StaticVariantType for std::path::Path {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
         <&[u8]>::static_variant_type()
     }
 }
 
 impl ToVariant for std::path::Path {
+    #[inline]
     fn to_variant(&self) -> Variant {
         let tmp = crate::translate::path_to_c(self);
         unsafe { from_glib_none(ffi::g_variant_new_bytestring(tmp.as_ptr() as *const u8)) }
@@ -1498,12 +1512,14 @@ impl<'a> FromVariant<'a> for &'a std::path::Path {
 }
 
 impl StaticVariantType for std::ffi::OsString {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
         std::ffi::OsStr::static_variant_type()
     }
 }
 
 impl ToVariant for std::ffi::OsString {
+    #[inline]
     fn to_variant(&self) -> Variant {
         self.as_os_str().to_variant()
     }
@@ -1526,12 +1542,14 @@ impl<'a> FromVariant<'a> for std::ffi::OsString {
 }
 
 impl StaticVariantType for std::ffi::OsStr {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
         <&[u8]>::static_variant_type()
     }
 }
 
 impl ToVariant for std::ffi::OsStr {
+    #[inline]
     fn to_variant(&self) -> Variant {
         let tmp = crate::translate::os_str_to_c(self);
         unsafe { from_glib_none(ffi::g_variant_new_bytestring(tmp.as_ptr() as *const u8)) }
@@ -1559,6 +1577,7 @@ impl<'a> FromVariant<'a> for &'a std::ffi::OsStr {
 }
 
 impl<T: StaticVariantType> StaticVariantType for Option<T> {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
         Cow::Owned(VariantType::new_maybe(&T::static_variant_type()))
     }
