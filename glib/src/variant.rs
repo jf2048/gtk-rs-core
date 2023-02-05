@@ -105,13 +105,15 @@ use std::{
     borrow::Cow,
     cmp::{Eq, Ordering, PartialEq, PartialOrd},
     collections::{BTreeMap, HashMap},
+    ffi::c_char,
     fmt,
     hash::{BuildHasher, Hash, Hasher},
     mem, ptr, slice, str,
 };
 
 use crate::{
-    prelude::*, translate::*, Bytes, Type, VariantIter, VariantStrIter, VariantTy, VariantType,
+    prelude::*, translate::*, Bytes, GStr, GString, Type, VariantIter, VariantStrIter, VariantTy,
+    VariantType,
 };
 
 wrapper! {
@@ -1323,12 +1325,18 @@ impl From<String> for Variant {
 }
 
 impl<'a> FromVariant<'a> for String {
-    fn from_variant(variant: &Variant) -> Option<Self> {
-        variant.str().map(String::from)
+    #[inline]
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        <&str>::from_variant(variant).map(|s| s.to_owned())
+    }
+    #[inline]
+    fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+        <&str>::from_variant_child(variant, index).map(|s| s.to_owned())
     }
 }
 
 impl StaticVariantType for str {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
         String::static_variant_type()
     }
@@ -1337,9 +1345,11 @@ impl StaticVariantType for str {
 impl<'a> FromVariant<'a> for &'a str {
     #[inline]
     fn from_variant(variant: &'a Variant) -> Option<Self> {
-        variant
-            .is::<Self>()
-            .then(|| unsafe { variant.gstr_unchecked().as_str() })
+        <&GStr>::from_variant(variant).map(|s| s.as_str())
+    }
+    #[inline]
+    fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+        <&GStr>::from_variant_child(variant, index).map(|s| s.as_str())
     }
 }
 
@@ -1352,6 +1362,83 @@ impl ToVariant for str {
 impl From<&str> for Variant {
     #[inline]
     fn from(s: &str) -> Self {
+        s.to_variant()
+    }
+}
+
+impl StaticVariantType for GString {
+    #[inline]
+    fn static_variant_type() -> Cow<'static, VariantTy> {
+        String::static_variant_type()
+    }
+}
+
+impl ToVariant for GString {
+    #[inline]
+    fn to_variant(&self) -> Variant {
+        self[..].to_variant()
+    }
+}
+
+impl From<GString> for Variant {
+    #[inline]
+    fn from(s: GString) -> Self {
+        unsafe { from_glib_none(ffi::g_variant_new_take_string(s.into_glib_ptr())) }
+    }
+}
+
+impl<'a> FromVariant<'a> for GString {
+    #[inline]
+    fn from_variant(variant: &Variant) -> Option<Self> {
+        <&GStr>::from_variant(variant).map(|s| s.to_owned())
+    }
+    #[inline]
+    fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+        <&GStr>::from_variant_child(variant, index).map(|s| s.to_owned())
+    }
+}
+
+impl<'a> FromVariant<'a> for &'a GStr {
+    #[inline]
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        variant
+            .is::<Self>()
+            .then(|| unsafe { variant.gstr_unchecked() })
+    }
+    fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+        variant
+            .child_is::<Self>(index)
+            .then(|| unsafe {
+                let mut value = std::mem::MaybeUninit::<*const c_char>::uninit();
+                ffi::g_variant_get_child(
+                    variant.to_glib_none().0,
+                    index,
+                    b"&s\0".as_ptr() as *const _,
+                    value.as_mut_ptr(),
+                );
+                value.assume_init()
+            })
+            .and_then(|v| unsafe { GStr::from_ptr_checked(v) })
+    }
+}
+
+impl StaticVariantType for GStr {
+    #[inline]
+    fn static_variant_type() -> Cow<'static, VariantTy> {
+        GString::static_variant_type()
+    }
+}
+
+impl ToVariant for GStr {
+    #[inline]
+    fn to_variant(&self) -> Variant {
+        self.as_str().to_variant()
+    }
+}
+
+impl From<&GStr> for Variant {
+    #[inline]
+    fn from(s: &GStr) -> Self {
         s.to_variant()
     }
 }
