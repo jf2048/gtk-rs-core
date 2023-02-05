@@ -102,7 +102,7 @@
 //! ```
 
 use std::{
-    borrow::Cow,
+    borrow::{Borrow, Cow},
     cmp::{Eq, Ordering, PartialEq, PartialOrd},
     collections::{BTreeMap, HashMap},
     ffi::c_char,
@@ -2291,15 +2291,29 @@ impl<'a> FromVariant<'a> for Handle {
     }
 }
 
-/// A wrapper type around `Variant` object paths.
+/// Representation of a borrowed [`ObjectPathBuf`].
 ///
 /// Values of these type are guaranteed to be valid object paths.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct ObjectPath(String);
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[repr(transparent)]
+pub struct ObjectPath(GStr);
 
 impl ObjectPath {
-    pub fn as_str(&self) -> &str {
+    #[inline]
+    pub fn from_gstr(s: &GStr) -> Option<&Self> {
+        Variant::is_object_path(&s).then(|| unsafe { mem::transmute(s) })
+    }
+    #[inline]
+    pub const unsafe fn from_gstr_unchecked(s: &GStr) -> &Self {
+        unsafe { mem::transmute(s) }
+    }
+    #[inline]
+    pub const fn as_gstr(&self) -> &GStr {
         &self.0
+    }
+    #[inline]
+    pub const fn as_str(&self) -> &str {
+        self.0.as_str()
     }
 }
 
@@ -2308,63 +2322,412 @@ impl std::ops::Deref for ObjectPath {
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        &self.0
+        self.as_str()
     }
 }
 
-impl TryFrom<String> for ObjectPath {
+impl AsRef<ObjectPath> for ObjectPath {
+    #[inline]
+    fn as_ref(&self) -> &ObjectPath {
+        self
+    }
+}
+
+impl AsRef<GStr> for ObjectPath {
+    #[inline]
+    fn as_ref(&self) -> &GStr {
+        self.as_gstr()
+    }
+}
+
+impl AsRef<str> for ObjectPath {
+    #[inline]
+    fn as_ref(&self) -> &str {
+        self.as_str()
+    }
+}
+
+impl AsRef<[u8]> for ObjectPath {
+    #[inline]
+    fn as_ref(&self) -> &[u8] {
+        self.as_str().as_bytes()
+    }
+}
+
+impl ToOwned for ObjectPath {
+    type Owned = ObjectPathBuf;
+
+    #[inline]
+    fn to_owned(&self) -> Self::Owned {
+        ObjectPathBuf(self.0.to_owned())
+    }
+}
+
+impl fmt::Display for ObjectPath {
+    #[inline]
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
+impl<'a> TryFrom<&'a GStr> for &'a ObjectPath {
     type Error = crate::BoolError;
 
-    fn try_from(v: String) -> Result<Self, Self::Error> {
-        if !Variant::is_object_path(&v) {
-            return Err(bool_error!("Invalid object path"));
-        }
-
-        Ok(ObjectPath(v))
+    fn try_from(v: &'a GStr) -> Result<Self, Self::Error> {
+        ObjectPath::from_gstr(v).ok_or_else(|| bool_error!("Invalid object path"))
     }
 }
 
-impl<'a> TryFrom<&'a str> for ObjectPath {
-    type Error = crate::BoolError;
-
-    fn try_from(v: &'a str) -> Result<Self, Self::Error> {
-        ObjectPath::try_from(String::from(v))
+impl From<&ObjectPath> for String {
+    #[inline]
+    fn from(v: &ObjectPath) -> Self {
+        v.0.to_string()
     }
 }
 
-impl From<ObjectPath> for String {
-    fn from(v: ObjectPath) -> Self {
-        v.0
+impl From<&ObjectPath> for GString {
+    #[inline]
+    fn from(v: &ObjectPath) -> Self {
+        v.0.to_owned()
     }
 }
 
 impl StaticVariantType for ObjectPath {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
         Cow::Borrowed(VariantTy::OBJECT_PATH)
     }
 }
 
 impl ToVariant for ObjectPath {
+    #[inline]
     fn to_variant(&self) -> Variant {
         unsafe { from_glib_none(ffi::g_variant_new_object_path(self.0.to_glib_none().0)) }
     }
 }
 
-impl From<ObjectPath> for Variant {
+impl<'a> FromVariant<'a> for &'a ObjectPath {
     #[inline]
-    fn from(p: ObjectPath) -> Self {
-        let mut s = p.0;
-        s.push('\0');
-        unsafe { Self::from_data_trusted::<ObjectPath, _>(s) }
-    }
-}
-
-impl<'a> FromVariant<'a> for ObjectPath {
     fn from_variant(variant: &'a Variant) -> Option<Self> {
         variant
             .is::<Self>()
-            .then(|| ObjectPath(String::from(variant.str().unwrap())))
+            .then(|| unsafe { ObjectPath::from_gstr_unchecked(variant.gstr_unchecked()) })
+    }
+    fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+        variant.child_is::<Self>(index).then(|| unsafe {
+            let mut value = std::mem::MaybeUninit::<*const c_char>::uninit();
+            ffi::g_variant_get_child(
+                variant.to_glib_none().0,
+                index,
+                b"&o\0".as_ptr() as *const _,
+                value.as_mut_ptr(),
+            );
+            ObjectPath::from_gstr_unchecked(GStr::from_ptr(value.assume_init()))
+        })
+    }
+}
+
+/// A wrapper type around [`Variant`] object paths.
+///
+/// Values of these type are guaranteed to be valid object paths.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct ObjectPathBuf(GString);
+
+impl ObjectPathBuf {
+    #[inline]
+    pub fn as_object_path(&self) -> &ObjectPath {
+        unsafe { ObjectPath::from_gstr_unchecked(self.0.as_gstr()) }
+    }
+}
+
+impl std::ops::Deref for ObjectPathBuf {
+    type Target = ObjectPath;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.as_object_path()
+    }
+}
+
+impl AsRef<ObjectPath> for ObjectPathBuf {
+    #[inline]
+    fn as_ref(&self) -> &ObjectPath {
+        self.as_object_path()
+    }
+}
+
+impl AsRef<GStr> for ObjectPathBuf {
+    #[inline]
+    fn as_ref(&self) -> &GStr {
+        self.as_gstr()
+    }
+}
+
+impl AsRef<str> for ObjectPathBuf {
+    #[inline]
+    fn as_ref(&self) -> &str {
+        self.as_str()
+    }
+}
+
+impl AsRef<[u8]> for ObjectPathBuf {
+    #[inline]
+    fn as_ref(&self) -> &[u8] {
+        self.as_str().as_bytes()
+    }
+}
+
+impl Borrow<ObjectPath> for ObjectPathBuf {
+    #[inline]
+    fn borrow(&self) -> &ObjectPath {
+        self.as_object_path()
+    }
+}
+
+impl Borrow<GStr> for ObjectPathBuf {
+    #[inline]
+    fn borrow(&self) -> &GStr {
+        self.as_gstr()
+    }
+}
+
+impl Borrow<str> for ObjectPathBuf {
+    #[inline]
+    fn borrow(&self) -> &str {
+        self.as_str()
+    }
+}
+
+impl fmt::Display for ObjectPathBuf {
+    #[inline]
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
+impl TryFrom<String> for ObjectPathBuf {
+    type Error = crate::BoolError;
+
+    fn try_from(v: String) -> Result<Self, Self::Error> {
+        if !Variant::is_object_path(&v) {
+            return Err(bool_error!("Invalid object path"));
         }
+        Ok(Self(GString::from(v)))
+    }
+}
+
+impl TryFrom<GString> for ObjectPathBuf {
+    type Error = crate::BoolError;
+
+    fn try_from(v: GString) -> Result<Self, Self::Error> {
+        if !Variant::is_object_path(&v) {
+            return Err(bool_error!("Invalid object path"));
+        }
+        Ok(Self(v))
+    }
+}
+
+impl<'a> TryFrom<&'a str> for ObjectPathBuf {
+    type Error = crate::BoolError;
+
+    fn try_from(v: &'a str) -> Result<Self, Self::Error> {
+        if !Variant::is_object_path(&v) {
+            return Err(bool_error!("Invalid object path"));
+        }
+        Ok(Self(GString::from(v)))
+    }
+}
+
+impl<'a> TryFrom<&'a GStr> for ObjectPathBuf {
+    type Error = crate::BoolError;
+
+    fn try_from(v: &'a GStr) -> Result<Self, Self::Error> {
+        if !Variant::is_object_path(&v) {
+            return Err(bool_error!("Invalid object path"));
+        }
+        Ok(Self(GString::from(v)))
+    }
+}
+
+impl From<ObjectPathBuf> for String {
+    #[inline]
+    fn from(v: ObjectPathBuf) -> Self {
+        v.0.into()
+    }
+}
+
+impl From<ObjectPathBuf> for GString {
+    #[inline]
+    fn from(v: ObjectPathBuf) -> Self {
+        v.0
+    }
+}
+
+impl StaticVariantType for ObjectPathBuf {
+    #[inline]
+    fn static_variant_type() -> Cow<'static, VariantTy> {
+        ObjectPath::static_variant_type()
+    }
+}
+
+impl ToVariant for ObjectPathBuf {
+    #[inline]
+    fn to_variant(&self) -> Variant {
+        self.as_object_path().to_variant()
+    }
+}
+
+impl From<ObjectPathBuf> for Variant {
+    #[inline]
+    fn from(p: ObjectPathBuf) -> Self {
+        unsafe { Self::from_data_trusted::<ObjectPathBuf, _>(p.0) }
+    }
+}
+
+impl<'a> FromVariant<'a> for ObjectPathBuf {
+    #[inline]
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        <&ObjectPath>::from_variant(variant).map(|p| p.to_owned())
+    }
+    #[inline]
+    fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+        <&ObjectPath>::from_variant_child(variant, index).map(|p| p.to_owned())
+    }
+}
+
+/// Representation of a borrowed [`Signature`].
+///
+/// Values of these type are guaranteed to be valid object paths.
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[repr(transparent)]
+pub struct Sig(GStr);
+
+impl Sig {
+    #[inline]
+    pub fn from_gstr(s: &GStr) -> Option<&Self> {
+        Variant::is_signature(&s).then(|| unsafe { mem::transmute(s) })
+    }
+    #[inline]
+    pub const unsafe fn from_gstr_unchecked(s: &GStr) -> &Self {
+        unsafe { mem::transmute(s) }
+    }
+    #[inline]
+    pub const fn as_gstr(&self) -> &GStr {
+        &self.0
+    }
+    #[inline]
+    pub const fn as_str(&self) -> &str {
+        self.0.as_str()
+    }
+}
+
+impl std::ops::Deref for Sig {
+    type Target = str;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.as_str()
+    }
+}
+
+impl AsRef<Sig> for Sig {
+    #[inline]
+    fn as_ref(&self) -> &Sig {
+        self
+    }
+}
+
+impl AsRef<GStr> for Sig {
+    #[inline]
+    fn as_ref(&self) -> &GStr {
+        self.as_gstr()
+    }
+}
+
+impl AsRef<str> for Sig {
+    #[inline]
+    fn as_ref(&self) -> &str {
+        self.as_str()
+    }
+}
+
+impl AsRef<[u8]> for Sig {
+    #[inline]
+    fn as_ref(&self) -> &[u8] {
+        self.as_str().as_bytes()
+    }
+}
+
+impl ToOwned for Sig {
+    type Owned = Signature;
+
+    #[inline]
+    fn to_owned(&self) -> Self::Owned {
+        Signature(self.0.to_owned())
+    }
+}
+
+impl fmt::Display for Sig {
+    #[inline]
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
+impl<'a> TryFrom<&'a GStr> for &'a Sig {
+    type Error = crate::BoolError;
+
+    fn try_from(v: &'a GStr) -> Result<Self, Self::Error> {
+        Sig::from_gstr(v).ok_or_else(|| bool_error!("Invalid signature"))
+    }
+}
+
+impl From<&Sig> for String {
+    #[inline]
+    fn from(v: &Sig) -> Self {
+        v.0.to_string()
+    }
+}
+
+impl From<&Sig> for GString {
+    #[inline]
+    fn from(v: &Sig) -> Self {
+        v.0.to_owned()
+    }
+}
+
+impl StaticVariantType for Sig {
+    #[inline]
+    fn static_variant_type() -> Cow<'static, VariantTy> {
+        Cow::Borrowed(VariantTy::SIGNATURE)
+    }
+}
+
+impl ToVariant for Sig {
+    #[inline]
+    fn to_variant(&self) -> Variant {
+        unsafe { from_glib_none(ffi::g_variant_new_signature(self.0.to_glib_none().0)) }
+    }
+}
+
+impl<'a> FromVariant<'a> for &'a Sig {
+    #[inline]
+    fn from_variant(variant: &'a Variant) -> Option<Self> {
+        variant
+            .is::<Self>()
+            .then(|| unsafe { Sig::from_gstr_unchecked(variant.gstr_unchecked()) })
+    }
+    fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+        variant.child_is::<Self>(index).then(|| unsafe {
+            let mut value = std::mem::MaybeUninit::<*const c_char>::uninit();
+            ffi::g_variant_get_child(
+                variant.to_glib_none().0,
+                index,
+                b"&g\0".as_ptr() as *const _,
+                value.as_mut_ptr(),
+            );
+            Sig::from_gstr_unchecked(GStr::from_ptr(value.assume_init()))
+        })
     }
 }
 
@@ -2372,20 +2735,77 @@ impl<'a> FromVariant<'a> for ObjectPath {
 ///
 /// Values of these type are guaranteed to be valid signatures.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct Signature(String);
+pub struct Signature(GString);
 
 impl Signature {
-    pub fn as_str(&self) -> &str {
-        &self.0
+    #[inline]
+    pub fn as_sig(&self) -> &Sig {
+        unsafe { Sig::from_gstr_unchecked(self.0.as_gstr()) }
     }
 }
 
 impl std::ops::Deref for Signature {
-    type Target = str;
+    type Target = Sig;
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        &self.0
+        self.as_sig()
+    }
+}
+
+impl AsRef<Sig> for Signature {
+    #[inline]
+    fn as_ref(&self) -> &Sig {
+        self.as_sig()
+    }
+}
+
+impl AsRef<GStr> for Signature {
+    #[inline]
+    fn as_ref(&self) -> &GStr {
+        self.as_gstr()
+    }
+}
+
+impl AsRef<str> for Signature {
+    #[inline]
+    fn as_ref(&self) -> &str {
+        self.as_str()
+    }
+}
+
+impl AsRef<[u8]> for Signature {
+    #[inline]
+    fn as_ref(&self) -> &[u8] {
+        self.as_str().as_bytes()
+    }
+}
+
+impl Borrow<Sig> for Signature {
+    #[inline]
+    fn borrow(&self) -> &Sig {
+        self.as_sig()
+    }
+}
+
+impl Borrow<GStr> for Signature {
+    #[inline]
+    fn borrow(&self) -> &GStr {
+        self.as_gstr()
+    }
+}
+
+impl Borrow<str> for Signature {
+    #[inline]
+    fn borrow(&self) -> &str {
+        self.as_str()
+    }
+}
+
+impl fmt::Display for Signature {
+    #[inline]
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        f.write_str(self.as_str())
     }
 }
 
@@ -2396,8 +2816,18 @@ impl TryFrom<String> for Signature {
         if !Variant::is_signature(&v) {
             return Err(bool_error!("Invalid signature"));
         }
+        Ok(Self(GString::from(v)))
+    }
+}
 
-        Ok(Signature(v))
+impl TryFrom<GString> for Signature {
+    type Error = crate::BoolError;
+
+    fn try_from(v: GString) -> Result<Self, Self::Error> {
+        if !Variant::is_signature(&v) {
+            return Err(bool_error!("Invalid signature"));
+        }
+        Ok(Self(v))
     }
 }
 
@@ -2405,42 +2835,67 @@ impl<'a> TryFrom<&'a str> for Signature {
     type Error = crate::BoolError;
 
     fn try_from(v: &'a str) -> Result<Self, Self::Error> {
-        Signature::try_from(String::from(v))
+        if !Variant::is_signature(&v) {
+            return Err(bool_error!("Invalid signature"));
+        }
+        Ok(Self(GString::from(v)))
+    }
+}
+
+impl<'a> TryFrom<&'a GStr> for Signature {
+    type Error = crate::BoolError;
+
+    fn try_from(v: &'a GStr) -> Result<Self, Self::Error> {
+        if !Variant::is_signature(&v) {
+            return Err(bool_error!("Invalid signature"));
+        }
+        Ok(Self(GString::from(v)))
     }
 }
 
 impl From<Signature> for String {
+    #[inline]
+    fn from(v: Signature) -> Self {
+        v.0.into()
+    }
+}
+
+impl From<Signature> for GString {
+    #[inline]
     fn from(v: Signature) -> Self {
         v.0
     }
 }
 
 impl StaticVariantType for Signature {
+    #[inline]
     fn static_variant_type() -> Cow<'static, VariantTy> {
-        Cow::Borrowed(VariantTy::SIGNATURE)
+        Sig::static_variant_type()
     }
 }
 
 impl ToVariant for Signature {
+    #[inline]
     fn to_variant(&self) -> Variant {
-        unsafe { from_glib_none(ffi::g_variant_new_signature(self.0.to_glib_none().0)) }
+        self.as_sig().to_variant()
     }
 }
 
 impl From<Signature> for Variant {
     #[inline]
     fn from(s: Signature) -> Self {
-        let mut s = s.0;
-        s.push('\0');
-        unsafe { Self::from_data_trusted::<Signature, _>(s) }
+        unsafe { Self::from_data_trusted::<Signature, _>(s.0) }
     }
 }
 
 impl<'a> FromVariant<'a> for Signature {
+    #[inline]
     fn from_variant(variant: &'a Variant) -> Option<Self> {
-        variant
-            .is::<Self>()
-            .then(|| Signature(String::from(variant.str().unwrap())))
+        <&Sig>::from_variant(variant).map(|s| s.to_owned())
+    }
+    #[inline]
+    fn from_variant_child(variant: &'a Variant, index: usize) -> Option<Self> {
+        <&Sig>::from_variant_child(variant, index).map(|s| s.to_owned())
     }
 }
 
