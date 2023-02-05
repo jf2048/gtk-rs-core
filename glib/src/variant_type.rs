@@ -488,14 +488,14 @@ impl VariantTy {
     /// Returns a `GVariantType` pointer.
     #[doc(hidden)]
     #[inline]
-    pub fn as_ptr(&self) -> *const ffi::GVariantType {
+    pub const fn as_ptr(&self) -> *const ffi::GVariantType {
         self.inner.as_ptr() as *const _
     }
 
     // rustdoc-stripper-ignore-next
     /// Converts to a string slice.
     #[inline]
-    pub fn as_str(&self) -> &str {
+    pub const fn as_str(&self) -> &str {
         &self.inner
     }
 
