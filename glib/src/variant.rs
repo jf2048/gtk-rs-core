@@ -357,29 +357,48 @@ impl Variant {
     }
 
     // rustdoc-stripper-ignore-next
-    /// Tries to extract a `&str`.
+    /// Tries to extract a <code>&[str]</code>.
     ///
-    /// Returns `Some` if the variant has a string type (`s`, `o` or `g` type
+    /// Returns [`Some`] if the variant has a string type (`s`, `o` or `g` type
     /// strings).
     #[doc(alias = "get_str")]
     #[doc(alias = "g_variant_get_string")]
+    #[inline]
     pub fn str(&self) -> Option<&str> {
+        self.gstr().map(|s| s.as_str())
+    }
+
+    // rustdoc-stripper-ignore-next
+    /// Tries to extract a <code>&[GStr]</code>.
+    ///
+    /// Returns [`Some`] if the variant has a string type (`s`, `o` or `g` type
+    /// strings).
+    pub fn gstr(&self) -> Option<&GStr> {
+        match self.type_().as_str() {
+            "s" | "o" | "g" => unsafe { Some(self.gstr_unchecked()) },
+            _ => None,
+        }
+    }
+
+    // rustdoc-stripper-ignore-next
+    /// Extracts a <code>&[GStr]</code> without checking the variant type.
+    ///
+    /// # Safety
+    ///
+    /// The variant must be a string type (`s`, `o` or `g` type strings).
+    pub unsafe fn gstr_unchecked(&self) -> &GStr {
+        debug_assert!(matches!(self.type_().as_str(), "s" | "o" | "g"));
         unsafe {
-            match self.type_().as_str() {
-                "s" | "o" | "g" => {
-                    let mut len = 0;
-                    let ptr = ffi::g_variant_get_string(self.to_glib_none().0, &mut len);
-                    if len == 0 {
-                        Some("")
-                    } else {
-                        let ret = str::from_utf8_unchecked(slice::from_raw_parts(
-                            ptr as *const u8,
-                            len as _,
-                        ));
-                        Some(ret)
-                    }
-                }
-                _ => None,
+            let mut len = 0;
+            let ptr = ffi::g_variant_get_string(self.to_glib_none().0, &mut len);
+            if len == 0 {
+                <&GStr>::default()
+            } else {
+                let ret = GStr::from_utf8_with_nul_unchecked(slice::from_raw_parts(
+                    ptr as *const u8,
+                    (len + 1) as _,
+                ));
+                ret
             }
         }
     }
