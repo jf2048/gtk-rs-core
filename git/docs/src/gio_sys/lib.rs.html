@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/sys/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/sys/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../gio_sys/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../gio_sys/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -17066,92 +17066,6 @@
 <a href="#16993" id="16993">16993</a>
 <a href="#16994" id="16994">16994</a>
 <a href="#16995" id="16995">16995</a>
-<a href="#16996" id="16996">16996</a>
-<a href="#16997" id="16997">16997</a>
-<a href="#16998" id="16998">16998</a>
-<a href="#16999" id="16999">16999</a>
-<a href="#17000" id="17000">17000</a>
-<a href="#17001" id="17001">17001</a>
-<a href="#17002" id="17002">17002</a>
-<a href="#17003" id="17003">17003</a>
-<a href="#17004" id="17004">17004</a>
-<a href="#17005" id="17005">17005</a>
-<a href="#17006" id="17006">17006</a>
-<a href="#17007" id="17007">17007</a>
-<a href="#17008" id="17008">17008</a>
-<a href="#17009" id="17009">17009</a>
-<a href="#17010" id="17010">17010</a>
-<a href="#17011" id="17011">17011</a>
-<a href="#17012" id="17012">17012</a>
-<a href="#17013" id="17013">17013</a>
-<a href="#17014" id="17014">17014</a>
-<a href="#17015" id="17015">17015</a>
-<a href="#17016" id="17016">17016</a>
-<a href="#17017" id="17017">17017</a>
-<a href="#17018" id="17018">17018</a>
-<a href="#17019" id="17019">17019</a>
-<a href="#17020" id="17020">17020</a>
-<a href="#17021" id="17021">17021</a>
-<a href="#17022" id="17022">17022</a>
-<a href="#17023" id="17023">17023</a>
-<a href="#17024" id="17024">17024</a>
-<a href="#17025" id="17025">17025</a>
-<a href="#17026" id="17026">17026</a>
-<a href="#17027" id="17027">17027</a>
-<a href="#17028" id="17028">17028</a>
-<a href="#17029" id="17029">17029</a>
-<a href="#17030" id="17030">17030</a>
-<a href="#17031" id="17031">17031</a>
-<a href="#17032" id="17032">17032</a>
-<a href="#17033" id="17033">17033</a>
-<a href="#17034" id="17034">17034</a>
-<a href="#17035" id="17035">17035</a>
-<a href="#17036" id="17036">17036</a>
-<a href="#17037" id="17037">17037</a>
-<a href="#17038" id="17038">17038</a>
-<a href="#17039" id="17039">17039</a>
-<a href="#17040" id="17040">17040</a>
-<a href="#17041" id="17041">17041</a>
-<a href="#17042" id="17042">17042</a>
-<a href="#17043" id="17043">17043</a>
-<a href="#17044" id="17044">17044</a>
-<a href="#17045" id="17045">17045</a>
-<a href="#17046" id="17046">17046</a>
-<a href="#17047" id="17047">17047</a>
-<a href="#17048" id="17048">17048</a>
-<a href="#17049" id="17049">17049</a>
-<a href="#17050" id="17050">17050</a>
-<a href="#17051" id="17051">17051</a>
-<a href="#17052" id="17052">17052</a>
-<a href="#17053" id="17053">17053</a>
-<a href="#17054" id="17054">17054</a>
-<a href="#17055" id="17055">17055</a>
-<a href="#17056" id="17056">17056</a>
-<a href="#17057" id="17057">17057</a>
-<a href="#17058" id="17058">17058</a>
-<a href="#17059" id="17059">17059</a>
-<a href="#17060" id="17060">17060</a>
-<a href="#17061" id="17061">17061</a>
-<a href="#17062" id="17062">17062</a>
-<a href="#17063" id="17063">17063</a>
-<a href="#17064" id="17064">17064</a>
-<a href="#17065" id="17065">17065</a>
-<a href="#17066" id="17066">17066</a>
-<a href="#17067" id="17067">17067</a>
-<a href="#17068" id="17068">17068</a>
-<a href="#17069" id="17069">17069</a>
-<a href="#17070" id="17070">17070</a>
-<a href="#17071" id="17071">17071</a>
-<a href="#17072" id="17072">17072</a>
-<a href="#17073" id="17073">17073</a>
-<a href="#17074" id="17074">17074</a>
-<a href="#17075" id="17075">17075</a>
-<a href="#17076" id="17076">17076</a>
-<a href="#17077" id="17077">17077</a>
-<a href="#17078" id="17078">17078</a>
-<a href="#17079" id="17079">17079</a>
-<a href="#17080" id="17080">17080</a>
-<a href="#17081" id="17081">17081</a>
 </pre><pre class="rust"><code><span class="comment">// This file was generated by gir (https://github.com/gtk-rs/gir)
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
@@ -17542,221 +17456,135 @@
 <span class="comment">// Constants
 </span><span class="kw">pub const </span>G_DBUS_METHOD_INVOCATION_HANDLED: gboolean = glib::GTRUE;
 <span class="kw">pub const </span>G_DBUS_METHOD_INVOCATION_UNHANDLED: gboolean = glib::GFALSE;
-<span class="kw">pub const </span>G_DEBUG_CONTROLLER_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gio-debug-controller\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_DESKTOP_APP_INFO_LOOKUP_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gio-desktop-app-info-lookup\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_DRIVE_IDENTIFIER_KIND_UNIX_DEVICE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;unix-device\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;access::can-delete\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;access::can-execute\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_READ: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;access::can-read\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;access::can-rename\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_TRASH: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;access::can-trash\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;access::can-write\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_DOS_IS_ARCHIVE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;dos::is-archive\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_DOS_IS_MOUNTPOINT: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;dos::is-mountpoint\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_DOS_IS_SYSTEM: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;dos::is-system\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_DOS_REPARSE_POINT_TAG: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;dos::reparse-point-tag\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ETAG_VALUE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;etag::value\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_FREE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;filesystem::free\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_READONLY: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;filesystem::readonly\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_REMOTE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;filesystem::remote\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_SIZE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;filesystem::size\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_TYPE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;filesystem::type\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_USED: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;filesystem::used\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;filesystem::use-preview\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_GVFS_BACKEND: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gvfs::backend\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ID_FILE: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;id::file\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ID_FILESYSTEM: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;id::filesystem\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_EJECT: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::can-eject\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_MOUNT: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::can-mount\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_POLL: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::can-poll\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_START: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::can-start\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_START_DEGRADED: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::can-start-degraded\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_STOP: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::can-stop\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_UNMOUNT: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::can-unmount\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_HAL_UDI: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::hal-udi\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_IS_MEDIA_CHECK_AUTOMATIC: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::is-media-check-automatic\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_START_STOP_TYPE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::start-stop-type\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_UNIX_DEVICE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::unix-device\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_UNIX_DEVICE_FILE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;mountable::unix-device-file\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_OWNER_GROUP: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;owner::group\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_OWNER_USER: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;owner::user\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_OWNER_USER_REAL: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;owner::user-real\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_PREVIEW_ICON: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;preview::icon\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_RECENT_MODIFIED: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;recent::modified\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_SELINUX_CONTEXT: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;selinux::context\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_ALLOCATED_SIZE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::allocated-size\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::content-type\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_COPY_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::copy-name\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::description\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::display-name\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::edit-name\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::fast-content-type\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_ICON: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::icon\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_IS_BACKUP: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::is-backup\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::is-hidden\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_IS_SYMLINK: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::is-symlink\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_IS_VIRTUAL: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::is-virtual\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_IS_VOLATILE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::is-volatile\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::name\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_SIZE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::size\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_SORT_ORDER: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::sort-order\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_SYMBOLIC_ICON: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::symbolic-icon\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::symlink-target\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_TARGET_URI: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::target-uri\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_TYPE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;standard::type\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAILING_FAILED: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;thumbnail::failed\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;thumbnail::is-valid\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_PATH: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;thumbnail::path\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_ACCESS: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::access\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_ACCESS_NSEC: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::access-nsec\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_ACCESS_USEC: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::access-usec\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CHANGED: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::changed\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CHANGED_NSEC: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::changed-nsec\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CHANGED_USEC: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::changed-usec\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CREATED: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::created\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CREATED_NSEC: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::created-nsec\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CREATED_USEC: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::created-usec\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_MODIFIED: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::modified\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_MODIFIED_NSEC: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::modified-nsec\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;time::modified-usec\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TRASH_DELETION_DATE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;trash::deletion-date\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TRASH_ITEM_COUNT: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;trash::item-count\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TRASH_ORIG_PATH: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;trash::orig-path\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_BLOCKS: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;unix::blocks\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_BLOCK_SIZE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;unix::block-size\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_DEVICE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;unix::device\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_GID: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;unix::gid\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_INODE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;unix::inode\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_IS_MOUNTPOINT: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;unix::is-mountpoint\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_MODE: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;unix::mode\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_NLINK: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;unix::nlink\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_RDEV: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;unix::rdev\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_UID: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;unix::uid\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_MEMORY_MONITOR_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gio-memory-monitor\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_MENU_ATTRIBUTE_ACTION: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;action\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_MENU_ATTRIBUTE_ACTION_NAMESPACE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;action-namespace\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_MENU_ATTRIBUTE_ICON: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;icon\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_MENU_ATTRIBUTE_LABEL: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;label\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_MENU_ATTRIBUTE_TARGET: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;target\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_MENU_LINK_SECTION: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;section\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_MENU_LINK_SUBMENU: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;submenu\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_NATIVE_VOLUME_MONITOR_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gio-native-volume-monitor\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_NETWORK_MONITOR_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gio-network-monitor\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_POWER_PROFILE_MONITOR_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gio-power-profile-monitor\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_PROXY_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gio-proxy\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_PROXY_RESOLVER_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gio-proxy-resolver\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_SETTINGS_BACKEND_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gsettings-backend\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_TLS_BACKEND_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gio-tls-backend\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_TLS_DATABASE_PURPOSE_AUTHENTICATE_CLIENT: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;1.3.6.1.5.5.7.3.2\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_TLS_DATABASE_PURPOSE_AUTHENTICATE_SERVER: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;1.3.6.1.5.5.7.3.1\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_VFS_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;gio-vfs\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_CLASS: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;class\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_HAL_UDI: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;hal-udi\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_LABEL: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;label\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_NFS_MOUNT: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;nfs-mount\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_UNIX_DEVICE: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;unix-device\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_UUID: <span class="kw-2">*const </span>c_char = <span class="string">b&quot;uuid\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
-<span class="kw">pub const </span>G_VOLUME_MONITOR_EXTENSION_POINT_NAME: <span class="kw-2">*const </span>c_char =
-    <span class="string">b&quot;gio-volume-monitor\0&quot; </span><span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>c_char;
+<span class="kw">pub const </span>G_DEBUG_CONTROLLER_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gio-debug-controller\0&quot;</span>;
+<span class="kw">pub const </span>G_DESKTOP_APP_INFO_LOOKUP_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gio-desktop-app-info-lookup\0&quot;</span>;
+<span class="kw">pub const </span>G_DRIVE_IDENTIFIER_KIND_UNIX_DEVICE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix-device\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;access::can-delete\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;access::can-execute\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_READ: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;access::can-read\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;access::can-rename\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_TRASH: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;access::can-trash\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;access::can-write\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_DOS_IS_ARCHIVE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;dos::is-archive\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_DOS_IS_MOUNTPOINT: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;dos::is-mountpoint\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_DOS_IS_SYSTEM: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;dos::is-system\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_DOS_REPARSE_POINT_TAG: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;dos::reparse-point-tag\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ETAG_VALUE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;etag::value\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_FREE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;filesystem::free\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_READONLY: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;filesystem::readonly\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_REMOTE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;filesystem::remote\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_SIZE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;filesystem::size\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_TYPE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;filesystem::type\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_USED: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;filesystem::used\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;filesystem::use-preview\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_GVFS_BACKEND: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gvfs::backend\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ID_FILE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;id::file\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_ID_FILESYSTEM: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;id::filesystem\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_EJECT: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;mountable::can-eject\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_MOUNT: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;mountable::can-mount\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_POLL: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;mountable::can-poll\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_START: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;mountable::can-start\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_START_DEGRADED: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;mountable::can-start-degraded\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_STOP: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;mountable::can-stop\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_CAN_UNMOUNT: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;mountable::can-unmount\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_HAL_UDI: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;mountable::hal-udi\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_IS_MEDIA_CHECK_AUTOMATIC: <span class="kw-2">&amp;</span>[u8] =
+    <span class="string">b&quot;mountable::is-media-check-automatic\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_START_STOP_TYPE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;mountable::start-stop-type\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_UNIX_DEVICE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;mountable::unix-device\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_MOUNTABLE_UNIX_DEVICE_FILE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;mountable::unix-device-file\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_OWNER_GROUP: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;owner::group\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_OWNER_USER: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;owner::user\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_OWNER_USER_REAL: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;owner::user-real\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_PREVIEW_ICON: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;preview::icon\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_RECENT_MODIFIED: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;recent::modified\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_SELINUX_CONTEXT: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;selinux::context\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_ALLOCATED_SIZE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::allocated-size\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::content-type\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_COPY_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::copy-name\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::description\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::display-name\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::edit-name\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::fast-content-type\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_ICON: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::icon\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_IS_BACKUP: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::is-backup\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::is-hidden\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_IS_SYMLINK: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::is-symlink\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_IS_VIRTUAL: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::is-virtual\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_IS_VOLATILE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::is-volatile\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::name\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_SIZE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::size\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_SORT_ORDER: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::sort-order\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_SYMBOLIC_ICON: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::symbolic-icon\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::symlink-target\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_TARGET_URI: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::target-uri\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_STANDARD_TYPE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;standard::type\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAILING_FAILED: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::failed\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAILING_FAILED_LARGE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::failed-large\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAILING_FAILED_NORMAL: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::failed-normal\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAILING_FAILED_XLARGE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::failed-xlarge\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAILING_FAILED_XXLARGE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::failed-xxlarge\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::is-valid\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID_LARGE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::is-valid-large\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID_NORMAL: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::is-valid-normal\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID_XLARGE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::is-valid-xlarge\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID_XXLARGE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::is-valid-xxlarge\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_PATH: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::path\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_PATH_LARGE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::path-large\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_PATH_NORMAL: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::path-normal\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_PATH_XLARGE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::path-xlarge\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_THUMBNAIL_PATH_XXLARGE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;thumbnail::path-xxlarge\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_ACCESS: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::access\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_ACCESS_NSEC: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::access-nsec\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_ACCESS_USEC: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::access-usec\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CHANGED: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::changed\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CHANGED_NSEC: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::changed-nsec\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CHANGED_USEC: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::changed-usec\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CREATED: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::created\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CREATED_NSEC: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::created-nsec\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_CREATED_USEC: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::created-usec\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_MODIFIED: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::modified\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_MODIFIED_NSEC: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::modified-nsec\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;time::modified-usec\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TRASH_DELETION_DATE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;trash::deletion-date\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TRASH_ITEM_COUNT: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;trash::item-count\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_TRASH_ORIG_PATH: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;trash::orig-path\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_BLOCKS: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix::blocks\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_BLOCK_SIZE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix::block-size\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_DEVICE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix::device\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_GID: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix::gid\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_INODE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix::inode\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_IS_MOUNTPOINT: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix::is-mountpoint\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_MODE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix::mode\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_NLINK: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix::nlink\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_RDEV: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix::rdev\0&quot;</span>;
+<span class="kw">pub const </span>G_FILE_ATTRIBUTE_UNIX_UID: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix::uid\0&quot;</span>;
+<span class="kw">pub const </span>G_MEMORY_MONITOR_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gio-memory-monitor\0&quot;</span>;
+<span class="kw">pub const </span>G_MENU_ATTRIBUTE_ACTION: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;action\0&quot;</span>;
+<span class="kw">pub const </span>G_MENU_ATTRIBUTE_ACTION_NAMESPACE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;action-namespace\0&quot;</span>;
+<span class="kw">pub const </span>G_MENU_ATTRIBUTE_ICON: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;icon\0&quot;</span>;
+<span class="kw">pub const </span>G_MENU_ATTRIBUTE_LABEL: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;label\0&quot;</span>;
+<span class="kw">pub const </span>G_MENU_ATTRIBUTE_TARGET: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;target\0&quot;</span>;
+<span class="kw">pub const </span>G_MENU_EXPORTER_MAX_SECTION_SIZE: c_int = <span class="number">1000</span>;
+<span class="kw">pub const </span>G_MENU_LINK_SECTION: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;section\0&quot;</span>;
+<span class="kw">pub const </span>G_MENU_LINK_SUBMENU: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;submenu\0&quot;</span>;
+<span class="kw">pub const </span>G_NATIVE_VOLUME_MONITOR_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gio-native-volume-monitor\0&quot;</span>;
+<span class="kw">pub const </span>G_NETWORK_MONITOR_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gio-network-monitor\0&quot;</span>;
+<span class="kw">pub const </span>G_POWER_PROFILE_MONITOR_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gio-power-profile-monitor\0&quot;</span>;
+<span class="kw">pub const </span>G_PROXY_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gio-proxy\0&quot;</span>;
+<span class="kw">pub const </span>G_PROXY_RESOLVER_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gio-proxy-resolver\0&quot;</span>;
+<span class="kw">pub const </span>G_SETTINGS_BACKEND_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gsettings-backend\0&quot;</span>;
+<span class="kw">pub const </span>G_TLS_BACKEND_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gio-tls-backend\0&quot;</span>;
+<span class="kw">pub const </span>G_TLS_DATABASE_PURPOSE_AUTHENTICATE_CLIENT: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;1.3.6.1.5.5.7.3.2\0&quot;</span>;
+<span class="kw">pub const </span>G_TLS_DATABASE_PURPOSE_AUTHENTICATE_SERVER: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;1.3.6.1.5.5.7.3.1\0&quot;</span>;
+<span class="kw">pub const </span>G_VFS_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gio-vfs\0&quot;</span>;
+<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_CLASS: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;class\0&quot;</span>;
+<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_HAL_UDI: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;hal-udi\0&quot;</span>;
+<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_LABEL: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;label\0&quot;</span>;
+<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_NFS_MOUNT: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;nfs-mount\0&quot;</span>;
+<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_UNIX_DEVICE: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;unix-device\0&quot;</span>;
+<span class="kw">pub const </span>G_VOLUME_IDENTIFIER_KIND_UUID: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;uuid\0&quot;</span>;
+<span class="kw">pub const </span>G_VOLUME_MONITOR_EXTENSION_POINT_NAME: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;gio-volume-monitor\0&quot;</span>;
 
 <span class="comment">// Flags
 </span><span class="kw">pub type </span>GAppInfoCreateFlags = c_uint;
@@ -34234,4 +34062,4 @@
 
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="gio_sys" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="gio_sys" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

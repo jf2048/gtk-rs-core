@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/application.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>application.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/application.rs`."><title>application.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../gio/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../gio/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1586,29 +1586,164 @@
 <a href="#1513" id="1513">1513</a>
 <a href="#1514" id="1514">1514</a>
 <a href="#1515" id="1515">1515</a>
+<a href="#1516" id="1516">1516</a>
+<a href="#1517" id="1517">1517</a>
+<a href="#1518" id="1518">1518</a>
+<a href="#1519" id="1519">1519</a>
+<a href="#1520" id="1520">1520</a>
+<a href="#1521" id="1521">1521</a>
+<a href="#1522" id="1522">1522</a>
+<a href="#1523" id="1523">1523</a>
+<a href="#1524" id="1524">1524</a>
+<a href="#1525" id="1525">1525</a>
+<a href="#1526" id="1526">1526</a>
+<a href="#1527" id="1527">1527</a>
+<a href="#1528" id="1528">1528</a>
+<a href="#1529" id="1529">1529</a>
+<a href="#1530" id="1530">1530</a>
+<a href="#1531" id="1531">1531</a>
+<a href="#1532" id="1532">1532</a>
+<a href="#1533" id="1533">1533</a>
+<a href="#1534" id="1534">1534</a>
+<a href="#1535" id="1535">1535</a>
+<a href="#1536" id="1536">1536</a>
+<a href="#1537" id="1537">1537</a>
+<a href="#1538" id="1538">1538</a>
+<a href="#1539" id="1539">1539</a>
+<a href="#1540" id="1540">1540</a>
+<a href="#1541" id="1541">1541</a>
+<a href="#1542" id="1542">1542</a>
+<a href="#1543" id="1543">1543</a>
+<a href="#1544" id="1544">1544</a>
+<a href="#1545" id="1545">1545</a>
+<a href="#1546" id="1546">1546</a>
+<a href="#1547" id="1547">1547</a>
+<a href="#1548" id="1548">1548</a>
+<a href="#1549" id="1549">1549</a>
+<a href="#1550" id="1550">1550</a>
+<a href="#1551" id="1551">1551</a>
+<a href="#1552" id="1552">1552</a>
+<a href="#1553" id="1553">1553</a>
+<a href="#1554" id="1554">1554</a>
+<a href="#1555" id="1555">1555</a>
+<a href="#1556" id="1556">1556</a>
+<a href="#1557" id="1557">1557</a>
+<a href="#1558" id="1558">1558</a>
+<a href="#1559" id="1559">1559</a>
+<a href="#1560" id="1560">1560</a>
+<a href="#1561" id="1561">1561</a>
+<a href="#1562" id="1562">1562</a>
+<a href="#1563" id="1563">1563</a>
+<a href="#1564" id="1564">1564</a>
+<a href="#1565" id="1565">1565</a>
+<a href="#1566" id="1566">1566</a>
+<a href="#1567" id="1567">1567</a>
+<a href="#1568" id="1568">1568</a>
+<a href="#1569" id="1569">1569</a>
+<a href="#1570" id="1570">1570</a>
+<a href="#1571" id="1571">1571</a>
+<a href="#1572" id="1572">1572</a>
+<a href="#1573" id="1573">1573</a>
+<a href="#1574" id="1574">1574</a>
+<a href="#1575" id="1575">1575</a>
+<a href="#1576" id="1576">1576</a>
+<a href="#1577" id="1577">1577</a>
+<a href="#1578" id="1578">1578</a>
+<a href="#1579" id="1579">1579</a>
+<a href="#1580" id="1580">1580</a>
+<a href="#1581" id="1581">1581</a>
+<a href="#1582" id="1582">1582</a>
+<a href="#1583" id="1583">1583</a>
+<a href="#1584" id="1584">1584</a>
+<a href="#1585" id="1585">1585</a>
+<a href="#1586" id="1586">1586</a>
+<a href="#1587" id="1587">1587</a>
+<a href="#1588" id="1588">1588</a>
+<a href="#1589" id="1589">1589</a>
+<a href="#1590" id="1590">1590</a>
+<a href="#1591" id="1591">1591</a>
+<a href="#1592" id="1592">1592</a>
+<a href="#1593" id="1593">1593</a>
+<a href="#1594" id="1594">1594</a>
+<a href="#1595" id="1595">1595</a>
+<a href="#1596" id="1596">1596</a>
+<a href="#1597" id="1597">1597</a>
+<a href="#1598" id="1598">1598</a>
+<a href="#1599" id="1599">1599</a>
+<a href="#1600" id="1600">1600</a>
+<a href="#1601" id="1601">1601</a>
+<a href="#1602" id="1602">1602</a>
+<a href="#1603" id="1603">1603</a>
+<a href="#1604" id="1604">1604</a>
+<a href="#1605" id="1605">1605</a>
+<a href="#1606" id="1606">1606</a>
+<a href="#1607" id="1607">1607</a>
+<a href="#1608" id="1608">1608</a>
+<a href="#1609" id="1609">1609</a>
+<a href="#1610" id="1610">1610</a>
+<a href="#1611" id="1611">1611</a>
+<a href="#1612" id="1612">1612</a>
+<a href="#1613" id="1613">1613</a>
+<a href="#1614" id="1614">1614</a>
+<a href="#1615" id="1615">1615</a>
+<a href="#1616" id="1616">1616</a>
+<a href="#1617" id="1617">1617</a>
+<a href="#1618" id="1618">1618</a>
+<a href="#1619" id="1619">1619</a>
+<a href="#1620" id="1620">1620</a>
+<a href="#1621" id="1621">1621</a>
+<a href="#1622" id="1622">1622</a>
+<a href="#1623" id="1623">1623</a>
+<a href="#1624" id="1624">1624</a>
+<a href="#1625" id="1625">1625</a>
+<a href="#1626" id="1626">1626</a>
+<a href="#1627" id="1627">1627</a>
+<a href="#1628" id="1628">1628</a>
+<a href="#1629" id="1629">1629</a>
+<a href="#1630" id="1630">1630</a>
+<a href="#1631" id="1631">1631</a>
+<a href="#1632" id="1632">1632</a>
+<a href="#1633" id="1633">1633</a>
+<a href="#1634" id="1634">1634</a>
+<a href="#1635" id="1635">1635</a>
+<a href="#1636" id="1636">1636</a>
+<a href="#1637" id="1637">1637</a>
+<a href="#1638" id="1638">1638</a>
+<a href="#1639" id="1639">1639</a>
+<a href="#1640" id="1640">1640</a>
+<a href="#1641" id="1641">1641</a>
+<a href="#1642" id="1642">1642</a>
+<a href="#1643" id="1643">1643</a>
+<a href="#1644" id="1644">1644</a>
+<a href="#1645" id="1645">1645</a>
+<a href="#1646" id="1646">1646</a>
+<a href="#1647" id="1647">1647</a>
+<a href="#1648" id="1648">1648</a>
+<a href="#1649" id="1649">1649</a>
+<a href="#1650" id="1650">1650</a>
+<a href="#1651" id="1651">1651</a>
+<a href="#1652" id="1652">1652</a>
+<a href="#1653" id="1653">1653</a>
+<a href="#1654" id="1654">1654</a>
+<a href="#1655" id="1655">1655</a>
+<a href="#1656" id="1656">1656</a>
+<a href="#1657" id="1657">1657</a>
+<a href="#1658" id="1658">1658</a>
+<a href="#1659" id="1659">1659</a>
 </pre><pre class="rust"><code><span class="comment">// This file was generated by gir (https://github.com/gtk-rs/gir)
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-</span><span class="kw">use </span><span class="kw">crate</span>::ActionGroup;
-<span class="kw">use </span><span class="kw">crate</span>::ActionMap;
-<span class="kw">use </span><span class="kw">crate</span>::ApplicationCommandLine;
-<span class="kw">use </span><span class="kw">crate</span>::ApplicationFlags;
-<span class="kw">use </span><span class="kw">crate</span>::Cancellable;
-<span class="kw">use </span><span class="kw">crate</span>::DBusConnection;
-<span class="kw">use </span><span class="kw">crate</span>::File;
-<span class="kw">use </span><span class="kw">crate</span>::Notification;
-<span class="kw">use </span>glib::object::Cast;
-<span class="kw">use </span>glib::object::IsA;
-<span class="kw">use </span>glib::signal::connect_raw;
-<span class="kw">use </span>glib::signal::SignalHandlerId;
-<span class="kw">use </span>glib::translate::<span class="kw-2">*</span>;
-<span class="kw">use </span>glib::StaticType;
-<span class="kw">use </span>glib::ToValue;
-<span class="kw">use </span>std::boxed::Box <span class="kw">as </span>Box_;
-<span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::mem::transmute;
-<span class="kw">use </span>std::ptr;
+</span><span class="kw">use crate</span>::{
+    ActionGroup, ActionMap, ApplicationCommandLine, ApplicationFlags, Cancellable, DBusConnection,
+    File, Notification,
+};
+<span class="kw">use </span>glib::{
+    prelude::<span class="kw-2">*</span>,
+    signal::{connect_raw, SignalHandlerId},
+    translate::<span class="kw-2">*</span>,
+};
+<span class="kw">use </span>std::{boxed::Box <span class="kw">as </span>Box_, fmt, mem::transmute, ptr};
 
 <span class="macro">glib::wrapper! </span>{
     <span class="doccomment">/// A [`Application`][crate::Application] is the foundation of an application. It wraps some
@@ -1688,7 +1823,7 @@
     ///
     /// - via activating an action
     ///
-    /// The `signal::Application::startup` signal lets you handle the application
+    /// The [`startup`][struct@crate::Application#startup] signal lets you handle the application
     /// initialization for all of these in a single place.
     ///
     /// Regardless of which of these entry points is used to start the
@@ -1713,7 +1848,7 @@
     /// data in this way.
     ///
     /// To parse commandline arguments you may handle the
-    /// `signal::Application::command-line` signal or override the `local_command_line()`
+    /// [`command-line`][struct@crate::Application#command-line] signal or override the `local_command_line()`
     /// vfunc, to parse them in either the primary instance or the local instance,
     /// respectively.
     ///
@@ -1725,6 +1860,167 @@
     ///
     /// For an example of using extra D-Bus hooks with GApplication, see
     /// [gapplication-example-dbushooks.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-dbushooks.c).
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `action-group`
+    ///  Writeable
+    ///
+    ///
+    /// #### `application-id`
+    ///  Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `flags`
+    ///  Readable | Writeable
+    ///
+    ///
+    /// #### `inactivity-timeout`
+    ///  Readable | Writeable
+    ///
+    ///
+    /// #### `is-busy`
+    ///  Whether the application is currently marked as busy through
+    /// [`ApplicationExtManual::mark_busy()`][crate::prelude::ApplicationExtManual::mark_busy()] or [`ApplicationExt::bind_busy_property()`][crate::prelude::ApplicationExt::bind_busy_property()].
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `is-registered`
+    ///  Readable
+    ///
+    ///
+    /// #### `is-remote`
+    ///  Readable
+    ///
+    ///
+    /// #### `resource-base-path`
+    ///  Readable | Writeable
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `activate`
+    ///  The ::activate signal is emitted on the primary instance when an
+    /// activation occurs. See [`ApplicationExt::activate()`][crate::prelude::ApplicationExt::activate()].
+    ///
+    ///
+    ///
+    ///
+    /// #### `command-line`
+    ///  The ::command-line signal is emitted on the primary instance when
+    /// a commandline is not handled locally. See [`ApplicationExtManual::run()`][crate::prelude::ApplicationExtManual::run()] and
+    /// the [`ApplicationCommandLine`][crate::ApplicationCommandLine] documentation for more information.
+    ///
+    ///
+    ///
+    ///
+    /// #### `handle-local-options`
+    ///  The ::handle-local-options signal is emitted on the local instance
+    /// after the parsing of the commandline options has occurred.
+    ///
+    /// You can add options to be recognised during commandline option
+    /// parsing using `g_application_add_main_option_entries()` and
+    /// `g_application_add_option_group()`.
+    ///
+    /// Signal handlers can inspect `options` (along with values pointed to
+    /// from the `arg_data` of an installed `GOptionEntrys`) in order to
+    /// decide to perform certain actions, including direct local handling
+    /// (which may be useful for options like --version).
+    ///
+    /// In the event that the application is marked
+    /// [`ApplicationFlags::HANDLES_COMMAND_LINE`][crate::ApplicationFlags::HANDLES_COMMAND_LINE] the &quot;normal processing&quot; will
+    /// send the `options` dictionary to the primary instance where it can be
+    /// read with [`ApplicationCommandLineExt::options_dict()`][crate::prelude::ApplicationCommandLineExt::options_dict()]. The signal
+    /// handler can modify the dictionary before returning, and the
+    /// modified dictionary will be sent.
+    ///
+    /// In the event that [`ApplicationFlags::HANDLES_COMMAND_LINE`][crate::ApplicationFlags::HANDLES_COMMAND_LINE] is not set,
+    /// &quot;normal processing&quot; will treat the remaining uncollected command
+    /// line arguments as filenames or URIs. If there are no arguments,
+    /// the application is activated by [`ApplicationExt::activate()`][crate::prelude::ApplicationExt::activate()]. One or
+    /// more arguments results in a call to [`ApplicationExt::open()`][crate::prelude::ApplicationExt::open()].
+    ///
+    /// If you want to handle the local commandline arguments for yourself
+    /// by converting them to calls to [`ApplicationExt::open()`][crate::prelude::ApplicationExt::open()] or
+    /// [`ActionGroupExt::activate_action()`][crate::prelude::ActionGroupExt::activate_action()] then you must be sure to register
+    /// the application first. You should probably not call
+    /// [`ApplicationExt::activate()`][crate::prelude::ApplicationExt::activate()] for yourself, however: just return -1 and
+    /// allow the default handler to do it for you. This will ensure that
+    /// the `--gapplication-service` switch works properly (i.e. no activation
+    /// in that case).
+    ///
+    /// Note that this signal is emitted from the default implementation of
+    /// `local_command_line()`. If you override that function and don&#39;t
+    /// chain up then this signal will never be emitted.
+    ///
+    /// You can override `local_command_line()` if you need more powerful
+    /// capabilities than what is provided here, but this should not
+    /// normally be required.
+    ///
+    ///
+    ///
+    ///
+    /// #### `name-lost`
+    ///  The ::name-lost signal is emitted only on the registered primary instance
+    /// when a new instance has taken over. This can only happen if the application
+    /// is using the [`ApplicationFlags::ALLOW_REPLACEMENT`][crate::ApplicationFlags::ALLOW_REPLACEMENT] flag.
+    ///
+    /// The default handler for this signal calls [`ApplicationExt::quit()`][crate::prelude::ApplicationExt::quit()].
+    ///
+    ///
+    ///
+    ///
+    /// #### `open`
+    ///  The ::open signal is emitted on the primary instance when there are
+    /// files to open. See [`ApplicationExt::open()`][crate::prelude::ApplicationExt::open()] for more information.
+    ///
+    ///
+    ///
+    ///
+    /// #### `shutdown`
+    ///  The ::shutdown signal is emitted only on the registered primary instance
+    /// immediately after the main loop terminates.
+    ///
+    ///
+    ///
+    ///
+    /// #### `startup`
+    ///  The ::startup signal is emitted on the primary instance immediately
+    /// after registration. See [`ApplicationExt::register()`][crate::prelude::ApplicationExt::register()].
+    ///
+    ///
+    /// &lt;details&gt;&lt;summary&gt;&lt;h4&gt;ActionGroup&lt;/h4&gt;&lt;/summary&gt;
+    ///
+    ///
+    /// #### `action-added`
+    ///  Signals that a new action was just added to the group.
+    /// This signal is emitted after the action has been added
+    /// and is now visible.
+    ///
+    /// Detailed
+    ///
+    ///
+    /// #### `action-enabled-changed`
+    ///  Signals that the enabled status of the named action has changed.
+    ///
+    /// Detailed
+    ///
+    ///
+    /// #### `action-removed`
+    ///  Signals that an action is just about to be removed from the group.
+    /// This signal is emitted before the action is removed, so the action
+    /// is still visible and can be queried from the signal handler.
+    ///
+    /// Detailed
+    ///
+    ///
+    /// #### `action-state-changed`
+    ///  Signals that the state of the named action has changed.
+    ///
+    /// Detailed
+    /// &lt;/details&gt;
     ///
     /// # Implements
     ///
@@ -1770,7 +2066,7 @@
     ///
     /// This method returns an instance of [`ApplicationBuilder`](crate::builders::ApplicationBuilder) which can be used to create [`Application`] objects.
     </span><span class="kw">pub fn </span>builder() -&gt; ApplicationBuilder {
-        ApplicationBuilder::default()
+        ApplicationBuilder::new()
     }
 
     <span class="doccomment">/// Returns the default [`Application`][crate::Application] instance for this process.
@@ -1854,78 +2150,70 @@
 
 <span class="kw">impl </span>Default <span class="kw">for </span>Application {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-        glib::object::Object::new::&lt;<span class="self">Self</span>&gt;(<span class="kw-2">&amp;</span>[])
+        glib::object::Object::new::&lt;<span class="self">Self</span>&gt;()
     }
 }
 
-<span class="attr">#[derive(Clone, Default)]
-</span><span class="comment">// rustdoc-stripper-ignore-next
+<span class="comment">// rustdoc-stripper-ignore-next
 </span><span class="doccomment">/// A [builder-pattern] type to construct [`Application`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 </span><span class="attr">#[must_use = <span class="string">&quot;The builder must be built to be used&quot;</span>]
 </span><span class="kw">pub struct </span>ApplicationBuilder {
-    action_group: <span class="prelude-ty">Option</span>&lt;ActionGroup&gt;,
-    application_id: <span class="prelude-ty">Option</span>&lt;String&gt;,
-    flags: <span class="prelude-ty">Option</span>&lt;ApplicationFlags&gt;,
-    inactivity_timeout: <span class="prelude-ty">Option</span>&lt;u32&gt;,
-    resource_base_path: <span class="prelude-ty">Option</span>&lt;String&gt;,
+    builder: glib::object::ObjectBuilder&lt;<span class="lifetime">&#39;static</span>, Application&gt;,
 }
 
 <span class="kw">impl </span>ApplicationBuilder {
-    <span class="comment">// rustdoc-stripper-ignore-next
-    </span><span class="doccomment">/// Create a new [`ApplicationBuilder`].
-    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::default()
+    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            builder: glib::object::Object::builder(),
+        }
+    }
+
+    <span class="kw">pub fn </span>action_group(<span class="self">self</span>, action_group: <span class="kw-2">&amp;</span><span class="kw">impl </span>IsA&lt;ActionGroup&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            builder: <span class="self">self
+                </span>.builder
+                .property(<span class="string">&quot;action-group&quot;</span>, action_group.clone().upcast()),
+        }
+    }
+
+    <span class="kw">pub fn </span>application_id(<span class="self">self</span>, application_id: <span class="kw">impl </span>Into&lt;glib::GString&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            builder: <span class="self">self
+                </span>.builder
+                .property(<span class="string">&quot;application-id&quot;</span>, application_id.into()),
+        }
+    }
+
+    <span class="kw">pub fn </span>flags(<span class="self">self</span>, flags: ApplicationFlags) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            builder: <span class="self">self</span>.builder.property(<span class="string">&quot;flags&quot;</span>, flags),
+        }
+    }
+
+    <span class="kw">pub fn </span>inactivity_timeout(<span class="self">self</span>, inactivity_timeout: u32) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            builder: <span class="self">self
+                </span>.builder
+                .property(<span class="string">&quot;inactivity-timeout&quot;</span>, inactivity_timeout),
+        }
+    }
+
+    <span class="kw">pub fn </span>resource_base_path(<span class="self">self</span>, resource_base_path: <span class="kw">impl </span>Into&lt;glib::GString&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            builder: <span class="self">self
+                </span>.builder
+                .property(<span class="string">&quot;resource-base-path&quot;</span>, resource_base_path.into()),
+        }
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Build the [`Application`].
     </span><span class="attr">#[must_use = <span class="string">&quot;Building the object from the builder is usually expensive and is not expected to have side effects&quot;</span>]
     </span><span class="kw">pub fn </span>build(<span class="self">self</span>) -&gt; Application {
-        <span class="kw">let </span><span class="kw-2">mut </span>properties: Vec&lt;(<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span><span class="kw">dyn </span>ToValue)&gt; = <span class="macro">vec!</span>[];
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>action_group) = <span class="self">self</span>.action_group {
-            properties.push((<span class="string">&quot;action-group&quot;</span>, action_group));
-        }
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>application_id) = <span class="self">self</span>.application_id {
-            properties.push((<span class="string">&quot;application-id&quot;</span>, application_id));
-        }
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>flags) = <span class="self">self</span>.flags {
-            properties.push((<span class="string">&quot;flags&quot;</span>, flags));
-        }
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>inactivity_timeout) = <span class="self">self</span>.inactivity_timeout {
-            properties.push((<span class="string">&quot;inactivity-timeout&quot;</span>, inactivity_timeout));
-        }
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>resource_base_path) = <span class="self">self</span>.resource_base_path {
-            properties.push((<span class="string">&quot;resource-base-path&quot;</span>, resource_base_path));
-        }
-        glib::Object::new::&lt;Application&gt;(<span class="kw-2">&amp;</span>properties)
+        <span class="self">self</span>.builder.build()
     }
-
-    <span class="kw">pub fn </span>action_group(<span class="kw-2">mut </span><span class="self">self</span>, action_group: <span class="kw-2">&amp;</span><span class="kw">impl </span>IsA&lt;ActionGroup&gt;) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.action_group = <span class="prelude-val">Some</span>(action_group.clone().upcast());
-        <span class="self">self
-    </span>}
-
-    <span class="kw">pub fn </span>application_id(<span class="kw-2">mut </span><span class="self">self</span>, application_id: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.application_id = <span class="prelude-val">Some</span>(application_id.to_string());
-        <span class="self">self
-    </span>}
-
-    <span class="kw">pub fn </span>flags(<span class="kw-2">mut </span><span class="self">self</span>, flags: ApplicationFlags) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.flags = <span class="prelude-val">Some</span>(flags);
-        <span class="self">self
-    </span>}
-
-    <span class="kw">pub fn </span>inactivity_timeout(<span class="kw-2">mut </span><span class="self">self</span>, inactivity_timeout: u32) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.inactivity_timeout = <span class="prelude-val">Some</span>(inactivity_timeout);
-        <span class="self">self
-    </span>}
-
-    <span class="kw">pub fn </span>resource_base_path(<span class="kw-2">mut </span><span class="self">self</span>, resource_base_path: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.resource_base_path = <span class="prelude-val">Some</span>(resource_base_path.to_string());
-        <span class="self">self
-    </span>}
 }
 
 <span class="doccomment">/// Trait containing all [`struct@Application`] methods.
@@ -1936,7 +2224,7 @@
 </span><span class="kw">pub trait </span>ApplicationExt: <span class="lifetime">&#39;static </span>{
     <span class="doccomment">/// Activates the application.
     ///
-    /// In essence, this results in the `signal::Application::activate` signal being
+    /// In essence, this results in the [`activate`][struct@crate::Application#activate] signal being
     /// emitted in the primary instance.
     ///
     /// The application must be registered before calling this function.
@@ -1950,7 +2238,7 @@
     /// that has its arg_data member set to [`None`].
     ///
     /// The parsed arguments will be packed into a [`glib::VariantDict`][crate::glib::VariantDict] which
-    /// is passed to `signal::Application::handle-local-options`. If
+    /// is passed to [`handle-local-options`][struct@crate::Application#handle-local-options]. If
     /// [`ApplicationFlags::HANDLES_COMMAND_LINE`][crate::ApplicationFlags::HANDLES_COMMAND_LINE] is set, then it will also
     /// be sent to the primary instance. See
     /// `g_application_add_main_option_entries()` for more details.
@@ -1984,7 +2272,7 @@
     //fn add_main_option_entries(&amp;self, entries: /*Ignored*/&amp;[glib::OptionEntry]);
 
     //#[doc(alias = &quot;g_application_add_option_group&quot;)]
-    //fn add_option_group(&amp;self, group: /*Ignored*/&amp;glib::OptionGroup);
+    //fn add_option_group(&amp;self, group: /*Ignored*/glib::OptionGroup);
 
     </span><span class="doccomment">/// Marks `self` as busy (see [`ApplicationExtManual::mark_busy()`][crate::prelude::ApplicationExtManual::mark_busy()]) while
     /// `property` on `object` is [`true`].
@@ -2127,7 +2415,7 @@
 
     <span class="doccomment">/// Opens the given files.
     ///
-    /// In essence, this results in the `signal::Application::open` signal being emitted
+    /// In essence, this results in the [`open`][struct@crate::Application#open] signal being emitted
     /// in the primary instance.
     ///
     /// `n_files` must be greater than zero.
@@ -2181,7 +2469,7 @@
     /// If the application has already been registered then [`true`] is
     /// returned with no work performed.
     ///
-    /// The `signal::Application::startup` signal is emitted if registration succeeds
+    /// The [`startup`][struct@crate::Application#startup] signal is emitted if registration succeeds
     /// and `self` is the primary instance (including the non-unique
     /// case).
     ///
@@ -2338,7 +2626,7 @@
     /// not recommended. The point at which the resource path is consulted
     /// for forming paths for various purposes is unspecified. When writing
     /// a sub-class of [`Application`][crate::Application] you should either set the
-    /// `property::Application::resource-base-path` property at construction time, or call
+    /// [`resource-base-path`][struct@crate::Application#resource-base-path] property at construction time, or call
     /// this function during the instance initialization. Alternatively, you
     /// can call this function in the `GApplicationClass.startup` virtual function,
     /// before chaining up to the parent implementation.
@@ -2538,7 +2826,7 @@
     //    unsafe { TODO: call ffi:g_application_add_main_option_entries() }
     //}
 
-    //fn add_option_group(&amp;self, group: /*Ignored*/&amp;glib::OptionGroup) {
+    //fn add_option_group(&amp;self, group: /*Ignored*/glib::OptionGroup) {
     //    unsafe { TODO: call ffi:g_application_add_option_group() }
     //}
 
@@ -2642,7 +2930,7 @@
                 cancellable.map(|p| p.as_ref()).to_glib_none().<span class="number">0</span>,
                 <span class="kw-2">&amp;mut </span>error,
             );
-            <span class="macro">assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
+            <span class="macro">debug_assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
             <span class="kw">if </span>error.is_null() {
                 <span class="prelude-val">Ok</span>(())
             } <span class="kw">else </span>{
@@ -3102,4 +3390,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

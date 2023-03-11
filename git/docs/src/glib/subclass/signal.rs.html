@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/subclass/signal.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>signal.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/subclass/signal.rs`."><title>signal.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../glib/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../glib/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -782,19 +782,18 @@
 <a href="#709" id="709">709</a>
 <a href="#710" id="710">710</a>
 <a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.
 
-</span><span class="kw">use </span><span class="kw">crate</span>::translate::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::utils::is_canonical_pspec_name;
-<span class="kw">use </span><span class="kw">crate</span>::Closure;
-<span class="kw">use </span><span class="kw">crate</span>::SignalFlags;
-<span class="kw">use </span><span class="kw">crate</span>::StaticType;
-<span class="kw">use </span><span class="kw">crate</span>::Type;
-<span class="kw">use </span><span class="kw">crate</span>::Value;
+</span><span class="kw">use </span>std::{fmt, num::NonZeroU32, ptr, sync::Mutex};
 
-<span class="kw">use </span>std::ptr;
-<span class="kw">use </span>std::sync::Mutex;
-<span class="kw">use </span>std::{fmt, num::NonZeroU32};
+<span class="kw">use crate</span>::{
+    prelude::<span class="kw-2">*</span>, translate::<span class="kw-2">*</span>, utils::is_canonical_pspec_name, Closure, IntoGStr, SignalFlags, Type,
+    Value,
+};
 
 <span class="comment">// rustdoc-stripper-ignore-next
 </span><span class="doccomment">/// Builder for signals.
@@ -853,11 +852,13 @@
 </span><span class="kw">pub struct </span>SignalInvocationHint(gobject_ffi::GSignalInvocationHint);
 
 <span class="kw">impl </span>SignalInvocationHint {
-    <span class="kw">pub fn </span>detail(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::Quark&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>detail(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::Quark&gt; {
         <span class="kw">unsafe </span>{ try_from_glib(<span class="self">self</span>.<span class="number">0</span>.detail).ok() }
     }
 
-    <span class="kw">pub fn </span>run_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SignalFlags {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>run_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SignalFlags {
         <span class="kw">unsafe </span>{ from_glib(<span class="self">self</span>.<span class="number">0</span>.run_type) }
     }
 }
@@ -881,6 +882,7 @@
 <span class="kw">impl </span>SignalQuery {
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// The name of the signal.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>signal_name&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>ptr = <span class="self">self</span>.<span class="number">0</span>.signal_name;
@@ -890,36 +892,42 @@
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// The ID of the signal.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>signal_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SignalId {
         <span class="kw">unsafe </span>{ SignalId::from_glib(<span class="self">self</span>.<span class="number">0</span>.signal_id) }
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// The instance type this signal can be emitted for.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Type {
         <span class="kw">unsafe </span>{ from_glib(<span class="self">self</span>.<span class="number">0</span>.itype) }
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// The signal flags.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>flags(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SignalFlags {
         <span class="kw">unsafe </span>{ from_glib(<span class="self">self</span>.<span class="number">0</span>.signal_flags) }
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// The return type for the user callback.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>return_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SignalType {
         <span class="kw">unsafe </span>{ from_glib(<span class="self">self</span>.<span class="number">0</span>.return_type) }
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// The number of parameters the user callback takes.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>n_params(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
         <span class="self">self</span>.<span class="number">0</span>.n_params
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// The parameters for the user callback.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>param_types(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[SignalType] {
         <span class="kw">if </span><span class="self">self</span>.n_params() == <span class="number">0 </span>{
             <span class="kw">return </span><span class="kw-2">&amp;</span>[];
@@ -958,11 +966,13 @@
     /// # Safety
     ///
     /// The caller has to ensure it&#39;s a valid signal identifier.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub unsafe fn </span>new(id: NonZeroU32) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(id)
     }
 
     <span class="attr">#[doc(alias = <span class="string">&quot;g_signal_parse_name&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>parse_name(
         name: <span class="kw-2">&amp;</span>str,
         type_: Type,
@@ -971,13 +981,15 @@
         <span class="kw">let </span><span class="kw-2">mut </span>signal_id = std::mem::MaybeUninit::uninit();
         <span class="kw">let </span><span class="kw-2">mut </span>detail_quark = std::mem::MaybeUninit::uninit();
         <span class="kw">unsafe </span>{
-            <span class="kw">let </span>found: bool = from_glib(gobject_ffi::g_signal_parse_name(
-                name.to_glib_none().<span class="number">0</span>,
-                type_.into_glib(),
-                signal_id.as_mut_ptr(),
-                detail_quark.as_mut_ptr(),
-                force_detail.into_glib(),
-            ));
+            <span class="kw">let </span>found: bool = name.run_with_gstr(|name| {
+                from_glib(gobject_ffi::g_signal_parse_name(
+                    name.as_ptr(),
+                    type_.into_glib(),
+                    signal_id.as_mut_ptr(),
+                    detail_quark.as_mut_ptr(),
+                    force_detail.into_glib(),
+                ))
+            });
 
             <span class="kw">if </span>found {
                 <span class="prelude-val">Some</span>((
@@ -993,9 +1005,12 @@
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Find a SignalId by its `name`, and the `type` it connects to.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_signal_lookup&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>lookup(name: <span class="kw-2">&amp;</span>str, type_: Type) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
         <span class="kw">unsafe </span>{
-            <span class="kw">let </span>signal_id = gobject_ffi::g_signal_lookup(name.to_glib_none().<span class="number">0</span>, type_.into_glib());
+            <span class="kw">let </span>signal_id = name.run_with_gstr(|name| {
+                gobject_ffi::g_signal_lookup(name.as_ptr(), type_.into_glib())
+            });
             <span class="kw">if </span>signal_id == <span class="number">0 </span>{
                 <span class="prelude-val">None
             </span>} <span class="kw">else </span>{
@@ -1007,12 +1022,13 @@
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Queries more in-depth information about the current signal.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_signal_query&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>query(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SignalQuery {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>query_ptr = std::mem::MaybeUninit::uninit();
             gobject_ffi::g_signal_query(<span class="self">self</span>.into_glib(), query_ptr.as_mut_ptr());
             <span class="kw">let </span>query = query_ptr.assume_init();
-            <span class="macro">assert_ne!</span>(query.signal_id, <span class="number">0</span>);
+            <span class="macro">debug_assert_ne!</span>(query.signal_id, <span class="number">0</span>);
             SignalQuery(query)
         }
     }
@@ -1020,6 +1036,7 @@
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Find the signal name.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_signal_name&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>name&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>ptr = gobject_ffi::g_signal_name(<span class="self">self</span>.into_glib());
@@ -1030,8 +1047,9 @@
 
 <span class="attr">#[doc(hidden)]
 </span><span class="kw">impl </span>FromGlib&lt;u32&gt; <span class="kw">for </span>SignalId {
-    <span class="kw">unsafe fn </span>from_glib(signal_id: u32) -&gt; <span class="self">Self </span>{
-        <span class="macro">assert_ne!</span>(signal_id, <span class="number">0</span>);
+    <span class="attr">#[inline]
+    </span><span class="kw">unsafe fn </span>from_glib(signal_id: u32) -&gt; <span class="self">Self </span>{
+        <span class="macro">debug_assert_ne!</span>(signal_id, <span class="number">0</span>);
         <span class="self">Self</span>::new(NonZeroU32::new_unchecked(signal_id))
     }
 }
@@ -1040,7 +1058,8 @@
 </span><span class="kw">impl </span>IntoGlib <span class="kw">for </span>SignalId {
     <span class="kw">type </span>GlibType = u32;
 
-    <span class="kw">fn </span>into_glib(<span class="self">self</span>) -&gt; u32 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>into_glib(<span class="self">self</span>) -&gt; u32 {
         <span class="self">self</span>.<span class="number">0</span>.into()
     }
 }
@@ -1050,27 +1069,32 @@
 </span><span class="kw">pub struct </span>SignalType(ffi::GType);
 
 <span class="kw">impl </span>SignalType {
-    <span class="kw">pub fn </span>with_static_scope(type_: Type) -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>with_static_scope(type_: Type) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(type_.into_glib() | gobject_ffi::G_TYPE_FLAG_RESERVED_ID_BIT)
     }
 
-    <span class="kw">pub fn </span>static_scope(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>static_scope(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         (<span class="self">self</span>.<span class="number">0 </span>&amp; gobject_ffi::G_TYPE_FLAG_RESERVED_ID_BIT) != <span class="number">0
     </span>}
 
-    <span class="kw">pub fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Type {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Type {
         (<span class="kw-2">*</span><span class="self">self</span>).into()
     }
 }
 
 <span class="kw">impl </span>From&lt;Type&gt; <span class="kw">for </span>SignalType {
-    <span class="kw">fn </span>from(type_: Type) -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>from(type_: Type) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(type_.into_glib())
     }
 }
 
 <span class="kw">impl </span>From&lt;SignalType&gt; <span class="kw">for </span>Type {
-    <span class="kw">fn </span>from(type_: SignalType) -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>from(type_: SignalType) -&gt; <span class="self">Self </span>{
         <span class="comment">// Remove the extra-bit used for G_SIGNAL_TYPE_STATIC_SCOPE
         </span><span class="kw">let </span>type_ = type_.<span class="number">0 </span>&amp; (!gobject_ffi::G_TYPE_FLAG_RESERVED_ID_BIT);
         <span class="kw">unsafe </span>{ from_glib(type_) }
@@ -1078,7 +1102,8 @@
 }
 
 <span class="kw">impl </span>PartialEq&lt;Type&gt; <span class="kw">for </span>SignalType {
-    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Type) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Type) -&gt; bool {
         <span class="kw">let </span>type_: Type = (<span class="kw-2">*</span><span class="self">self</span>).into();
         type_.eq(other)
     }
@@ -1106,7 +1131,8 @@
 
 <span class="attr">#[doc(hidden)]
 </span><span class="kw">impl </span>FromGlib&lt;ffi::GType&gt; <span class="kw">for </span>SignalType {
-    <span class="kw">unsafe fn </span>from_glib(type_: ffi::GType) -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">unsafe fn </span>from_glib(type_: ffi::GType) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(type_)
     }
 }
@@ -1115,33 +1141,10 @@
 </span><span class="kw">impl </span>IntoGlib <span class="kw">for </span>SignalType {
     <span class="kw">type </span>GlibType = ffi::GType;
 
-    <span class="kw">fn </span>into_glib(<span class="self">self</span>) -&gt; ffi::GType {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>into_glib(<span class="self">self</span>) -&gt; ffi::GType {
         <span class="self">self</span>.<span class="number">0
     </span>}
-}
-
-<span class="kw">impl </span>FromGlibContainerAsVec&lt;Type, <span class="kw-2">*const </span>ffi::GType&gt; <span class="kw">for </span>SignalType {
-    <span class="kw">unsafe fn </span>from_glib_none_num_as_vec(ptr: <span class="kw-2">*const </span>ffi::GType, num: usize) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">if </span>num == <span class="number">0 </span>|| ptr.is_null() {
-            <span class="kw">return </span>Vec::new();
-        }
-
-        <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::with_capacity(num);
-        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num {
-            res.push(from_glib(<span class="kw-2">*</span>ptr.add(i)));
-        }
-        res
-    }
-
-    <span class="kw">unsafe fn </span>from_glib_container_num_as_vec(<span class="kw">_</span>: <span class="kw-2">*const </span>ffi::GType, <span class="kw">_</span>: usize) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// Can&#39;t really free a *const
-        </span><span class="macro">unimplemented!</span>();
-    }
-
-    <span class="kw">unsafe fn </span>from_glib_full_num_as_vec(<span class="kw">_</span>: <span class="kw-2">*const </span>ffi::GType, <span class="kw">_</span>: usize) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// Can&#39;t really free a *const
-        </span><span class="macro">unimplemented!</span>();
-    }
 }
 
 <span class="attr">#[allow(clippy::type_complexity)]
@@ -1327,8 +1330,7 @@
     </span><span class="kw">pub fn </span>builder(name: <span class="kw-2">&amp;</span>str) -&gt; SignalBuilder {
         <span class="macro">assert!</span>(
             is_canonical_pspec_name(name),
-            <span class="string">&quot;{} is not a valid canonical signal name&quot;</span>,
-            name
+            <span class="string">&quot;{name} is not a valid canonical signal name&quot;</span>,
         );
         SignalBuilder {
             name: name.to_owned(),
@@ -1342,24 +1344,28 @@
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Name of the signal.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="kw-2">&amp;</span><span class="self">self</span>.name
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Flags of the signal.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>flags(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SignalFlags {
         <span class="self">self</span>.flags
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Parameter types of the signal.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>param_types(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[SignalType] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.param_types
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Return type of the signal.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>return_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SignalType {
         <span class="self">self</span>.return_type
     }
@@ -1368,6 +1374,7 @@
     </span><span class="doccomment">/// Signal ID.
     ///
     /// This will panic if called before the signal was registered.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>signal_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SignalId {
         <span class="kw">match </span><span class="kw-2">&amp;*</span><span class="self">self</span>.registration.lock().unwrap() {
             SignalRegistration::Unregistered { .. } =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Signal not registered yet&quot;</span>),
@@ -1379,6 +1386,7 @@
     </span><span class="doccomment">/// Type this signal was registered for.
     ///
     /// This will panic if called before the signal was registered.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Type {
         <span class="kw">match </span><span class="kw-2">&amp;*</span><span class="self">self</span>.registration.lock().unwrap() {
             SignalRegistration::Unregistered { .. } =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Signal not registered yet&quot;</span>),
@@ -1494,4 +1502,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

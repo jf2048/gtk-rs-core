@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/boxed_inline.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>boxed_inline.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/boxed_inline.rs`."><title>boxed_inline.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../glib/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../glib/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -663,6 +663,54 @@
 <a href="#590" id="590">590</a>
 <a href="#591" id="591">591</a>
 <a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.
 
 // rustdoc-stripper-ignore-next
@@ -694,8 +742,8 @@
         <span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>std::marker::Copy <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{}
 
         <span class="macro-nonterminal">$</span><span class="macro">crate::glib_boxed_inline_wrapper!</span>(
-            @<span class="macro-nonterminal">generic_impl </span>[$(<span class="macro-nonterminal">$attr</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>,
-            @copy ptr <span class="kw">unsafe </span>{ <span class="kw">let </span>copy = <span class="macro-nonterminal">$crate::ffi::g_malloc0</span>(std::mem::size_of::&lt;<span class="macro-nonterminal">$ffi_name</span>&gt;()) <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>; std::ptr::copy_nonoverlapping(ptr, copy, <span class="number">1</span>); copy },
+            @<span class="macro-nonterminal">generic_impl $name </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>,
+            @copy ptr <span class="kw">unsafe </span>{ <span class="kw">let </span>copy = <span class="macro-nonterminal">$crate::ffi::g_malloc</span>(std::mem::size_of::&lt;<span class="macro-nonterminal">$ffi_name</span>&gt;()) <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>; std::ptr::copy_nonoverlapping(ptr, copy, <span class="number">1</span>); copy },
             @free ptr <span class="kw">unsafe </span>{ <span class="macro-nonterminal">$crate::ffi::g_free</span>(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>); },
             @init _ptr (), @copy_into dest src std::ptr::copy_nonoverlapping(src, dest, <span class="number">1</span>), @clear _ptr ()
         );
@@ -726,7 +774,7 @@
         <span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>std::marker::Copy <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{}
 
         <span class="macro-nonterminal">$</span><span class="macro">crate::glib_boxed_inline_wrapper!</span>(
-            @<span class="macro-nonterminal">generic_impl </span>[$(<span class="macro-nonterminal">$attr</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>,
+            @<span class="macro-nonterminal">generic_impl $name </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>,
             @copy <span class="macro-nonterminal">$copy_arg $copy_expr</span>, @free <span class="macro-nonterminal">$free_arg $free_expr</span>,
             @init _ptr (), @copy_into dest src std::ptr::copy_nonoverlapping(src, dest, <span class="number">1</span>), @clear _ptr ()
         );
@@ -754,7 +802,8 @@
         }
 
         <span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>Drop <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
                 <span class="kw">unsafe </span>{
                     <span class="kw">let </span>clear = |<span class="macro-nonterminal">$clear_arg</span>: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>| <span class="macro-nonterminal">$clear_expr</span>;
                     clear(<span class="kw-2">&amp;mut </span><span class="self">self</span>.inner <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>);
@@ -763,8 +812,8 @@
         }
 
         <span class="macro-nonterminal">$</span><span class="macro">crate::glib_boxed_inline_wrapper!</span>(
-            @<span class="macro-nonterminal">generic_impl </span>[$(<span class="macro-nonterminal">$attr</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>,
-            @copy ptr <span class="kw">unsafe </span>{ <span class="kw">let </span>copy = <span class="macro-nonterminal">$crate::ffi::g_malloc0</span>(std::mem::size_of::&lt;<span class="macro-nonterminal">$ffi_name</span>&gt;()) <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>; <span class="kw">let </span>c = |<span class="macro-nonterminal">$copy_into_arg_dest</span>, <span class="macro-nonterminal">$copy_into_arg_src</span>| <span class="macro-nonterminal">$copy_into_expr</span>; c(copy, ptr); copy },
+            @<span class="macro-nonterminal">generic_impl $name </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>,
+            @copy ptr <span class="kw">unsafe </span>{ <span class="kw">let </span>copy = <span class="macro-nonterminal">$crate::ffi::g_malloc</span>(std::mem::size_of::&lt;<span class="macro-nonterminal">$ffi_name</span>&gt;()) <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>; <span class="kw">let </span>c = |<span class="macro-nonterminal">$copy_into_arg_dest</span>, <span class="macro-nonterminal">$copy_into_arg_src</span>| <span class="macro-nonterminal">$copy_into_expr</span>; c(copy, ptr); copy },
             @free ptr <span class="kw">unsafe </span>{ <span class="kw">let </span>c = |<span class="macro-nonterminal">$clear_arg</span>| <span class="macro-nonterminal">$clear_expr</span>; c(ptr); <span class="macro-nonterminal">$crate::ffi::g_free</span>(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>); },
             @init <span class="macro-nonterminal">$init_arg $init_expr</span>, @copy_into <span class="macro-nonterminal">$copy_into_arg_dest $copy_into_arg_src $copy_into_expr</span>, @clear <span class="macro-nonterminal">$clear_arg $clear_expr
         </span>);
@@ -794,7 +843,8 @@
         }
 
         <span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>Drop <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
                 <span class="kw">unsafe </span>{
                     <span class="kw">let </span>clear = |<span class="macro-nonterminal">$clear_arg</span>: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>| <span class="macro-nonterminal">$clear_expr</span>;
                     clear(<span class="kw-2">&amp;mut </span><span class="self">self</span>.inner <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>);
@@ -803,7 +853,7 @@
         }
 
         <span class="macro-nonterminal">$</span><span class="macro">crate::glib_boxed_inline_wrapper!</span>(
-            @<span class="macro-nonterminal">generic_impl </span>[$(<span class="macro-nonterminal">$attr</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>,
+            @<span class="macro-nonterminal">generic_impl $name </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>,
             @copy <span class="macro-nonterminal">$copy_arg $copy_expr</span>, @free <span class="macro-nonterminal">$free_arg $free_expr</span>,
             @init <span class="macro-nonterminal">$init_arg $init_expr</span>, @copy_into <span class="macro-nonterminal">$copy_into_arg_dest $copy_into_arg_src $copy_into_expr</span>, @clear <span class="macro-nonterminal">$clear_arg $clear_expr
         </span>);
@@ -811,19 +861,37 @@
         <span class="macro-nonterminal">$</span><span class="macro">crate::glib_boxed_inline_wrapper!</span>(@<span class="macro-nonterminal">value_impl $name </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name </span>$(, @type_ <span class="macro-nonterminal">$get_type_expr</span>)<span class="question-mark">?</span>);
     };
 
-    (@generic_impl [$(<span class="macro-nonterminal">$attr</span>:meta)<span class="kw-2">*</span>] <span class="macro-nonterminal">$name</span>:ident $(&lt;$(<span class="macro-nonterminal">$generic</span>:ident $(: <span class="macro-nonterminal">$bound</span>:tt $(+ <span class="macro-nonterminal">$bound2</span>:tt)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>:ty,
+    (@generic_impl <span class="macro-nonterminal">$name</span>:ident $(&lt;$(<span class="macro-nonterminal">$generic</span>:ident $(: <span class="macro-nonterminal">$bound</span>:tt $(+ <span class="macro-nonterminal">$bound2</span>:tt)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>:ty,
      @copy <span class="macro-nonterminal">$copy_arg</span>:ident <span class="macro-nonterminal">$copy_expr</span>:expr, @free <span class="macro-nonterminal">$free_arg</span>:ident <span class="macro-nonterminal">$free_expr</span>:expr,
      @init <span class="macro-nonterminal">$init_arg</span>:ident <span class="macro-nonterminal">$init_expr</span>:expr, @copy_into <span class="macro-nonterminal">$copy_into_arg_dest</span>:ident <span class="macro-nonterminal">$copy_into_arg_src</span>:ident <span class="macro-nonterminal">$copy_into_expr</span>:expr, @clear <span class="macro-nonterminal">$clear_arg</span>:ident <span class="macro-nonterminal">$clear_expr</span>:expr) =&gt; {
 
         <span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">pub fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">pub fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name </span>{
                 <span class="kw-2">&amp;</span><span class="self">self</span>.inner <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_
             </span>}
+
+            <span class="attr">#[doc = <span class="string">&quot;Borrows the underlying C value.&quot;</span>]
+            #[inline]
+            </span><span class="kw">pub unsafe fn </span>from_glib_ptr_borrow&lt;<span class="lifetime">&#39;a</span>&gt;(ptr: <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">Self </span>{
+                <span class="kw-2">&amp;*</span>(ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="self">Self</span>)
+            }
+
+            <span class="attr">#[doc = <span class="string">&quot;Borrows the underlying C value mutably.&quot;</span>]
+            #[inline]
+            </span><span class="kw">pub unsafe fn </span>from_glib_ptr_borrow_mut&lt;<span class="lifetime">&#39;a</span>&gt;(ptr: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="self">Self </span>{
+                <span class="kw-2">&amp;mut *</span>(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="self">Self</span>)
+            }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::GlibPtrDefault </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
             <span class="kw">type </span>GlibType = <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>;
+        }
+
+        <span class="attr">#[doc(hidden)]
+        </span><span class="kw">unsafe impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::TransparentType </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
+            <span class="kw">type </span>GlibType = <span class="macro-nonterminal">$ffi_name</span>;
         }
 
         <span class="attr">#[doc(hidden)]
@@ -842,7 +910,8 @@
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::UnsafeFrom</span>&lt;<span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">unsafe fn </span>unsafe_from(t: <span class="macro-nonterminal">$ffi_name</span>) -&gt; <span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>unsafe_from(t: <span class="macro-nonterminal">$ffi_name</span>) -&gt; <span class="self">Self </span>{
                 <span class="self">Self </span>{
                     inner: t,
                     $(phantom: std::marker::PhantomData::&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?
@@ -851,12 +920,12 @@
         }
 
         <span class="attr">#[doc(hidden)]
-        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic</span>: <span class="lifetime">&#39;a </span>+ $(<span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibPtr</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">type </span>Storage = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">Self</span>;
+        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibPtr</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
+            <span class="kw">type </span>Storage = std::marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">Self</span>&gt;;
 
             <span class="attr">#[inline]
             </span><span class="kw">fn </span>to_glib_none(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::translate::Stash</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>&gt; {
-                <span class="macro-nonterminal">$crate::translate::Stash</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.inner <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">self</span>)
+                <span class="macro-nonterminal">$crate::translate::Stash</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.inner <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>, std::marker::PhantomData)
             }
 
             <span class="attr">#[inline]
@@ -869,48 +938,50 @@
         }
 
         <span class="attr">#[doc(hidden)]
-        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic</span>: <span class="lifetime">&#39;a </span>+ $(<span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibPtrMut</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">type </span>Storage = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="self">Self</span>;
+        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibPtrMut</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
+            <span class="kw">type </span>Storage = std::marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="self">Self</span>&gt;;
 
             <span class="attr">#[inline]
             </span><span class="kw">fn </span>to_glib_none_mut(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::translate::StashMut</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>&gt; {
                 <span class="kw">let </span>ptr = <span class="kw-2">&amp;mut </span><span class="self">self</span>.inner <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>;
-                <span class="macro-nonterminal">$crate::translate::StashMut</span>(ptr, <span class="self">self</span>)
+                <span class="macro-nonterminal">$crate::translate::StashMut</span>(ptr, std::marker::PhantomData)
             }
         }
 
         <span class="attr">#[doc(hidden)]
-        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic</span>: <span class="lifetime">&#39;a </span>+ $(<span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut *const </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">type </span>Storage = <span class="prelude-ty">Option</span>&lt;Vec&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;&gt;;
+        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut *const </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
+            <span class="kw">type </span>Storage = (std::marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]&gt;, <span class="prelude-ty">Option</span>&lt;Vec&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;&gt;);
 
             <span class="kw">fn </span>to_glib_none_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*mut *const </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
                 <span class="kw">let </span><span class="kw-2">mut </span>v: Vec&lt;<span class="kw">_</span>&gt; = t.iter().map(|s| <span class="kw-2">&amp;</span>s.inner <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>).collect();
                 v.push(std::ptr::null_mut() <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>);
 
-                (v.as_mut_ptr(), <span class="prelude-val">Some</span>(v))
+                (v.as_mut_ptr(), (std::marker::PhantomData, <span class="prelude-val">Some</span>(v)))
             }
 
             <span class="kw">fn </span>to_glib_container_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*mut *const </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
                 <span class="kw">let </span>v_ptr = <span class="kw">unsafe </span>{
-                    <span class="kw">let </span>v_ptr = <span class="macro-nonterminal">$crate::ffi::g_malloc0</span>(std::mem::size_of::&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;() * (t.len() + <span class="number">1</span>)) <span class="kw">as </span><span class="kw-2">*mut *const </span><span class="macro-nonterminal">$ffi_name</span>;
+                    <span class="kw">let </span>v_ptr = <span class="macro-nonterminal">$crate::ffi::g_malloc</span>(std::mem::size_of::&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;() * (t.len() + <span class="number">1</span>)) <span class="kw">as </span><span class="kw-2">*mut *const </span><span class="macro-nonterminal">$ffi_name</span>;
 
                     <span class="kw">for </span>(i, s) <span class="kw">in </span>t.iter().enumerate() {
                         std::ptr::write(v_ptr.add(i), <span class="kw-2">&amp;</span>s.inner <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>);
                     }
+                    std::ptr::write(v_ptr.add(t.len()), std::ptr::null_mut());
 
                     v_ptr
                 };
 
-                (v_ptr, <span class="prelude-val">None</span>)
+                (v_ptr, (std::marker::PhantomData, <span class="prelude-val">None</span>))
             }
 
             <span class="kw">fn </span>to_glib_full_from_slice(t: <span class="kw-2">&amp;</span>[<span class="self">Self</span>]) -&gt; <span class="kw-2">*mut *const </span><span class="macro-nonterminal">$ffi_name </span>{
                 <span class="kw">unsafe </span>{
-                    <span class="kw">let </span>v_ptr = <span class="macro-nonterminal">$crate::ffi::g_malloc0</span>(std::mem::size_of::&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;() * (t.len() + <span class="number">1</span>)) <span class="kw">as </span><span class="kw-2">*mut *const </span><span class="macro-nonterminal">$ffi_name</span>;
+                    <span class="kw">let </span>v_ptr = <span class="macro-nonterminal">$crate::ffi::g_malloc</span>(std::mem::size_of::&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;() * (t.len() + <span class="number">1</span>)) <span class="kw">as </span><span class="kw-2">*mut *const </span><span class="macro-nonterminal">$ffi_name</span>;
 
                     <span class="kw">for </span>(i, s) <span class="kw">in </span>t.iter().enumerate() {
                         std::ptr::write(v_ptr.add(i), <span class="macro-nonterminal">$crate::translate::ToGlibPtr::to_glib_full</span>(s));
                     }
+                    std::ptr::write(v_ptr.add(t.len()), std::ptr::null_mut());
 
                     v_ptr
                 }
@@ -918,10 +989,11 @@
         }
 
         <span class="attr">#[doc(hidden)]
-        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic</span>: <span class="lifetime">&#39;a </span>+ $(<span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*const *const </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">type </span>Storage = <span class="prelude-ty">Option</span>&lt;Vec&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;&gt;;
+        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*const *const </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
+            <span class="kw">type </span>Storage = (std::marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]&gt;, <span class="prelude-ty">Option</span>&lt;Vec&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;&gt;);
 
-            <span class="kw">fn </span>to_glib_none_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*const *const </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>to_glib_none_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*const *const </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
                 <span class="kw">let </span>(ptr, stash) = <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>::&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut *const </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_none_from_slice(t);
                 (ptr <span class="kw">as </span><span class="kw-2">*const *const </span><span class="macro-nonterminal">$ffi_name</span>, stash)
             }
@@ -938,23 +1010,24 @@
         }
 
         <span class="attr">#[doc(hidden)]
-        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic</span>: <span class="lifetime">&#39;a </span>+ $(<span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">type </span>Storage = <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]&gt;;
+        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
+            <span class="kw">type </span>Storage = std::marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]&gt;;
 
-            <span class="kw">fn </span>to_glib_none_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
-                (t.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="prelude-val">Some</span>(t))
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>to_glib_none_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
+                (t.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>, std::marker::PhantomData)
             }
 
             <span class="kw">fn </span>to_glib_container_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
                 (
                     <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>::&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_full_from_slice(t),
-                    <span class="prelude-val">None</span>,
+                    std::marker::PhantomData,
                 )
             }
 
             <span class="kw">fn </span>to_glib_full_from_slice(t: <span class="kw-2">&amp;</span>[<span class="self">Self</span>]) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name </span>{
                 <span class="kw">let </span>v_ptr = <span class="kw">unsafe </span>{
-                    <span class="kw">let </span>v_ptr = <span class="macro-nonterminal">$crate::ffi::g_malloc0</span>(std::mem::size_of::&lt;<span class="macro-nonterminal">$ffi_name</span>&gt;()) <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>;
+                    <span class="kw">let </span>v_ptr = <span class="macro-nonterminal">$crate::ffi::g_malloc</span>(std::mem::size_of::&lt;<span class="macro-nonterminal">$ffi_name</span>&gt;()) <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>;
 
                     <span class="kw">for </span>(i, s) <span class="kw">in </span>t.iter().enumerate() {
                         <span class="kw">let </span>copy_into = |<span class="macro-nonterminal">$copy_into_arg_dest</span>: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="macro-nonterminal">$copy_into_arg_src</span>: <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>| <span class="macro-nonterminal">$copy_into_expr</span>;
@@ -969,10 +1042,11 @@
         }
 
         <span class="attr">#[doc(hidden)]
-        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic</span>: <span class="lifetime">&#39;a </span>$(<span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">type </span>Storage = <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]&gt;;
+        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
+            <span class="kw">type </span>Storage = std::marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]&gt;;
 
-            <span class="kw">fn </span>to_glib_none_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>to_glib_none_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
                 <span class="kw">let </span>(ptr, stash) = <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>::&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_none_from_slice(t);
                 (ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>, stash)
             }
@@ -992,7 +1066,7 @@
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::FromGlibPtrNone</span>&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
             <span class="attr">#[inline]
             </span><span class="kw">unsafe fn </span>from_glib_none(ptr: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>) -&gt; <span class="self">Self </span>{
-                <span class="macro">assert!</span>(!ptr.is_null());
+                <span class="macro">debug_assert!</span>(!ptr.is_null());
 
                 <span class="kw">let </span><span class="kw-2">mut </span>v = &lt;<span class="self">Self </span><span class="kw">as </span><span class="macro-nonterminal">$crate::translate::Uninitialized</span>&gt;::uninitialized();
                 <span class="kw">let </span>copy_into = |<span class="macro-nonterminal">$copy_into_arg_dest</span>: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="macro-nonterminal">$copy_into_arg_src</span>: <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>| <span class="macro-nonterminal">$copy_into_expr</span>;
@@ -1014,7 +1088,7 @@
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::FromGlibPtrFull</span>&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
             <span class="attr">#[inline]
             </span><span class="kw">unsafe fn </span>from_glib_full(ptr: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>) -&gt; <span class="self">Self </span>{
-                <span class="macro">assert!</span>(!ptr.is_null());
+                <span class="macro">debug_assert!</span>(!ptr.is_null());
 
                 <span class="kw">let </span><span class="kw-2">mut </span>v = &lt;<span class="self">Self </span><span class="kw">as </span><span class="macro-nonterminal">$crate::translate::Uninitialized</span>&gt;::uninitialized();
                 <span class="kw">let </span>copy_into = |<span class="macro-nonterminal">$copy_into_arg_dest</span>: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="macro-nonterminal">$copy_into_arg_src</span>: <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>| <span class="macro-nonterminal">$copy_into_expr</span>;
@@ -1039,7 +1113,7 @@
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::FromGlibPtrBorrow</span>&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
             <span class="attr">#[inline]
             </span><span class="kw">unsafe fn </span>from_glib_borrow(ptr: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>) -&gt; <span class="macro-nonterminal">$crate::translate::Borrowed</span>&lt;<span class="self">Self</span>&gt; {
-                <span class="macro">assert!</span>(!ptr.is_null());
+                <span class="macro">debug_assert!</span>(!ptr.is_null());
 
                 <span class="macro-nonterminal">$crate::translate::Borrowed::new</span>(<span class="self">Self </span>{
                     inner: std::ptr::read(ptr),
@@ -1078,10 +1152,12 @@
                     <span class="kw">return </span>Vec::new();
                 }
 
-                <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::with_capacity(num);
+                <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::&lt;<span class="self">Self</span>&gt;::with_capacity(num);
+                <span class="kw">let </span>res_ptr = res.as_mut_ptr();
                 <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num {
-                    res.push(<span class="macro-nonterminal">$crate::translate::from_glib_none</span>(ptr.add(i)));
+                    ::std::ptr::write(res_ptr.add(i), <span class="macro-nonterminal">$crate::translate::from_glib_none</span>(ptr.add(i)));
                 }
+                res.set_len(num);
                 res
             }
 
@@ -1098,9 +1174,9 @@
                 }
 
                 <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::with_capacity(num);
-                <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num {
-                    res.push(std::ptr::read(ptr.add(i) <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>));
-                }
+                <span class="kw">let </span>res_ptr = res.as_mut_ptr();
+                ::std::ptr::copy_nonoverlapping(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="self">Self</span>, res_ptr, num);
+                res.set_len(num);
                 <span class="macro-nonterminal">$crate::ffi::g_free</span>(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
                 res
             }
@@ -1113,10 +1189,12 @@
                     <span class="kw">return </span>Vec::new();
                 }
 
-                <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::with_capacity(num);
+                <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::&lt;<span class="self">Self</span>&gt;::with_capacity(num);
+                <span class="kw">let </span>res_ptr = res.as_mut_ptr();
                 <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num {
-                    res.push(<span class="macro-nonterminal">$crate::translate::from_glib_none</span>(std::ptr::read(ptr.add(i))));
+                    ::std::ptr::write(res_ptr.add(i), <span class="macro-nonterminal">$crate::translate::from_glib_none</span>(::std::ptr::read(ptr.add(i))));
                 }
+                res.set_len(num);
                 res
             }
 
@@ -1132,10 +1210,12 @@
                     <span class="kw">return </span>Vec::new();
                 }
 
-                <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::with_capacity(num);
+                <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::&lt;<span class="self">Self</span>&gt;::with_capacity(num);
+                <span class="kw">let </span>res_ptr = res.as_mut_ptr();
                 <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num {
-                    res.push(<span class="macro-nonterminal">$crate::translate::from_glib_full</span>(std::ptr::read(ptr.add(i))));
+                    ::std::ptr::write(res_ptr.add(i), <span class="macro-nonterminal">$crate::translate::from_glib_full</span>(::std::ptr::read(ptr.add(i))));
                 }
+                res.set_len(num);
                 <span class="macro-nonterminal">$crate::ffi::g_free</span>(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
                 res
             }
@@ -1155,29 +1235,30 @@
                 <span class="macro-nonterminal">$crate::translate::FromGlibContainerAsVec::from_glib_full_num_as_vec</span>(ptr, <span class="macro-nonterminal">$crate::translate::c_ptr_array_len</span>(ptr))
             }
         }
-
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::IntoGlibPtr</span>&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">unsafe fn </span>into_glib_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name </span>{
-                <span class="kw">let </span>s = std::mem::ManuallyDrop::new(<span class="self">self</span>);
-                <span class="macro-nonterminal">$crate::translate::ToGlibPtr</span>::&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_none(<span class="kw-2">&amp;*</span>s).<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>into_glib_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name </span>{
+                <span class="macro-nonterminal">$crate::translate::ToGlibPtr</span>::&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_full(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_
             </span>}
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::IntoGlibPtr</span>&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">unsafe fn </span>into_glib_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name </span>{
-                <span class="kw">let </span>s = std::mem::ManuallyDrop::new(<span class="self">self</span>);
-                <span class="macro-nonterminal">$crate::translate::ToGlibPtr</span>::&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_none(<span class="kw-2">&amp;*</span>s).<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_
-            </span>}
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>into_glib_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name </span>{
+                <span class="macro-nonterminal">$crate::translate::ToGlibPtr</span>::&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_full(<span class="kw-2">&amp;</span><span class="self">self</span>)
+            }
         }
+
     };
 
     (@value_impl <span class="macro-nonterminal">$name</span>:ident $(&lt;$(<span class="macro-nonterminal">$generic</span>:ident $(: <span class="macro-nonterminal">$bound</span>:tt $(+ <span class="macro-nonterminal">$bound2</span>:tt)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>:ty) =&gt; { };
 
     (@value_impl <span class="macro-nonterminal">$name</span>:ident $(&lt;$(<span class="macro-nonterminal">$generic</span>:ident $(: <span class="macro-nonterminal">$bound</span>:tt $(+ <span class="macro-nonterminal">$bound2</span>:tt)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>, <span class="macro-nonterminal">$ffi_name</span>:ty, @type_ <span class="macro-nonterminal">$get_type_expr</span>:expr) =&gt; {
         <span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::types::StaticType </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>static_type() -&gt; <span class="macro-nonterminal">$crate::types::Type </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>static_type() -&gt; <span class="macro-nonterminal">$crate::types::Type </span>{
                 <span class="attr">#[allow(unused_unsafe)]
                 </span><span class="kw">unsafe </span>{ <span class="macro-nonterminal">$crate::translate::from_glib</span>(<span class="macro-nonterminal">$get_type_expr</span>) }
             }
@@ -1195,9 +1276,10 @@
         </span><span class="kw">unsafe impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::value::FromValue</span>&lt;<span class="lifetime">&#39;_</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
             <span class="kw">type </span>Checker = <span class="macro-nonterminal">$crate::value::GenericValueTypeOrNoneChecker</span>&lt;<span class="self">Self</span>&gt;;
 
-            <span class="kw">unsafe fn </span>from_value(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="macro-nonterminal">$crate::Value</span>) -&gt; <span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>from_value(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="macro-nonterminal">$crate::Value</span>) -&gt; <span class="self">Self </span>{
                 <span class="kw">let </span>ptr = <span class="macro-nonterminal">$crate::gobject_ffi::g_value_get_boxed</span>(<span class="macro-nonterminal">$crate::translate::ToGlibPtr::to_glib_none</span>(value).<span class="number">0</span>);
-                <span class="macro">assert!</span>(!ptr.is_null());
+                <span class="macro">debug_assert!</span>(!ptr.is_null());
                 &lt;<span class="self">Self </span><span class="kw">as </span><span class="macro-nonterminal">$crate::translate::FromGlibPtrNone</span>&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;&gt;::from_glib_none(ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>)
             }
         }
@@ -1206,18 +1288,20 @@
         </span><span class="kw">unsafe impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::value::FromValue</span>&lt;<span class="lifetime">&#39;_</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
             <span class="kw">type </span>Checker = <span class="macro-nonterminal">$crate::value::GenericValueTypeOrNoneChecker</span>&lt;<span class="self">Self</span>&gt;;
 
-            <span class="kw">unsafe fn </span>from_value(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="macro-nonterminal">$crate::Value</span>) -&gt; <span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>from_value(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="macro-nonterminal">$crate::Value</span>) -&gt; <span class="self">Self </span>{
                 <span class="kw">let </span>ptr = <span class="macro-nonterminal">$crate::gobject_ffi::g_value_get_boxed</span>(<span class="macro-nonterminal">$crate::translate::ToGlibPtr::to_glib_none</span>(value).<span class="number">0</span>);
-                <span class="macro">assert!</span>(!ptr.is_null());
+                <span class="macro">debug_assert!</span>(!ptr.is_null());
                 <span class="kw-2">&amp;*</span>(ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name </span><span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>)
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::value::ToValue </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>to_value(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::Value </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>to_value(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::Value </span>{
                 <span class="kw">unsafe </span>{
-                    <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="macro-nonterminal">$crate::Value::from_type</span>(&lt;<span class="self">Self </span><span class="kw">as </span><span class="macro-nonterminal">$crate::StaticType</span>&gt;::static_type());
+                    <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="macro-nonterminal">$crate::Value::from_type_unchecked</span>(&lt;<span class="self">Self </span><span class="kw">as </span><span class="macro-nonterminal">$crate::StaticType</span>&gt;::static_type());
                     <span class="macro-nonterminal">$crate::gobject_ffi::g_value_set_boxed</span>(
                         <span class="macro-nonterminal">$crate::translate::ToGlibPtrMut::to_glib_none_mut</span>(<span class="kw-2">&amp;mut </span>value).<span class="number">0</span>,
                         <span class="macro-nonterminal">$crate::translate::ToGlibPtr</span>::&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_none(<span class="self">self</span>).<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>,
@@ -1226,7 +1310,8 @@
                 }
             }
 
-            <span class="kw">fn </span>value_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::Type </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>value_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::Type </span>{
                 &lt;<span class="self">Self </span><span class="kw">as </span><span class="macro-nonterminal">$crate::StaticType</span>&gt;::static_type()
             }
         }
@@ -1241,7 +1326,8 @@
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>: <span class="lifetime">&#39;static </span>+ $(<span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::value::ToValueOptional </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>to_value_optional(s: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="self">Self</span>&gt;) -&gt; <span class="macro-nonterminal">$crate::Value </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>to_value_optional(s: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="self">Self</span>&gt;) -&gt; <span class="macro-nonterminal">$crate::Value </span>{
                 <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="macro-nonterminal">$crate::Value::for_value_type</span>::&lt;<span class="self">Self</span>&gt;();
                 <span class="kw">unsafe </span>{
                     <span class="macro-nonterminal">$crate::gobject_ffi::g_value_set_boxed</span>(
@@ -1253,7 +1339,17 @@
                 value
             }
         }
+
+        <span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::HasParamSpec </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
+            <span class="kw">type </span>ParamSpec = <span class="macro-nonterminal">$crate::ParamSpecBoxed</span>;
+            <span class="kw">type </span>SetValue = <span class="self">Self</span>;
+            <span class="kw">type </span>BuilderFn = <span class="kw">fn</span>(<span class="kw-2">&amp;</span>str) -&gt; <span class="macro-nonterminal">$crate::ParamSpecBoxedBuilder</span>&lt;<span class="self">Self</span>&gt;;
+
+            <span class="kw">fn </span>param_spec_builder() -&gt; <span class="self">Self</span>::BuilderFn {
+                |name| <span class="self">Self</span>::ParamSpec::builder(name)
+            }
+        }
     };
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

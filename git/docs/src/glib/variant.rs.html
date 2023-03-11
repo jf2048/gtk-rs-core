@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/variant.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>variant.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/variant.rs`."><title>variant.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../glib/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../glib/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3186,6 +3186,20 @@
 <a href="#3113" id="3113">3113</a>
 <a href="#3114" id="3114">3114</a>
 <a href="#3115" id="3115">3115</a>
+<a href="#3116" id="3116">3116</a>
+<a href="#3117" id="3117">3117</a>
+<a href="#3118" id="3118">3118</a>
+<a href="#3119" id="3119">3119</a>
+<a href="#3120" id="3120">3120</a>
+<a href="#3121" id="3121">3121</a>
+<a href="#3122" id="3122">3122</a>
+<a href="#3123" id="3123">3123</a>
+<a href="#3124" id="3124">3124</a>
+<a href="#3125" id="3125">3125</a>
+<a href="#3126" id="3126">3126</a>
+<a href="#3127" id="3127">3127</a>
+<a href="#3128" id="3128">3128</a>
+<a href="#3129" id="3129">3129</a>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.
 
 // rustdoc-stripper-ignore-next
@@ -3289,23 +3303,18 @@
 //! assert_eq!(PathBuf::from_variant(&amp;path_variant).as_deref(), Some(path));
 //! ```
 
-</span><span class="kw">use </span><span class="kw">crate</span>::bytes::Bytes;
-<span class="kw">use </span><span class="kw">crate</span>::translate::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::StaticType;
-<span class="kw">use </span><span class="kw">crate</span>::Type;
-<span class="kw">use </span><span class="kw">crate</span>::VariantTy;
-<span class="kw">use </span><span class="kw">crate</span>::VariantType;
-<span class="kw">use crate</span>::{VariantIter, VariantStrIter};
-<span class="kw">use </span>std::borrow::Cow;
-<span class="kw">use </span>std::cmp::{Eq, Ordering, PartialEq, PartialOrd};
-<span class="kw">use </span>std::collections::BTreeMap;
-<span class="kw">use </span>std::collections::HashMap;
-<span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::hash::{BuildHasher, Hash, Hasher};
-<span class="kw">use </span>std::mem;
-<span class="kw">use </span>std::ptr;
-<span class="kw">use </span>std::slice;
-<span class="kw">use </span>std::str;
+</span><span class="kw">use </span>std::{
+    borrow::Cow,
+    cmp::{Eq, Ordering, PartialEq, PartialOrd},
+    collections::{BTreeMap, HashMap},
+    fmt,
+    hash::{BuildHasher, Hash, Hasher},
+    mem, ptr, slice, str,
+};
+
+<span class="kw">use crate</span>::{
+    prelude::<span class="kw-2">*</span>, translate::<span class="kw-2">*</span>, Bytes, Type, VariantIter, VariantStrIter, VariantTy, VariantType,
+};
 
 <span class="macro">wrapper! </span>{
     <span class="comment">// rustdoc-stripper-ignore-next
@@ -3569,7 +3578,8 @@
 }
 
 <span class="kw">impl </span>StaticType <span class="kw">for </span>Variant {
-    <span class="kw">fn </span>static_type() -&gt; Type {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>static_type() -&gt; Type {
         Type::VARIANT
     }
 }
@@ -3588,7 +3598,7 @@
 
     <span class="kw">unsafe fn </span>from_value(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw">crate</span>::Value) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>ptr = gobject_ffi::g_value_dup_variant(value.to_glib_none().<span class="number">0</span>);
-        <span class="macro">assert!</span>(!ptr.is_null());
+        <span class="macro">debug_assert!</span>(!ptr.is_null());
         from_glib_full(ptr)
     }
 }
@@ -3597,7 +3607,7 @@
 </span><span class="kw">impl </span><span class="kw">crate</span>::value::ToValue <span class="kw">for </span>Variant {
     <span class="kw">fn </span>to_value(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">crate</span>::Value {
         <span class="kw">unsafe </span>{
-            <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="kw">crate</span>::Value::from_type(Variant::static_type());
+            <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="kw">crate</span>::Value::from_type_unchecked(Variant::static_type());
             gobject_ffi::g_value_take_variant(value.to_glib_none_mut().<span class="number">0</span>, <span class="self">self</span>.to_glib_full());
             value
         }
@@ -3613,7 +3623,7 @@
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>from(v: Variant) -&gt; <span class="self">Self </span>{
         <span class="kw">unsafe </span>{
-            <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="kw">crate</span>::Value::from_type(Variant::static_type());
+            <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="kw">crate</span>::Value::from_type_unchecked(Variant::static_type());
             gobject_ffi::g_value_take_variant(value.to_glib_none_mut().<span class="number">0</span>, v.into_glib_ptr());
             value
         }
@@ -3942,12 +3952,12 @@
                 n_elements.as_mut_ptr(),
                 mem::size_of::&lt;T&gt;(),
             );
-            <span class="macro">assert!</span>(!ptr.is_null());
 
             <span class="kw">let </span>n_elements = n_elements.assume_init();
             <span class="kw">if </span>n_elements == <span class="number">0 </span>{
                 <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>[])
             } <span class="kw">else </span>{
+                <span class="macro">debug_assert!</span>(!ptr.is_null());
                 <span class="prelude-val">Ok</span>(slice::from_raw_parts(ptr <span class="kw">as </span><span class="kw-2">*const </span>T, n_elements))
             }
         }
@@ -4087,10 +4097,10 @@
     ///
     /// # Panics
     ///
-    /// Panics if compiled with `debug_assertions` and the variant is not maybe-typed.
+    /// Panics if the variant is not maybe-typed.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>as_maybe(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Variant&gt; {
-        <span class="macro">debug_assert!</span>(<span class="self">self</span>.type_().is_maybe());
+        <span class="macro">assert!</span>(<span class="self">self</span>.type_().is_maybe());
 
         <span class="kw">unsafe </span>{ from_glib_full(ffi::g_variant_get_maybe(<span class="self">self</span>.to_glib_none().<span class="number">0</span>)) }
     }
@@ -4138,9 +4148,10 @@
                 <span class="kw-2">&amp;mut </span>error,
             );
             <span class="kw">if </span>variant.is_null() {
-                <span class="macro">assert!</span>(!error.is_null());
+                <span class="macro">debug_assert!</span>(!error.is_null());
                 <span class="prelude-val">Err</span>(from_glib_full(error))
             } <span class="kw">else </span>{
+                <span class="macro">debug_assert!</span>(error.is_null());
                 <span class="prelude-val">Ok</span>(from_glib_full(variant))
             }
         }
@@ -4480,7 +4491,9 @@
     /// marked as trusted and a new reference to it is returned.
     ///
     /// If `self` is found not to be in normal form then a new trusted
-    /// [`Variant`][struct@crate::Variant] is created with the same value as `self`.
+    /// [`Variant`][struct@crate::Variant] is created with the same value as `self`. The non-normal parts of
+    /// `self` will be replaced with default values which are guaranteed to be in
+    /// normal form.
     ///
     /// It makes sense to call this function if you&#39;ve received [`Variant`][struct@crate::Variant]
     /// data from untrusted sources and you want to ensure your serialized
@@ -4514,6 +4527,11 @@
     /// This function is an identity mapping on any value that does not
     /// contain multi-byte numeric data. That include strings, booleans,
     /// bytes and containers containing only these things (recursively).
+    ///
+    /// While this function can safely handle untrusted, non-normal data, it is
+    /// recommended to check whether the input is in normal form beforehand, using
+    /// [`is_normal_form()`][Self::is_normal_form()], and to reject non-normal inputs if your
+    /// application can be strict about what inputs it rejects.
     ///
     /// The returned value is always in normal form and is marked as trusted.
     /// A full, not floating, reference is returned.
@@ -4752,7 +4770,8 @@
 }
 
 <span class="kw">impl </span>AsRef&lt;Variant&gt; <span class="kw">for </span>Variant {
-    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
         <span class="self">self
     </span>}
 }
@@ -5677,31 +5696,36 @@
 <span class="kw">impl</span>&lt;A: AsRef&lt;[T]&gt;, T: FixedSizeVariantType&gt; std::ops::Deref <span class="kw">for </span>FixedSizeVariantArray&lt;A, T&gt; {
     <span class="kw">type </span>Target = A;
 
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
     </span>}
 }
 
 <span class="kw">impl</span>&lt;A: AsRef&lt;[T]&gt;, T: FixedSizeVariantType&gt; std::ops::DerefMut <span class="kw">for </span>FixedSizeVariantArray&lt;A, T&gt; {
-    <span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Target {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Target {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0
     </span>}
 }
 
 <span class="kw">impl</span>&lt;A: AsRef&lt;[T]&gt;, T: FixedSizeVariantType&gt; AsRef&lt;A&gt; <span class="kw">for </span>FixedSizeVariantArray&lt;A, T&gt; {
-    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>A {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>A {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
     </span>}
 }
 
 <span class="kw">impl</span>&lt;A: AsRef&lt;[T]&gt;, T: FixedSizeVariantType&gt; AsMut&lt;A&gt; <span class="kw">for </span>FixedSizeVariantArray&lt;A, T&gt; {
-    <span class="kw">fn </span>as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>A {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>A {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0
     </span>}
 }
 
 <span class="kw">impl</span>&lt;A: AsRef&lt;[T]&gt;, T: FixedSizeVariantType&gt; AsRef&lt;[T]&gt; <span class="kw">for </span>FixedSizeVariantArray&lt;A, T&gt; {
-    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[T] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[T] {
         <span class="self">self</span>.<span class="number">0</span>.as_ref()
     }
 }
@@ -5709,7 +5733,8 @@
 <span class="kw">impl</span>&lt;A: AsRef&lt;[T]&gt; + AsMut&lt;[T]&gt;, T: FixedSizeVariantType&gt; AsMut&lt;[T]&gt;
     <span class="kw">for </span>FixedSizeVariantArray&lt;A, T&gt;
 {
-    <span class="kw">fn </span>as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[T] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[T] {
         <span class="self">self</span>.<span class="number">0</span>.as_mut()
     }
 }
@@ -5827,7 +5852,8 @@
 <span class="kw">impl </span>std::ops::Deref <span class="kw">for </span>ObjectPath {
     <span class="kw">type </span>Target = str;
 
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
     </span>}
 }
@@ -5907,7 +5933,8 @@
 <span class="kw">impl </span>std::ops::Deref <span class="kw">for </span>Signature {
     <span class="kw">type </span>Target = str;
 
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
     </span>}
 }
@@ -5974,8 +6001,9 @@
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
-    <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span>std::collections::{HashMap, HashSet};
+
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="macro">macro_rules! </span>unsigned {
         (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$ty</span>:ident) =&gt; {
@@ -6302,4 +6330,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

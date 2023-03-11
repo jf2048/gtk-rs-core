@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/object.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>object.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/object.rs`."><title>object.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../glib/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../glib/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -4599,34 +4599,37 @@
 <a href="#4526" id="4526">4526</a>
 <a href="#4527" id="4527">4527</a>
 <a href="#4528" id="4528">4528</a>
+<a href="#4529" id="4529">4529</a>
+<a href="#4530" id="4530">4530</a>
+<a href="#4531" id="4531">4531</a>
+<a href="#4532" id="4532">4532</a>
+<a href="#4533" id="4533">4533</a>
+<a href="#4534" id="4534">4534</a>
+<a href="#4535" id="4535">4535</a>
+<a href="#4536" id="4536">4536</a>
+<a href="#4537" id="4537">4537</a>
+<a href="#4538" id="4538">4538</a>
+<a href="#4539" id="4539">4539</a>
+<a href="#4540" id="4540">4540</a>
+<a href="#4541" id="4541">4541</a>
+<a href="#4542" id="4542">4542</a>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.
 
 // rustdoc-stripper-ignore-next
 </span><span class="doccomment">//! `IMPL` Object wrapper implementation and `Object` binding.
 
-</span><span class="kw">use </span><span class="kw">crate</span>::types::StaticType;
-<span class="kw">use </span><span class="kw">crate</span>::PtrSlice;
-<span class="kw">use crate</span>::{quark::Quark, subclass::signal::SignalQuery};
-<span class="kw">use crate</span>::{translate::<span class="kw-2">*</span>, value::FromValue};
-<span class="kw">use </span>std::cmp;
-<span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::hash;
-<span class="kw">use </span>std::marker::PhantomData;
-<span class="kw">use </span>std::mem;
-<span class="kw">use </span>std::mem::ManuallyDrop;
-<span class="kw">use </span>std::ops;
-<span class="kw">use </span>std::pin::Pin;
-<span class="kw">use </span>std::ptr;
+</span><span class="kw">use </span>std::{cmp, fmt, hash, marker::PhantomData, mem, mem::ManuallyDrop, ops, pin::Pin, ptr};
 
-<span class="kw">use </span><span class="kw">crate</span>::closure::TryFromClosureReturnValue;
-<span class="kw">use </span><span class="kw">crate</span>::subclass::{prelude::ObjectSubclass, SignalId};
-<span class="kw">use </span><span class="kw">crate</span>::value::ToValue;
-<span class="kw">use </span><span class="kw">crate</span>::SignalHandlerId;
-<span class="kw">use </span><span class="kw">crate</span>::Type;
-<span class="kw">use </span><span class="kw">crate</span>::Value;
-<span class="kw">use crate</span>::{Closure, RustClosure};
-
-<span class="kw">use </span><span class="kw">crate</span>::thread_guard::thread_id;
+<span class="kw">use crate</span>::{
+    closure::TryFromClosureReturnValue,
+    prelude::<span class="kw-2">*</span>,
+    quark::Quark,
+    subclass::{prelude::<span class="kw-2">*</span>, signal::SignalQuery, SignalId},
+    thread_guard::thread_id,
+    translate::<span class="kw-2">*</span>,
+    value::FromValue,
+    Closure, IntoGStr, PtrSlice, RustClosure, SignalHandlerId, Type, Value,
+};
 
 <span class="comment">// rustdoc-stripper-ignore-next
 </span><span class="doccomment">/// Implemented by types representing `glib::Object` and subclasses of it.
@@ -4658,6 +4661,8 @@
 
     <span class="kw">fn </span>as_object_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ObjectRef;
     <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span><span class="self">Self</span>::GlibType;
+
+    <span class="kw">unsafe fn </span>from_glib_ptr_borrow&lt;<span class="lifetime">&#39;a</span>&gt;(ptr: <span class="kw-2">*const *const </span><span class="self">Self</span>::GlibType) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">Self</span>;
 }
 
 <span class="comment">// rustdoc-stripper-ignore-next
@@ -4732,10 +4737,9 @@
     /// Returns `Ok(T)` if the object is an instance of `T` and `Err(self)`
     /// otherwise.
     ///
-    /// *NOTE*: This statically checks at compile-time if casting is possible. It is not always
-    /// known at compile-time, whether a specific object implements an interface or not, in which case
-    /// `upcast` would fail to compile. `dynamic_cast` can be used in these circumstances, which
-    /// is checking the types at runtime.
+    /// *NOTE*: This will check at compile-time if `T` is lower down the
+    /// inheritance tree of `Self`, but also check at runtime if downcasting
+    /// is indeed possible.
     ///
     /// # Example
     ///
@@ -4747,7 +4751,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>downcast&lt;T: ObjectType&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;T, <span class="self">Self</span>&gt;
     <span class="kw">where
-        </span><span class="self">Self</span>: CanDowncast&lt;T&gt;,
+        </span><span class="self">Self</span>: MayDowncastTo&lt;T&gt;,
     {
         <span class="kw">if </span><span class="self">self</span>.is::&lt;T&gt;() {
             <span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ <span class="self">self</span>.unsafe_cast() })
@@ -4762,10 +4766,9 @@
     /// Returns `Some(T)` if the object is an instance of `T` and `None`
     /// otherwise.
     ///
-    /// *NOTE*: This statically checks at compile-time if casting is possible. It is not always
-    /// known at compile-time, whether a specific object implements an interface or not, in which case
-    /// `upcast` would fail to compile. `dynamic_cast` can be used in these circumstances, which
-    /// is checking the types at runtime.
+    /// *NOTE*: This will check at compile-time if `T` is lower down the
+    /// inheritance tree of `Self`, but also check at runtime if downcasting
+    /// is indeed possible.
     ///
     /// # Example
     ///
@@ -4777,7 +4780,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>downcast_ref&lt;T: ObjectType&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;
     <span class="kw">where
-        </span><span class="self">Self</span>: CanDowncast&lt;T&gt;,
+        </span><span class="self">Self</span>: MayDowncastTo&lt;T&gt;,
     {
         <span class="kw">if </span><span class="self">self</span>.is::&lt;T&gt;() {
             <span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ <span class="self">self</span>.unsafe_cast_ref() })
@@ -4789,7 +4792,9 @@
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Tries to cast to an object of type `T`. This handles upcasting, downcasting
     /// and casting between interface and interface implementors. All checks are performed at
-    /// runtime, while `downcast` and `upcast` will do many checks at compile-time already.
+    /// runtime, while `upcast` will do many checks at compile-time already. `downcast` will
+    /// perform the same checks at runtime as `dynamic_cast`, but will also ensure some amount of
+    /// compile-time safety.
     ///
     /// It is not always known at compile-time, whether a specific object implements an interface or
     /// not, and checking has to be performed at runtime.
@@ -4860,6 +4865,7 @@
     /// If not running with `debug_assertions` enabled, the caller is responsible
     /// for ensuring that the instance implements `T`
     </span><span class="attr">#[track_caller]
+    #[inline]
     </span><span class="kw">unsafe fn </span>unsafe_cast&lt;T: ObjectType&gt;(<span class="self">self</span>) -&gt; T {
         <span class="macro">debug_assert!</span>(<span class="self">self</span>.is::&lt;T&gt;());
         T::unsafe_from(<span class="self">self</span>.into())
@@ -4877,6 +4883,7 @@
     /// If not running with `debug_assertions` enabled, the caller is responsible
     /// for ensuring that the instance implements `T`
     </span><span class="attr">#[track_caller]
+    #[inline]
     </span><span class="kw">unsafe fn </span>unsafe_cast_ref&lt;T: ObjectType&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
         <span class="macro">debug_assert!</span>(<span class="self">self</span>.is::&lt;T&gt;());
         <span class="comment">// This cast is safe because all our wrapper types have the
@@ -4890,10 +4897,92 @@
 <span class="kw">impl</span>&lt;T: ObjectType&gt; Cast <span class="kw">for </span>T {}
 
 <span class="comment">// rustdoc-stripper-ignore-next
-</span><span class="doccomment">/// Marker trait for the statically known possibility of downcasting from `Self` to `T`.
-</span><span class="kw">pub trait </span>CanDowncast&lt;T&gt; {}
+</span><span class="doccomment">/// Convenience trait mirroring `Cast`, implemented on `Option&lt;Object&gt;` types.
+///
+/// # Warning
+/// Inveitably this trait will discard informations about a downcast failure:
+/// you don&#39;t know if the object was not of the expected type, or if it was `None`.
+/// If you need to handle the downcast error, use `Cast` over a `glib::Object`.
+///
+/// # Example
+/// ```ignore
+/// let widget: Option&lt;Widget&gt; = list_item.child();
+///
+/// // Without using `CastNone`
+/// let label = widget.unwrap().downcast::&lt;gtk::Label&gt;().unwrap();
+///
+/// // Using `CastNone` we can avoid the first `unwrap()` call
+/// let label = widget.and_downcast::&lt;gtk::Label&gt;().unwrap();
+/// ````
+</span><span class="kw">pub trait </span>CastNone: Sized {
+    <span class="kw">type </span>Inner;
+    <span class="kw">fn </span>and_downcast&lt;T: ObjectType&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>::Inner: MayDowncastTo&lt;T&gt;;
+    <span class="kw">fn </span>and_downcast_ref&lt;T: ObjectType&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>::Inner: MayDowncastTo&lt;T&gt;;
+    <span class="kw">fn </span>and_upcast&lt;T: ObjectType&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>::Inner: IsA&lt;T&gt;;
+    <span class="kw">fn </span>and_upcast_ref&lt;T: ObjectType&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>::Inner: IsA&lt;T&gt;;
+    <span class="kw">fn </span>and_dynamic_cast&lt;T: ObjectType&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;T, <span class="self">Self</span>&gt;;
+    <span class="kw">fn </span>and_dynamic_cast_ref&lt;T: ObjectType&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;;
+}
+<span class="kw">impl</span>&lt;I: ObjectType + Sized&gt; CastNone <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;I&gt; {
+    <span class="kw">type </span>Inner = I;
 
-<span class="kw">impl</span>&lt;Super: IsA&lt;Super&gt;, Sub: IsA&lt;Super&gt;&gt; CanDowncast&lt;Sub&gt; <span class="kw">for </span>Super {}
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>and_downcast&lt;T: ObjectType&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>::Inner: MayDowncastTo&lt;T&gt;,
+    {
+        <span class="self">self</span>.and_then(|i| i.downcast().ok())
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>and_downcast_ref&lt;T: ObjectType&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>::Inner: MayDowncastTo&lt;T&gt;,
+    {
+        <span class="self">self</span>.as_ref().and_then(|i| i.downcast_ref())
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>and_upcast&lt;T: ObjectType&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>::Inner: IsA&lt;T&gt;,
+    {
+        <span class="self">self</span>.map(|i| i.upcast())
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>and_upcast_ref&lt;T: ObjectType&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>::Inner: IsA&lt;T&gt;,
+    {
+        <span class="self">self</span>.as_ref().map(|i| i.upcast_ref())
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>and_dynamic_cast&lt;T: ObjectType&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;T, <span class="self">Self</span>&gt; {
+        <span class="self">self</span>.ok_or(<span class="prelude-val">None</span>)
+            .and_then(|i| i.dynamic_cast().map_err(|e| <span class="prelude-val">Some</span>(e)))
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>and_dynamic_cast_ref&lt;T: ObjectType&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+        <span class="self">self</span>.as_ref().and_then(|i| i.dynamic_cast_ref())
+    }
+}
+
+<span class="comment">// rustdoc-stripper-ignore-next
+</span><span class="doccomment">/// Marker trait for the statically known possibility of downcasting from `Self` to `T`.
+</span><span class="kw">pub trait </span>MayDowncastTo&lt;T&gt; {}
+
+<span class="kw">impl</span>&lt;Super: IsA&lt;Super&gt;, Sub: IsA&lt;Super&gt;&gt; MayDowncastTo&lt;Sub&gt; <span class="kw">for </span>Super {}
 
 <span class="comment">// Manual implementation of glib_shared_wrapper! because of special cases
 </span><span class="attr">#[repr(transparent)]
@@ -4902,7 +4991,8 @@
 }
 
 <span class="kw">impl </span>Clone <span class="kw">for </span>ObjectRef {
-    <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="kw">unsafe </span>{
             <span class="self">Self </span>{
                 inner: ptr::NonNull::new_unchecked(gobject_ffi::g_object_ref(<span class="self">self</span>.inner.as_ptr())),
@@ -4912,7 +5002,8 @@
 }
 
 <span class="kw">impl </span>Drop <span class="kw">for </span>ObjectRef {
-    <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">unsafe </span>{
             gobject_ffi::g_object_unref(<span class="self">self</span>.inner.as_ptr());
         }
@@ -4934,19 +5025,22 @@
 }
 
 <span class="kw">impl </span>PartialOrd <span class="kw">for </span>ObjectRef {
-    <span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;cmp::Ordering&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;cmp::Ordering&gt; {
         <span class="self">self</span>.inner.partial_cmp(<span class="kw-2">&amp;</span>other.inner)
     }
 }
 
 <span class="kw">impl </span>Ord <span class="kw">for </span>ObjectRef {
-    <span class="kw">fn </span>cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; cmp::Ordering {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; cmp::Ordering {
         <span class="self">self</span>.inner.cmp(<span class="kw-2">&amp;</span>other.inner)
     }
 }
 
 <span class="kw">impl </span>PartialEq <span class="kw">for </span>ObjectRef {
-    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
         <span class="self">self</span>.inner == other.inner
     }
 }
@@ -4954,7 +5048,8 @@
 <span class="kw">impl </span>Eq <span class="kw">for </span>ObjectRef {}
 
 <span class="kw">impl </span>hash::Hash <span class="kw">for </span>ObjectRef {
-    <span class="kw">fn </span>hash&lt;H&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H)
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>hash&lt;H&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H)
     <span class="kw">where
         </span>H: hash::Hasher,
     {
@@ -4969,11 +5064,11 @@
 
 <span class="attr">#[doc(hidden)]
 </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ToGlibPtr&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span>gobject_ffi::GObject&gt; <span class="kw">for </span>ObjectRef {
-    <span class="kw">type </span>Storage = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ObjectRef;
+    <span class="kw">type </span>Storage = PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ObjectRef&gt;;
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_glib_none(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>) -&gt; Stash&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span>gobject_ffi::GObject, <span class="self">Self</span>&gt; {
-        Stash(<span class="self">self</span>.inner.as_ptr(), <span class="self">self</span>)
+        Stash(<span class="self">self</span>.inner.as_ptr(), PhantomData)
     }
 
     <span class="attr">#[inline]
@@ -4983,95 +5078,11 @@
 }
 
 <span class="attr">#[doc(hidden)]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ToGlibContainerFromSlice&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut *mut </span>gobject_ffi::GObject&gt; <span class="kw">for </span>ObjectRef {
-    <span class="kw">type </span>Storage = (
-        Vec&lt;Stash&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span>gobject_ffi::GObject, ObjectRef&gt;&gt;,
-        <span class="prelude-ty">Option</span>&lt;Vec&lt;<span class="kw-2">*mut </span>gobject_ffi::GObject&gt;&gt;,
-    );
-
-    <span class="kw">fn </span>to_glib_none_from_slice(
-        t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[ObjectRef],
-    ) -&gt; (<span class="kw-2">*mut *mut </span>gobject_ffi::GObject, <span class="self">Self</span>::Storage) {
-        <span class="kw">let </span>v: Vec&lt;<span class="kw">_</span>&gt; = t.iter().map(|s| s.to_glib_none()).collect();
-        <span class="kw">let </span><span class="kw-2">mut </span>v_ptr: Vec&lt;<span class="kw">_</span>&gt; = v.iter().map(|s| s.<span class="number">0</span>).collect();
-        v_ptr.push(ptr::null_mut() <span class="kw">as </span><span class="kw-2">*mut </span>gobject_ffi::GObject);
-
-        (
-            v_ptr.as_ptr() <span class="kw">as </span><span class="kw-2">*mut *mut </span>gobject_ffi::GObject,
-            (v, <span class="prelude-val">Some</span>(v_ptr)),
-        )
-    }
-
-    <span class="kw">fn </span>to_glib_container_from_slice(
-        t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[ObjectRef],
-    ) -&gt; (<span class="kw-2">*mut *mut </span>gobject_ffi::GObject, <span class="self">Self</span>::Storage) {
-        <span class="kw">let </span>v: Vec&lt;<span class="kw">_</span>&gt; = t.iter().map(|s| s.to_glib_none()).collect();
-
-        <span class="kw">let </span>v_ptr = <span class="kw">unsafe </span>{
-            <span class="kw">let </span>v_ptr = ffi::g_malloc0(mem::size_of::&lt;<span class="kw-2">*mut </span>gobject_ffi::GObject&gt;() * (t.len() + <span class="number">1</span>))
-                <span class="kw">as </span><span class="kw-2">*mut *mut </span>gobject_ffi::GObject;
-
-            <span class="kw">for </span>(i, s) <span class="kw">in </span>v.iter().enumerate() {
-                ptr::write(v_ptr.add(i), s.<span class="number">0</span>);
-            }
-
-            v_ptr
-        };
-
-        (v_ptr, (v, <span class="prelude-val">None</span>))
-    }
-
-    <span class="kw">fn </span>to_glib_full_from_slice(t: <span class="kw-2">&amp;</span>[ObjectRef]) -&gt; <span class="kw-2">*mut *mut </span>gobject_ffi::GObject {
-        <span class="kw">unsafe </span>{
-            <span class="kw">let </span>v_ptr =
-                ffi::g_malloc0(std::mem::size_of::&lt;<span class="kw-2">*mut </span>gobject_ffi::GObject&gt;() * (t.len() + <span class="number">1</span>))
-                    <span class="kw">as </span><span class="kw-2">*mut *mut </span>gobject_ffi::GObject;
-
-            <span class="kw">for </span>(i, s) <span class="kw">in </span>t.iter().enumerate() {
-                ptr::write(v_ptr.add(i), s.to_glib_full());
-            }
-
-            v_ptr
-        }
-    }
-}
-
-<span class="attr">#[doc(hidden)]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ToGlibContainerFromSlice&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*const *mut </span>gobject_ffi::GObject&gt; <span class="kw">for </span>ObjectRef {
-    <span class="kw">type </span>Storage = (
-        Vec&lt;Stash&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span>gobject_ffi::GObject, ObjectRef&gt;&gt;,
-        <span class="prelude-ty">Option</span>&lt;Vec&lt;<span class="kw-2">*mut </span>gobject_ffi::GObject&gt;&gt;,
-    );
-
-    <span class="kw">fn </span>to_glib_none_from_slice(
-        t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[ObjectRef],
-    ) -&gt; (<span class="kw-2">*const *mut </span>gobject_ffi::GObject, <span class="self">Self</span>::Storage) {
-        <span class="kw">let </span>(ptr, stash) =
-            ToGlibContainerFromSlice::&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut *mut </span>gobject_ffi::GObject&gt;::to_glib_none_from_slice(
-                t,
-            );
-        (ptr <span class="kw">as </span><span class="kw-2">*const *mut </span>gobject_ffi::GObject, stash)
-    }
-
-    <span class="kw">fn </span>to_glib_container_from_slice(
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[ObjectRef],
-    ) -&gt; (<span class="kw-2">*const *mut </span>gobject_ffi::GObject, <span class="self">Self</span>::Storage) {
-        <span class="comment">// Can&#39;t have consumer free a *const pointer
-        </span><span class="macro">unimplemented!</span>()
-    }
-
-    <span class="kw">fn </span>to_glib_full_from_slice(<span class="kw">_</span>: <span class="kw-2">&amp;</span>[ObjectRef]) -&gt; <span class="kw-2">*const *mut </span>gobject_ffi::GObject {
-        <span class="comment">// Can&#39;t have consumer free a *const pointer
-        </span><span class="macro">unimplemented!</span>()
-    }
-}
-
-<span class="attr">#[doc(hidden)]
 </span><span class="kw">impl </span>FromGlibPtrNone&lt;<span class="kw-2">*mut </span>gobject_ffi::GObject&gt; <span class="kw">for </span>ObjectRef {
     <span class="attr">#[inline]
     </span><span class="kw">unsafe fn </span>from_glib_none(ptr: <span class="kw-2">*mut </span>gobject_ffi::GObject) -&gt; <span class="self">Self </span>{
-        <span class="macro">assert!</span>(!ptr.is_null());
-        <span class="macro">assert_ne!</span>((<span class="kw-2">*</span>ptr).ref_count, <span class="number">0</span>);
+        <span class="macro">debug_assert!</span>(!ptr.is_null());
+        <span class="macro">debug_assert_ne!</span>((<span class="kw-2">*</span>ptr).ref_count, <span class="number">0</span>);
 
         <span class="comment">// Attention: This takes ownership of floating references!
         </span><span class="self">Self </span>{
@@ -5093,8 +5104,8 @@
 </span><span class="kw">impl </span>FromGlibPtrFull&lt;<span class="kw-2">*mut </span>gobject_ffi::GObject&gt; <span class="kw">for </span>ObjectRef {
     <span class="attr">#[inline]
     </span><span class="kw">unsafe fn </span>from_glib_full(ptr: <span class="kw-2">*mut </span>gobject_ffi::GObject) -&gt; <span class="self">Self </span>{
-        <span class="macro">assert!</span>(!ptr.is_null());
-        <span class="macro">assert_ne!</span>((<span class="kw-2">*</span>ptr).ref_count, <span class="number">0</span>);
+        <span class="macro">debug_assert!</span>(!ptr.is_null());
+        <span class="macro">debug_assert_ne!</span>((<span class="kw-2">*</span>ptr).ref_count, <span class="number">0</span>);
 
         <span class="self">Self </span>{
             inner: ptr::NonNull::new_unchecked(ptr),
@@ -5106,8 +5117,8 @@
 </span><span class="kw">impl </span>FromGlibPtrBorrow&lt;<span class="kw-2">*mut </span>gobject_ffi::GObject&gt; <span class="kw">for </span>ObjectRef {
     <span class="attr">#[inline]
     </span><span class="kw">unsafe fn </span>from_glib_borrow(ptr: <span class="kw-2">*mut </span>gobject_ffi::GObject) -&gt; Borrowed&lt;<span class="self">Self</span>&gt; {
-        <span class="macro">assert!</span>(!ptr.is_null());
-        <span class="macro">assert_ne!</span>((<span class="kw-2">*</span>ptr).ref_count, <span class="number">0</span>);
+        <span class="macro">debug_assert!</span>(!ptr.is_null());
+        <span class="macro">debug_assert_ne!</span>((<span class="kw-2">*</span>ptr).ref_count, <span class="number">0</span>);
 
         Borrowed::new(<span class="self">Self </span>{
             inner: ptr::NonNull::new_unchecked(ptr),
@@ -5123,122 +5134,6 @@
     }
 }
 
-<span class="attr">#[doc(hidden)]
-</span><span class="kw">impl </span>FromGlibContainerAsVec&lt;<span class="kw-2">*mut </span>gobject_ffi::GObject, <span class="kw-2">*mut *mut </span>gobject_ffi::GObject&gt;
-    <span class="kw">for </span>ObjectRef
-{
-    <span class="kw">unsafe fn </span>from_glib_none_num_as_vec(
-        ptr: <span class="kw-2">*mut *mut </span>gobject_ffi::GObject,
-        num: usize,
-    ) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">if </span>num == <span class="number">0 </span>|| ptr.is_null() {
-            <span class="kw">return </span>Vec::new();
-        }
-
-        <span class="comment">// Attention: This takes ownership of floating references!
-        </span><span class="kw">let </span><span class="kw-2">mut </span>res = Vec::with_capacity(num);
-        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num {
-            res.push(from_glib_none(ptr::read(ptr.add(i))));
-        }
-        res
-    }
-
-    <span class="kw">unsafe fn </span>from_glib_container_num_as_vec(
-        ptr: <span class="kw-2">*mut *mut </span>gobject_ffi::GObject,
-        num: usize,
-    ) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// Attention: This takes ownership of floating references!
-        </span><span class="kw">let </span>res = FromGlibContainerAsVec::from_glib_none_num_as_vec(ptr, num);
-        ffi::g_free(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
-        res
-    }
-
-    <span class="kw">unsafe fn </span>from_glib_full_num_as_vec(
-        ptr: <span class="kw-2">*mut *mut </span>gobject_ffi::GObject,
-        num: usize,
-    ) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">if </span>num == <span class="number">0 </span>|| ptr.is_null() {
-            ffi::g_free(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
-            <span class="kw">return </span>Vec::new();
-        }
-
-        <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::with_capacity(num);
-        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num {
-            res.push(from_glib_full(ptr::read(ptr.add(i))));
-        }
-        ffi::g_free(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
-        res
-    }
-}
-
-<span class="attr">#[doc(hidden)]
-</span><span class="kw">impl </span>FromGlibPtrArrayContainerAsVec&lt;<span class="kw-2">*mut </span>gobject_ffi::GObject, <span class="kw-2">*mut *mut </span>gobject_ffi::GObject&gt;
-    <span class="kw">for </span>ObjectRef
-{
-    <span class="kw">unsafe fn </span>from_glib_none_as_vec(ptr: <span class="kw-2">*mut *mut </span>gobject_ffi::GObject) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// Attention: This takes ownership of floating references!
-        </span>FromGlibContainerAsVec::from_glib_none_num_as_vec(ptr, c_ptr_array_len(ptr))
-    }
-
-    <span class="kw">unsafe fn </span>from_glib_container_as_vec(ptr: <span class="kw-2">*mut *mut </span>gobject_ffi::GObject) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// Attention: This takes ownership of floating references!
-        </span>FromGlibContainerAsVec::from_glib_container_num_as_vec(ptr, c_ptr_array_len(ptr))
-    }
-
-    <span class="kw">unsafe fn </span>from_glib_full_as_vec(ptr: <span class="kw-2">*mut *mut </span>gobject_ffi::GObject) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        FromGlibContainerAsVec::from_glib_full_num_as_vec(ptr, c_ptr_array_len(ptr))
-    }
-}
-
-<span class="attr">#[doc(hidden)]
-</span><span class="kw">impl </span>FromGlibContainerAsVec&lt;<span class="kw-2">*mut </span>gobject_ffi::GObject, <span class="kw-2">*const *mut </span>gobject_ffi::GObject&gt;
-    <span class="kw">for </span>ObjectRef
-{
-    <span class="kw">unsafe fn </span>from_glib_none_num_as_vec(
-        ptr: <span class="kw-2">*const *mut </span>gobject_ffi::GObject,
-        num: usize,
-    ) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// Attention: This takes ownership of floating references!
-        </span>FromGlibContainerAsVec::from_glib_none_num_as_vec(ptr <span class="kw">as </span><span class="kw-2">*mut *mut </span><span class="kw">_</span>, num)
-    }
-
-    <span class="kw">unsafe fn </span>from_glib_container_num_as_vec(
-        <span class="kw">_</span>: <span class="kw-2">*const *mut </span>gobject_ffi::GObject,
-        <span class="kw">_</span>: usize,
-    ) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// Can&#39;t free a *const
-        </span><span class="macro">unimplemented!</span>()
-    }
-
-    <span class="kw">unsafe fn </span>from_glib_full_num_as_vec(
-        <span class="kw">_</span>: <span class="kw-2">*const *mut </span>gobject_ffi::GObject,
-        <span class="kw">_</span>: usize,
-    ) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// Can&#39;t free a *const
-        </span><span class="macro">unimplemented!</span>()
-    }
-}
-
-<span class="attr">#[doc(hidden)]
-</span><span class="kw">impl </span>FromGlibPtrArrayContainerAsVec&lt;<span class="kw-2">*mut </span>gobject_ffi::GObject, <span class="kw-2">*const *mut </span>gobject_ffi::GObject&gt;
-    <span class="kw">for </span>ObjectRef
-{
-    <span class="kw">unsafe fn </span>from_glib_none_as_vec(ptr: <span class="kw-2">*const *mut </span>gobject_ffi::GObject) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// Attention: This takes ownership of floating references!
-        </span>FromGlibPtrArrayContainerAsVec::from_glib_none_as_vec(ptr <span class="kw">as </span><span class="kw-2">*mut *mut </span><span class="kw">_</span>)
-    }
-
-    <span class="kw">unsafe fn </span>from_glib_container_as_vec(<span class="kw">_</span>: <span class="kw-2">*const *mut </span>gobject_ffi::GObject) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// Can&#39;t free a *const
-        </span><span class="macro">unimplemented!</span>()
-    }
-
-    <span class="kw">unsafe fn </span>from_glib_full_as_vec(<span class="kw">_</span>: <span class="kw-2">*const *mut </span>gobject_ffi::GObject) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// Can&#39;t free a *const
-        </span><span class="macro">unimplemented!</span>()
-    }
-}
-
 <span class="attr">#[repr(transparent)]
 </span><span class="kw">pub struct </span>TypedObjectRef&lt;T, P&gt; {
     inner: ObjectRef,
@@ -5247,7 +5142,8 @@
 }
 
 <span class="kw">impl</span>&lt;T, P&gt; TypedObjectRef&lt;T, P&gt; {
-    <span class="kw">pub unsafe fn </span>new(obj: ObjectRef) -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">pub unsafe fn </span>new(obj: ObjectRef) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             inner: obj,
             imp: PhantomData,
@@ -5255,13 +5151,15 @@
         }
     }
 
-    <span class="kw">pub fn </span>into_inner(<span class="self">self</span>) -&gt; ObjectRef {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>into_inner(<span class="self">self</span>) -&gt; ObjectRef {
         <span class="self">self</span>.inner
     }
 }
 
 <span class="kw">impl</span>&lt;T, P&gt; Clone <span class="kw">for </span>TypedObjectRef&lt;T, P&gt; {
-    <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             inner: <span class="self">self</span>.inner.clone(),
             imp: PhantomData,
@@ -5273,7 +5171,8 @@
 <span class="kw">impl</span>&lt;T, P&gt; ops::Deref <span class="kw">for </span>TypedObjectRef&lt;T, P&gt; {
     <span class="kw">type </span>Target = ObjectRef;
 
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
         <span class="kw-2">&amp;</span><span class="self">self</span>.inner
     }
 }
@@ -5293,19 +5192,22 @@
 }
 
 <span class="kw">impl</span>&lt;T, P&gt; PartialOrd <span class="kw">for </span>TypedObjectRef&lt;T, P&gt; {
-    <span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;cmp::Ordering&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;cmp::Ordering&gt; {
         <span class="self">self</span>.inner.partial_cmp(<span class="kw-2">&amp;</span>other.inner)
     }
 }
 
 <span class="kw">impl</span>&lt;T, P&gt; Ord <span class="kw">for </span>TypedObjectRef&lt;T, P&gt; {
-    <span class="kw">fn </span>cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; cmp::Ordering {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; cmp::Ordering {
         <span class="self">self</span>.inner.cmp(<span class="kw-2">&amp;</span>other.inner)
     }
 }
 
 <span class="kw">impl</span>&lt;T, P&gt; PartialEq <span class="kw">for </span>TypedObjectRef&lt;T, P&gt; {
-    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
         <span class="self">self</span>.inner == other.inner
     }
 }
@@ -5313,7 +5215,8 @@
 <span class="kw">impl</span>&lt;T, P&gt; Eq <span class="kw">for </span>TypedObjectRef&lt;T, P&gt; {}
 
 <span class="kw">impl</span>&lt;T, P&gt; hash::Hash <span class="kw">for </span>TypedObjectRef&lt;T, P&gt; {
-    <span class="kw">fn </span>hash&lt;H&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H)
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>hash&lt;H&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H)
     <span class="kw">where
         </span>H: hash::Hasher,
     {
@@ -5395,14 +5298,16 @@
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>From&lt;<span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$crate::object::ObjectRef </span>{
-            <span class="kw">fn </span>from(s: <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>) -&gt; <span class="macro-nonterminal">$crate::object::ObjectRef </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>from(s: <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>) -&gt; <span class="macro-nonterminal">$crate::object::ObjectRef </span>{
                 s.inner.into_inner()
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::UnsafeFrom</span>&lt;<span class="macro-nonterminal">$crate::object::ObjectRef</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">unsafe fn </span>unsafe_from(t: <span class="macro-nonterminal">$crate::object::ObjectRef</span>) -&gt; <span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>unsafe_from(t: <span class="macro-nonterminal">$crate::object::ObjectRef</span>) -&gt; <span class="self">Self </span>{
                 <span class="macro-nonterminal">$name </span>{
                     inner: <span class="macro-nonterminal">$crate::object::TypedObjectRef::new</span>(t),
                     phantom: std::marker::PhantomData,
@@ -5416,29 +5321,41 @@
         }
 
         <span class="attr">#[doc(hidden)]
+        </span><span class="kw">unsafe impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::TransparentPtrType </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{}
+
+        <span class="attr">#[doc(hidden)]
         </span><span class="kw">unsafe impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::object::ObjectType </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
             <span class="kw">type </span>GlibType = <span class="macro-nonterminal">$ffi_name</span>;
             <span class="kw">type </span>GlibClassType = <span class="macro-nonterminal">$ffi_class_name</span>;
 
-            <span class="kw">fn </span>as_object_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::ObjectRef </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>as_object_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::ObjectRef </span>{
                 <span class="kw-2">&amp;</span><span class="self">self</span>.inner
             }
 
-            <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span><span class="self">Self</span>::GlibType {
-                <span class="macro-nonterminal">$crate::translate::ToGlibPtr::to_glib_none</span>(<span class="kw-2">&amp;*</span><span class="self">self</span>.inner).<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_
-            </span>}
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span><span class="self">Self</span>::GlibType {
+                <span class="kw">unsafe </span>{ <span class="kw-2">*</span>(<span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span><span class="self">Self </span><span class="kw">as </span><span class="kw-2">*const *const </span><span class="macro-nonterminal">$ffi_name</span>) <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name </span>}
+            }
+
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>from_glib_ptr_borrow&lt;<span class="lifetime">&#39;a</span>&gt;(ptr: <span class="kw-2">*const *const </span><span class="self">Self</span>::GlibType) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">Self </span>{
+                <span class="kw-2">&amp;*</span>(ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="self">Self</span>)
+            }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>AsRef&lt;<span class="macro-nonterminal">$crate::object::ObjectRef</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::ObjectRef </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::ObjectRef </span>{
                 <span class="kw-2">&amp;</span><span class="self">self</span>.inner
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>AsRef&lt;<span class="self">Self</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
                 <span class="self">self
             </span>}
         }
@@ -5449,7 +5366,9 @@
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::subclass::types::FromObject </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
             <span class="kw">type </span>FromObjectType = <span class="self">Self</span>;
-            <span class="kw">fn </span>from_object(obj: <span class="kw-2">&amp;</span><span class="self">Self</span>::FromObjectType) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
+
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>from_object(obj: <span class="kw-2">&amp;</span><span class="self">Self</span>::FromObjectType) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
                 obj
             }
         }
@@ -5490,7 +5409,8 @@
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::IntoGlibPtr</span>&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">unsafe fn </span>into_glib_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>into_glib_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name </span>{
                 <span class="kw">let </span>s = std::mem::ManuallyDrop::new(<span class="self">self</span>);
                 <span class="macro-nonterminal">$crate::translate::ToGlibPtr</span>::&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_none(<span class="kw-2">&amp;*</span>s).<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_
             </span>}
@@ -5498,7 +5418,8 @@
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::translate::IntoGlibPtr</span>&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">unsafe fn </span>into_glib_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>into_glib_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name </span>{
                 <span class="kw">let </span>s = std::mem::ManuallyDrop::new(<span class="self">self</span>);
                 <span class="macro-nonterminal">$crate::translate::ToGlibPtr</span>::&lt;<span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_none(<span class="kw-2">&amp;*</span>s).<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_
             </span>}
@@ -5506,39 +5427,41 @@
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">type </span>Storage = (Vec&lt;<span class="macro-nonterminal">$crate::translate::Stash</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>&gt;&gt;, <span class="prelude-ty">Option</span>&lt;Vec&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;&gt;);
+            <span class="kw">type </span>Storage = (std::marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]&gt;, <span class="prelude-ty">Option</span>&lt;Vec&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;&gt;);
 
             <span class="kw">fn </span>to_glib_none_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
-                <span class="kw">let </span>v: Vec&lt;<span class="kw">_</span>&gt; = t.iter().map(|s| <span class="macro-nonterminal">$crate::translate::ToGlibPtr::to_glib_none</span>(s)).collect();
-                <span class="kw">let </span><span class="kw-2">mut </span>v_ptr: Vec&lt;<span class="kw">_</span>&gt; = v.iter().map(|s| s.<span class="number">0</span>).collect();
-                v_ptr.push(std::ptr::null_mut() <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>);
+                <span class="kw">let </span><span class="kw-2">mut </span>v_ptr = Vec::with_capacity(t.len() + <span class="number">1</span>);
+                <span class="kw">unsafe </span>{
+                    <span class="kw">let </span>ptr = v_ptr.as_mut_ptr();
+                    std::ptr::copy_nonoverlapping(t.as_ptr() <span class="kw">as </span><span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>, ptr, t.len());
+                    std::ptr::write(ptr.add(t.len()), std::ptr::null_mut());
+                    v_ptr.set_len(t.len() + <span class="number">1</span>);
+                }
 
-                (v_ptr.as_ptr() <span class="kw">as </span><span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>, (v, <span class="prelude-val">Some</span>(v_ptr)))
+                (v_ptr.as_ptr() <span class="kw">as </span><span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>, (std::marker::PhantomData, <span class="prelude-val">Some</span>(v_ptr)))
             }
 
             <span class="kw">fn </span>to_glib_container_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
-                <span class="kw">let </span>v: Vec&lt;<span class="kw">_</span>&gt; = t.iter().map(|s| <span class="macro-nonterminal">$crate::translate::ToGlibPtr::to_glib_none</span>(s)).collect();
-
                 <span class="kw">let </span>v_ptr = <span class="kw">unsafe </span>{
-                    <span class="kw">let </span>v_ptr = <span class="macro-nonterminal">$crate::ffi::g_malloc0</span>(std::mem::size_of::&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;() * (t.len() + <span class="number">1</span>)) <span class="kw">as </span><span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>;
+                    <span class="kw">let </span>v_ptr = <span class="macro-nonterminal">$crate::ffi::g_malloc</span>(std::mem::size_of::&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;() * (t.len() + <span class="number">1</span>)) <span class="kw">as </span><span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>;
 
-                    <span class="kw">for </span>(i, s) <span class="kw">in </span>v.iter().enumerate() {
-                        std::ptr::write(v_ptr.add(i), s.<span class="number">0</span>);
-                    }
+                    std::ptr::copy_nonoverlapping(t.as_ptr() <span class="kw">as </span><span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>, v_ptr, t.len());
+                    std::ptr::write(v_ptr.add(t.len()), std::ptr::null_mut());
 
                     v_ptr
                 };
 
-                (v_ptr, (v, <span class="prelude-val">None</span>))
+                (v_ptr, (std::marker::PhantomData, <span class="prelude-val">None</span>))
             }
 
             <span class="kw">fn </span>to_glib_full_from_slice(t: <span class="kw-2">&amp;</span>[<span class="self">Self</span>]) -&gt; <span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name </span>{
                 <span class="kw">unsafe </span>{
-                    <span class="kw">let </span>v_ptr = <span class="macro-nonterminal">$crate::ffi::g_malloc0</span>(std::mem::size_of::&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;() * (t.len() + <span class="number">1</span>)) <span class="kw">as </span><span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>;
+                    <span class="kw">let </span>v_ptr = <span class="macro-nonterminal">$crate::ffi::g_malloc</span>(std::mem::size_of::&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;() * (t.len() + <span class="number">1</span>)) <span class="kw">as </span><span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>;
 
                     <span class="kw">for </span>(i, s) <span class="kw">in </span>t.iter().enumerate() {
                         std::ptr::write(v_ptr.add(i), <span class="macro-nonterminal">$crate::translate::ToGlibPtr::to_glib_full</span>(s));
                     }
+                    std::ptr::write(v_ptr.add(t.len()), std::ptr::null_mut());
 
                     v_ptr
                 }
@@ -5547,7 +5470,7 @@
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*const *mut </span><span class="macro-nonterminal">$ffi_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">type </span>Storage = (Vec&lt;<span class="macro-nonterminal">$crate::translate::Stash</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>&gt;&gt;, <span class="prelude-ty">Option</span>&lt;Vec&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;&gt;);
+            <span class="kw">type </span>Storage = (std::marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]&gt;, <span class="prelude-ty">Option</span>&lt;Vec&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;&gt;);
 
             <span class="kw">fn </span>to_glib_none_from_slice(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="self">Self</span>]) -&gt; (<span class="kw-2">*const *mut </span><span class="macro-nonterminal">$ffi_name</span>, <span class="self">Self</span>::Storage) {
                 <span class="kw">let </span>(ptr, stash) = <span class="macro-nonterminal">$crate::translate::ToGlibContainerFromSlice</span>::&lt;<span class="lifetime">&#39;a</span>, <span class="kw-2">*mut *mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_none_from_slice(t);
@@ -5570,6 +5493,7 @@
             <span class="attr">#[inline]
             #[allow(clippy::cast_ptr_alignment)]
             </span><span class="kw">unsafe fn </span>from_glib_none(ptr: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>) -&gt; <span class="self">Self </span>{
+                <span class="macro">debug_assert!</span>(!ptr.is_null());
                 <span class="macro">debug_assert!</span>(<span class="macro-nonterminal">$crate::types::instance_of</span>::&lt;<span class="self">Self</span>&gt;(ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>));
                 <span class="macro-nonterminal">$name </span>{
                     inner: <span class="macro-nonterminal">$crate::object::TypedObjectRef::new</span>(<span class="macro-nonterminal">$crate::translate::from_glib_none</span>(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>)),
@@ -5583,6 +5507,7 @@
             <span class="attr">#[inline]
             #[allow(clippy::cast_ptr_alignment)]
             </span><span class="kw">unsafe fn </span>from_glib_none(ptr: <span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_name</span>) -&gt; <span class="self">Self </span>{
+                <span class="macro">debug_assert!</span>(!ptr.is_null());
                 <span class="macro">debug_assert!</span>(<span class="macro-nonterminal">$crate::types::instance_of</span>::&lt;<span class="self">Self</span>&gt;(ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>));
                 <span class="macro-nonterminal">$name </span>{
                     inner: <span class="macro-nonterminal">$crate::object::TypedObjectRef::new</span>(<span class="macro-nonterminal">$crate::translate::from_glib_none</span>(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>)),
@@ -5596,6 +5521,7 @@
             <span class="attr">#[inline]
             #[allow(clippy::cast_ptr_alignment)]
             </span><span class="kw">unsafe fn </span>from_glib_full(ptr: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>) -&gt; <span class="self">Self </span>{
+                <span class="macro">debug_assert!</span>(!ptr.is_null());
                 <span class="macro">debug_assert!</span>(<span class="macro-nonterminal">$crate::types::instance_of</span>::&lt;<span class="self">Self</span>&gt;(ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>));
                 <span class="macro-nonterminal">$name </span>{
                     inner: <span class="macro-nonterminal">$crate::object::TypedObjectRef::new</span>(<span class="macro-nonterminal">$crate::translate::from_glib_full</span>(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>)),
@@ -5609,6 +5535,7 @@
             <span class="attr">#[inline]
             #[allow(clippy::cast_ptr_alignment)]
             </span><span class="kw">unsafe fn </span>from_glib_borrow(ptr: <span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>) -&gt; <span class="macro-nonterminal">$crate::translate::Borrowed</span>&lt;<span class="self">Self</span>&gt; {
+                <span class="macro">debug_assert!</span>(!ptr.is_null());
                 <span class="macro">debug_assert!</span>(<span class="macro-nonterminal">$crate::types::instance_of</span>::&lt;<span class="self">Self</span>&gt;(ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>));
                 <span class="macro-nonterminal">$crate::translate::Borrowed::new</span>(
                     <span class="macro-nonterminal">$name </span>{
@@ -5635,10 +5562,12 @@
                     <span class="kw">return </span>Vec::new();
                 }
 
-                <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::with_capacity(num);
+                <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::&lt;<span class="self">Self</span>&gt;::with_capacity(num);
+                <span class="kw">let </span>res_ptr = res.as_mut_ptr();
                 <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num {
-                    res.push(<span class="macro-nonterminal">$crate::translate::from_glib_none</span>(std::ptr::read(ptr.add(i))));
+                    ::std::ptr::write(res_ptr.add(i), <span class="macro-nonterminal">$crate::translate::from_glib_none</span>(std::ptr::read(ptr.add(i))));
                 }
+                res.set_len(num);
                 res
             }
 
@@ -5655,9 +5584,9 @@
                 }
 
                 <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::with_capacity(num);
-                <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num {
-                    res.push(<span class="macro-nonterminal">$crate::translate::from_glib_full</span>(std::ptr::read(ptr.add(i))));
-                }
+                <span class="kw">let </span>res_ptr = res.as_mut_ptr();
+                ::std::ptr::copy_nonoverlapping(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="self">Self</span>, res_ptr, num);
+                res.set_len(num);
                 <span class="macro-nonterminal">$crate::ffi::g_free</span>(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
                 res
             }
@@ -5713,7 +5642,8 @@
         }
 
         <span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::types::StaticType </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>static_type() -&gt; <span class="macro-nonterminal">$crate::types::Type </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>static_type() -&gt; <span class="macro-nonterminal">$crate::types::Type </span>{
                 <span class="attr">#[allow(unused_unsafe)]
                 </span><span class="kw">unsafe </span>{ <span class="macro-nonterminal">$crate::translate::from_glib</span>(<span class="macro-nonterminal">$get_type_expr</span>) }
             }
@@ -5731,10 +5661,11 @@
         </span><span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::value::FromValue</span>&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
             <span class="kw">type </span>Checker = <span class="macro-nonterminal">$crate::object::ObjectValueTypeChecker</span>&lt;<span class="self">Self</span>&gt;;
 
-            <span class="kw">unsafe fn </span>from_value(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="macro-nonterminal">$crate::Value</span>) -&gt; <span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>from_value(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="macro-nonterminal">$crate::Value</span>) -&gt; <span class="self">Self </span>{
                 <span class="kw">let </span>ptr = <span class="macro-nonterminal">$crate::gobject_ffi::g_value_dup_object</span>(<span class="macro-nonterminal">$crate::translate::ToGlibPtr::to_glib_none</span>(value).<span class="number">0</span>);
-                <span class="macro">assert!</span>(!ptr.is_null());
-                <span class="macro">assert_ne!</span>((<span class="kw-2">*</span>ptr).ref_count, <span class="number">0</span>);
+                <span class="macro">debug_assert!</span>(!ptr.is_null());
+                <span class="macro">debug_assert_ne!</span>((<span class="kw-2">*</span>ptr).ref_count, <span class="number">0</span>);
                 &lt;<span class="self">Self </span><span class="kw">as </span><span class="macro-nonterminal">$crate::translate::FromGlibPtrFull</span>&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;&gt;::from_glib_full(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>)
             }
         }
@@ -5743,21 +5674,22 @@
         </span><span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a </span>$(, $(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$crate::value::FromValue</span>&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
             <span class="kw">type </span>Checker = <span class="macro-nonterminal">$crate::object::ObjectValueTypeChecker</span>&lt;<span class="self">Self</span>&gt;;
 
-            <span class="kw">unsafe fn </span>from_value(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="macro-nonterminal">$crate::Value</span>) -&gt; <span class="self">Self </span>{
-                <span class="macro">assert_eq!</span>(std::mem::size_of::&lt;<span class="self">Self</span>&gt;(), std::mem::size_of::&lt;<span class="macro-nonterminal">$crate::ffi::gpointer</span>&gt;());
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>from_value(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="macro-nonterminal">$crate::Value</span>) -&gt; <span class="self">Self </span>{
+                <span class="macro">debug_assert_eq!</span>(std::mem::size_of::&lt;<span class="self">Self</span>&gt;(), std::mem::size_of::&lt;<span class="macro-nonterminal">$crate::ffi::gpointer</span>&gt;());
                 <span class="kw">let </span>value = <span class="kw-2">&amp;*</span>(value <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$crate::Value </span><span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$crate::gobject_ffi::GValue</span>);
-                <span class="kw">let </span>ptr = <span class="kw-2">&amp;</span>value.data[<span class="number">0</span>].v_pointer <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$crate::ffi::gpointer </span><span class="kw">as </span><span class="kw-2">*const *const </span><span class="macro-nonterminal">$ffi_name</span>;
-                <span class="macro">assert!</span>(!(<span class="kw-2">*</span>ptr).is_null());
-                <span class="macro">assert_ne!</span>((<span class="kw-2">**</span>(ptr <span class="kw">as </span><span class="kw-2">*const *const </span><span class="macro-nonterminal">$crate::gobject_ffi::GObject</span>)).ref_count, <span class="number">0</span>);
-                <span class="kw-2">&amp;*</span>(ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>)
+                <span class="macro">debug_assert!</span>(!value.data[<span class="number">0</span>].v_pointer.is_null());
+                <span class="macro">debug_assert_ne!</span>((<span class="kw-2">*</span>(value.data[<span class="number">0</span>].v_pointer <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$crate::gobject_ffi::GObject</span>)).ref_count, <span class="number">0</span>);
+                &lt;<span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span><span class="kw">as </span><span class="macro-nonterminal">$crate::object::ObjectType</span>&gt;::from_glib_ptr_borrow(<span class="kw-2">&amp;</span>value.data[<span class="number">0</span>].v_pointer <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$crate::ffi::gpointer </span><span class="kw">as </span><span class="kw-2">*const *const </span><span class="macro-nonterminal">$ffi_name</span>)
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::value::ToValue </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>to_value(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::Value </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>to_value(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::Value </span>{
                 <span class="kw">unsafe </span>{
-                    <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="macro-nonterminal">$crate::Value::from_type</span>(&lt;<span class="self">Self </span><span class="kw">as </span><span class="macro-nonterminal">$crate::StaticType</span>&gt;::static_type());
+                    <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="macro-nonterminal">$crate::Value::from_type_unchecked</span>(&lt;<span class="self">Self </span><span class="kw">as </span><span class="macro-nonterminal">$crate::StaticType</span>&gt;::static_type());
                     <span class="macro-nonterminal">$crate::gobject_ffi::g_value_take_object</span>(
                         <span class="macro-nonterminal">$crate::translate::ToGlibPtrMut::to_glib_none_mut</span>(<span class="kw-2">&amp;mut </span>value).<span class="number">0</span>,
                         <span class="macro-nonterminal">$crate::translate::ToGlibPtr</span>::&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;::to_glib_full(<span class="self">self</span>) <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>,
@@ -5766,16 +5698,18 @@
                 }
             }
 
-            <span class="kw">fn </span>value_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::Type </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>value_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::Type </span>{
                 &lt;<span class="self">Self </span><span class="kw">as </span><span class="macro-nonterminal">$crate::StaticType</span>&gt;::static_type()
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>::std::convert::From&lt;<span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$crate::Value </span>{
-            <span class="kw">fn </span>from(o: <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>) -&gt; <span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>from(o: <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>) -&gt; <span class="self">Self </span>{
                 <span class="kw">unsafe </span>{
-                    <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="macro-nonterminal">$crate::Value::from_type</span>(&lt;<span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span><span class="kw">as </span><span class="macro-nonterminal">$crate::StaticType</span>&gt;::static_type());
+                    <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="macro-nonterminal">$crate::Value::from_type_unchecked</span>(&lt;<span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span><span class="kw">as </span><span class="macro-nonterminal">$crate::StaticType</span>&gt;::static_type());
                     <span class="macro-nonterminal">$crate::gobject_ffi::g_value_take_object</span>(
                         <span class="macro-nonterminal">$crate::translate::ToGlibPtrMut::to_glib_none_mut</span>(<span class="kw-2">&amp;mut </span>value).<span class="number">0</span>,
                         <span class="macro-nonterminal">$crate::translate::IntoGlibPtr</span>::&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_name</span>&gt;::into_glib_ptr(o) <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>,
@@ -5787,7 +5721,8 @@
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::value::ToValueOptional </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>to_value_optional(s: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="self">Self</span>&gt;) -&gt; <span class="macro-nonterminal">$crate::Value </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>to_value_optional(s: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="self">Self</span>&gt;) -&gt; <span class="macro-nonterminal">$crate::Value </span>{
                 <span class="kw">let </span><span class="kw-2">mut </span>value = <span class="macro-nonterminal">$crate::Value::for_value_type</span>::&lt;<span class="self">Self</span>&gt;();
                 <span class="kw">unsafe </span>{
                     <span class="macro-nonterminal">$crate::gobject_ffi::g_value_take_object</span>(
@@ -5801,6 +5736,16 @@
         }
 
         <span class="macro-nonterminal">$</span><span class="macro">crate::glib_object_wrapper!</span>(@<span class="macro-nonterminal">weak_impl $name </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>);
+
+        <span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::HasParamSpec </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
+            <span class="kw">type </span>ParamSpec = <span class="macro-nonterminal">$crate::ParamSpecObject</span>;
+            <span class="kw">type </span>SetValue = <span class="self">Self</span>;
+            <span class="kw">type </span>BuilderFn = <span class="kw">fn</span>(<span class="kw-2">&amp;</span>str) -&gt; <span class="macro-nonterminal">$crate::ParamSpecObjectBuilder</span>&lt;<span class="self">Self</span>&gt;;
+
+            <span class="kw">fn </span>param_spec_builder() -&gt; <span class="self">Self</span>::BuilderFn {
+                |name| <span class="self">Self</span>::ParamSpec::builder(name)
+            }
+        }
     };
 
     (@weak_impl <span class="macro-nonterminal">$name</span>:ident $(&lt;$(<span class="macro-nonterminal">$generic</span>:ident $(: <span class="macro-nonterminal">$bound</span>:tt $(+ <span class="macro-nonterminal">$bound2</span>:tt)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">?</span>) =&gt; {
@@ -5808,7 +5753,8 @@
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::clone::Downgrade </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
             <span class="kw">type </span>Weak = <span class="macro-nonterminal">$crate::object::WeakRef</span>&lt;<span class="self">Self</span>&gt;;
 
-            <span class="kw">fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span>::Weak {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span>::Weak {
                 &lt;<span class="self">Self </span><span class="kw">as </span><span class="macro-nonterminal">$crate::object::ObjectExt</span>&gt;::downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>)
             }
         }
@@ -5821,21 +5767,24 @@
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>From&lt;<span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$super_name </span>{
-            <span class="kw">fn </span>from(v: <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>) -&gt; <span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>from(v: <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>) -&gt; <span class="self">Self </span>{
                 &lt;<span class="macro-nonterminal">$name </span>$(::&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span><span class="kw">as </span><span class="macro-nonterminal">$crate::Cast</span>&gt;::upcast(v)
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>AsRef&lt;<span class="macro-nonterminal">$super_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$super_name </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$super_name </span>{
                 <span class="macro-nonterminal">$crate::object::Cast::upcast_ref</span>(<span class="self">self</span>)
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>std::borrow::Borrow&lt;<span class="macro-nonterminal">$super_name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$super_name </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$super_name </span>{
                 <span class="macro-nonterminal">$crate::object::Cast::upcast_ref</span>(<span class="self">self</span>)
             }
         }
@@ -5903,21 +5852,24 @@
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>AsRef&lt;<span class="macro-nonterminal">$crate::object::Object</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::Object </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::Object </span>{
                 <span class="macro-nonterminal">$crate::object::Cast::upcast_ref</span>(<span class="self">self</span>)
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>std::borrow::Borrow&lt;<span class="macro-nonterminal">$crate::object::Object</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::Object </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::Object </span>{
                 <span class="macro-nonterminal">$crate::object::Cast::upcast_ref</span>(<span class="self">self</span>)
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>From&lt;<span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$crate::object::Object </span>{
-            <span class="kw">fn </span>from(v: <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>) -&gt; <span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>from(v: <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>) -&gt; <span class="self">Self </span>{
                 &lt;<span class="macro-nonterminal">$name </span>$(::&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span><span class="kw">as </span><span class="macro-nonterminal">$crate::Cast</span>&gt;::upcast(v)
             }
         }
@@ -5981,21 +5933,24 @@
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>AsRef&lt;<span class="macro-nonterminal">$crate::object::Object</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::Object </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::Object </span>{
                 <span class="macro-nonterminal">$crate::object::Cast::upcast_ref</span>(<span class="self">self</span>)
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>std::borrow::Borrow&lt;<span class="macro-nonterminal">$crate::object::Object</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span>{
-            <span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::Object </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::object::Object </span>{
                 <span class="macro-nonterminal">$crate::object::Cast::upcast_ref</span>(<span class="self">self</span>)
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>$(&lt;$(<span class="macro-nonterminal">$generic </span>$(: <span class="macro-nonterminal">$bound </span>$(+ <span class="macro-nonterminal">$bound2</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),+&gt;)<span class="question-mark">? </span>From&lt;<span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$crate::object::Object </span>{
-            <span class="kw">fn </span>from(v: <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>) -&gt; <span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>from(v: <span class="macro-nonterminal">$name </span>$(&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">?</span>) -&gt; <span class="self">Self </span>{
                 &lt;<span class="macro-nonterminal">$name </span>$(::&lt;$(<span class="macro-nonterminal">$generic</span>),+&gt;)<span class="question-mark">? </span><span class="kw">as </span><span class="macro-nonterminal">$crate::Cast</span>&gt;::upcast(v)
             }
         }
@@ -6018,29 +5973,39 @@
     <span class="kw">pub const </span>NONE: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Object&gt; = <span class="prelude-val">None</span>;
 
     <span class="comment">// rustdoc-stripper-ignore-next
-    </span><span class="doccomment">/// Create a new instance of an object with the given properties.
+    </span><span class="doccomment">/// Create a new instance of an object with the default property values.
     ///
     /// # Panics
     ///
-    /// This panics if the object is not instantiable, doesn&#39;t have all the given properties or
-    /// property values of the wrong type are provided.
-    </span><span class="attr">#[allow(clippy::new_ret_no_self)]
-    #[track_caller]
-    </span><span class="kw">pub fn </span>new&lt;T: IsA&lt;Object&gt; + IsClass&gt;(properties: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span><span class="kw">dyn </span>ToValue)]) -&gt; T {
-        Object::with_type(T::static_type(), properties)
-            .downcast()
-            .unwrap()
+    /// This panics if the object is not instantiable.
+    </span><span class="attr">#[track_caller]
+    #[allow(clippy::new_ret_no_self)]
+    </span><span class="kw">pub fn </span>new&lt;T: IsA&lt;Object&gt; + IsClass&gt;() -&gt; T {
+        <span class="kw">let </span>object = Object::with_type(T::static_type());
+        <span class="kw">unsafe </span>{ object.unsafe_cast() }
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
-    </span><span class="doccomment">/// Create a new instance of an object of the given type with the given properties.
+    </span><span class="doccomment">/// Create a new instance of an object with the default property values.
+    ///
+    /// # Panics
+    ///
+    /// This panics if the object is not instantiable.
+    </span><span class="attr">#[track_caller]
+    </span><span class="kw">pub fn </span>with_type(type_: Type) -&gt; Object {
+        Object::with_mut_values(type_, <span class="kw-2">&amp;mut </span>[])
+    }
+
+    <span class="comment">// rustdoc-stripper-ignore-next
+    </span><span class="doccomment">/// Create a new instance of an object of the given type with the given properties as mutable
+    /// values.
     ///
     /// # Panics
     ///
     /// This panics if the object is not instantiable, doesn&#39;t have all the given properties or
     /// property values of the wrong type are provided.
     </span><span class="attr">#[track_caller]
-    </span><span class="kw">pub fn </span>with_type(type_: Type, properties: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span><span class="kw">dyn </span>ToValue)]) -&gt; Object {
+    </span><span class="kw">pub fn </span>with_mut_values(type_: Type, properties: <span class="kw-2">&amp;mut </span>[(<span class="kw-2">&amp;</span>str, Value)]) -&gt; Object {
         <span class="attr">#[cfg(feature = <span class="string">&quot;gio&quot;</span>)]
         </span><span class="kw">unsafe </span>{
             <span class="kw">let </span>iface_type = from_glib(gio_ffi::g_initable_get_type());
@@ -6053,42 +6018,7 @@
             }
         }
 
-        <span class="kw">let </span><span class="kw-2">mut </span>property_values = smallvec::SmallVec::&lt;[<span class="kw">_</span>; <span class="number">16</span>]&gt;::with_capacity(properties.len());
-        <span class="kw">for </span>(name, value) <span class="kw">in </span>properties {
-            property_values.push((<span class="kw-2">*</span>name, value.to_value()));
-        }
-
-        <span class="kw">unsafe </span>{ Object::new_internal(type_, <span class="kw-2">&amp;mut </span>property_values) }
-    }
-
-    <span class="comment">// rustdoc-stripper-ignore-next
-    </span><span class="doccomment">/// Create a new instance of an object of the given type with the given properties.
-    ///
-    /// # Panics
-    ///
-    /// This panics if the object is not instantiable, doesn&#39;t have all the given properties or
-    /// property values of the wrong type are provided.
-    </span><span class="attr">#[track_caller]
-    </span><span class="kw">pub fn </span>with_values(type_: Type, properties: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span>str, Value)]) -&gt; Object {
-        <span class="attr">#[cfg(feature = <span class="string">&quot;gio&quot;</span>)]
-        </span><span class="kw">unsafe </span>{
-            <span class="kw">let </span>iface_type = from_glib(gio_ffi::g_initable_get_type());
-            <span class="kw">if </span>type_.is_a(iface_type) {
-                <span class="macro">panic!</span>(<span class="string">&quot;Can&#39;t instantiate type &#39;{type_}&#39; implementing `gio::Initable`. Use `gio::Initable::new()`&quot;</span>);
-            }
-            <span class="kw">let </span>iface_type = from_glib(gio_ffi::g_async_initable_get_type());
-            <span class="kw">if </span>type_.is_a(iface_type) {
-                <span class="macro">panic!</span>(<span class="string">&quot;Can&#39;t instantiate type &#39;{type_}&#39; implementing `gio::AsyncInitable`. Use `gio::AsyncInitable::new()`&quot;</span>);
-            }
-        }
-
-        <span class="kw">let </span><span class="kw-2">mut </span>property_values = smallvec::SmallVec::&lt;[<span class="kw">_</span>; <span class="number">16</span>]&gt;::with_capacity(properties.len());
-        <span class="kw">for </span>(name, value) <span class="kw">in </span>properties {
-            <span class="comment">// FIXME&gt; This cloning can be avoided with GLib 2.74, see below.
-            </span>property_values.push((<span class="kw-2">*</span>name, value.clone()));
-        }
-
-        <span class="kw">unsafe </span>{ Object::new_internal(type_, <span class="kw-2">&amp;mut </span>property_values) }
+        <span class="kw">unsafe </span>{ Object::new_internal(type_, properties) }
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
@@ -6188,27 +6118,30 @@
 <span class="attr">#[must_use = <span class="string">&quot;builder doesn&#39;t do anything unless built&quot;</span>]
 </span><span class="kw">pub struct </span>ObjectBuilder&lt;<span class="lifetime">&#39;a</span>, O&gt; {
     type_: Type,
-    properties: Vec&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, Value)&gt;,
+    properties: smallvec::SmallVec&lt;[(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, Value); <span class="number">16</span>]&gt;,
     phantom: PhantomData&lt;O&gt;,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, O: IsA&lt;Object&gt; + IsClass&gt; ObjectBuilder&lt;<span class="lifetime">&#39;a</span>, O&gt; {
-    <span class="kw">fn </span>new(type_: Type) -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>new(type_: Type) -&gt; <span class="self">Self </span>{
         ObjectBuilder {
             type_,
-            properties: <span class="macro">vec!</span>[],
+            properties: smallvec::SmallVec::new(),
             phantom: PhantomData,
         }
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Gets the type of this builder.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Type {
         <span class="self">self</span>.type_
     }
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Set property `name` to the given value `value`.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>property(<span class="self">self</span>, name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, value: <span class="kw">impl </span>Into&lt;Value&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>ObjectBuilder {
             type_,
@@ -6232,8 +6165,9 @@
     /// This panics if the object is not instantiable, doesn&#39;t have all the given properties or
     /// property values of the wrong type are provided.
     </span><span class="attr">#[track_caller]
-    </span><span class="kw">pub fn </span>build(<span class="self">self</span>) -&gt; O {
-        <span class="kw">let </span>object = Object::with_values(<span class="self">self</span>.type_, <span class="kw-2">&amp;</span><span class="self">self</span>.properties);
+    #[inline]
+    </span><span class="kw">pub fn </span>build(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; O {
+        <span class="kw">let </span>object = Object::with_mut_values(<span class="self">self</span>.type_, <span class="kw-2">&amp;mut </span><span class="self">self</span>.properties);
         <span class="kw">unsafe </span>{ object.unsafe_cast::&lt;O&gt;() }
     }
 }
@@ -6243,6 +6177,7 @@
 
 <span class="kw">impl </span>Drop <span class="kw">for </span>PropertyNotificationFreezeGuard {
     <span class="attr">#[doc(alias = <span class="string">&quot;g_object_thaw_notify&quot;</span>)]
+    #[inline]
     </span><span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">unsafe </span>{ gobject_ffi::g_object_thaw_notify(<span class="self">self</span>.<span class="number">0</span>.to_glib_none().<span class="number">0</span>) }
     }
@@ -6855,15 +6790,18 @@
 }
 
 <span class="kw">impl</span>&lt;T: ObjectType&gt; ObjectExt <span class="kw">for </span>T {
-    <span class="kw">fn </span>is&lt;U: StaticType&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>is&lt;U: StaticType&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.type_().is_a(U::static_type())
     }
 
-    <span class="kw">fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Type {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Type {
         <span class="self">self</span>.object_class().type_()
     }
 
-    <span class="kw">fn </span>object_class(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ObjectClass {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>object_class(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ObjectClass {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>obj: <span class="kw-2">*mut </span>gobject_ffi::GObject = <span class="self">self</span>.as_object_ref().to_glib_none().<span class="number">0</span>;
             <span class="kw">let </span>klass = (<span class="kw-2">*</span>obj).g_type_instance.g_class <span class="kw">as </span><span class="kw-2">*const </span>ObjectClass;
@@ -6871,7 +6809,8 @@
         }
     }
 
-    <span class="kw">fn </span>class(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Class&lt;<span class="self">Self</span>&gt;
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>class(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Class&lt;<span class="self">Self</span>&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: IsClass,
     {
@@ -6882,7 +6821,8 @@
         }
     }
 
-    <span class="kw">fn </span>class_of&lt;U: IsClass&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Class&lt;U&gt;&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>class_of&lt;U: IsClass&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Class&lt;U&gt;&gt; {
         <span class="kw">if </span>!<span class="self">self</span>.is::&lt;U&gt;() {
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
@@ -6894,7 +6834,8 @@
         }
     }
 
-    <span class="kw">fn </span>interface&lt;U: IsInterface&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;InterfaceRef&lt;U&gt;&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>interface&lt;U: IsInterface&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;InterfaceRef&lt;U&gt;&gt; {
         Interface::from_class(<span class="self">self</span>.object_class())
     }
 
@@ -7030,7 +6971,7 @@
         }
 
         <span class="kw">unsafe </span>{
-            <span class="kw">let </span><span class="kw-2">mut </span>value = Value::from_type(pspec.value_type());
+            <span class="kw">let </span><span class="kw-2">mut </span>value = Value::from_type_unchecked(pspec.value_type());
             gobject_ffi::g_object_get_property(
                 <span class="self">self</span>.as_object_ref().to_glib_none().<span class="number">0</span>,
                 pspec.name().as_ptr() <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>,
@@ -7065,7 +7006,8 @@
         <span class="self">self</span>.object_class().list_properties()
     }
 
-    <span class="kw">fn </span>freeze_notify(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PropertyNotificationFreezeGuard {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>freeze_notify(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PropertyNotificationFreezeGuard {
         <span class="kw">unsafe </span>{ gobject_ffi::g_object_freeze_notify(<span class="self">self</span>.as_object_ref().to_glib_none().<span class="number">0</span>) };
         PropertyNotificationFreezeGuard(<span class="self">self</span>.as_object_ref().clone())
     }
@@ -7148,10 +7090,12 @@
 
     <span class="kw">fn </span>stop_signal_emission_by_name(<span class="kw-2">&amp;</span><span class="self">self</span>, signal_name: <span class="kw-2">&amp;</span>str) {
         <span class="kw">unsafe </span>{
-            gobject_ffi::g_signal_stop_emission_by_name(
-                <span class="self">self</span>.as_object_ref().to_glib_none().<span class="number">0</span>,
-                signal_name.to_glib_none().<span class="number">0</span>,
-            );
+            signal_name.run_with_gstr(|signal_name| {
+                gobject_ffi::g_signal_stop_emission_by_name(
+                    <span class="self">self</span>.as_object_ref().to_glib_none().<span class="number">0</span>,
+                    signal_name.as_ptr(),
+                )
+            });
         }
     }
 
@@ -7283,10 +7227,7 @@
 
         <span class="macro">assert!</span>(
             type_.is_a(signal_query_type),
-            <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; but got type &#39;{}&#39;&quot;</span>,
-            signal_name,
-            type_,
-            signal_query_type
+            <span class="string">&quot;Signal &#39;{signal_name}&#39; of type &#39;{type_}&#39; but got type &#39;{signal_query_type}&#39;&quot;</span>,
         );
 
         <span class="kw">let </span>handler = gobject_ffi::g_signal_connect_closure_by_id(
@@ -7332,10 +7273,7 @@
         <span class="kw">let </span>signal_query_type = signal_query.type_();
         <span class="macro">assert!</span>(
             type_.is_a(signal_query_type),
-            <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; but got type &#39;{}&#39;&quot;</span>,
-            signal_name,
-            type_,
-            signal_query_type
+            <span class="string">&quot;Signal &#39;{signal_name}&#39; of type &#39;{type_}&#39; but got type &#39;{signal_query_type}&#39;&quot;</span>,
         );
 
         <span class="kw">unsafe </span>{
@@ -7355,7 +7293,8 @@
         }
     }
 
-    <span class="kw">fn </span>watch_closure(<span class="kw-2">&amp;</span><span class="self">self</span>, closure: <span class="kw-2">&amp;</span><span class="kw">impl </span>AsRef&lt;Closure&gt;) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>watch_closure(<span class="kw-2">&amp;</span><span class="self">self</span>, closure: <span class="kw-2">&amp;</span><span class="kw">impl </span>AsRef&lt;Closure&gt;) {
         <span class="kw">let </span>closure = closure.as_ref();
         <span class="kw">unsafe </span>{
             gobject_ffi::g_object_watch_closure(
@@ -7390,7 +7329,7 @@
             validate_signal_arguments(type_, <span class="kw-2">&amp;</span>signal_query, <span class="kw-2">&amp;mut </span>args[<span class="number">1</span>..]);
 
             <span class="kw">let </span><span class="kw-2">mut </span>return_value = <span class="kw">if </span>signal_query.return_type() != Type::UNIT {
-                Value::from_type(signal_query.return_type().into())
+                Value::from_type_unchecked(signal_query.return_type().into())
             } <span class="kw">else </span>{
                 Value::uninitialized()
             };
@@ -7437,7 +7376,7 @@
             validate_signal_arguments(type_, <span class="kw-2">&amp;</span>signal_query, <span class="kw-2">&amp;mut </span>args[<span class="number">1</span>..]);
 
             <span class="kw">let </span><span class="kw-2">mut </span>return_value = <span class="kw">if </span>signal_query.return_type() != Type::UNIT {
-                Value::from_type(signal_query.return_type().into())
+                Value::from_type_unchecked(signal_query.return_type().into())
             } <span class="kw">else </span>{
                 Value::uninitialized()
             };
@@ -7538,7 +7477,7 @@
             validate_signal_arguments(type_, <span class="kw-2">&amp;</span>signal_query, <span class="kw-2">&amp;mut </span>args[<span class="number">1</span>..]);
 
             <span class="kw">let </span><span class="kw-2">mut </span>return_value = <span class="kw">if </span>signal_query.return_type() != Type::UNIT {
-                Value::from_type(signal_query.return_type().into())
+                Value::from_type_unchecked(signal_query.return_type().into())
             } <span class="kw">else </span>{
                 Value::uninitialized()
             };
@@ -7591,7 +7530,7 @@
             validate_signal_arguments(type_, <span class="kw-2">&amp;</span>signal_query, <span class="kw-2">&amp;mut </span>args[<span class="number">1</span>..]);
 
             <span class="kw">let </span><span class="kw-2">mut </span>return_value = <span class="kw">if </span>signal_query.return_type() != Type::UNIT {
-                Value::from_type(signal_query.return_type().into())
+                Value::from_type_unchecked(signal_query.return_type().into())
             } <span class="kw">else </span>{
                 Value::uninitialized()
             };
@@ -7612,7 +7551,8 @@
         }
     }
 
-    <span class="kw">fn </span>disconnect(<span class="kw-2">&amp;</span><span class="self">self</span>, handler_id: SignalHandlerId) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>disconnect(<span class="kw-2">&amp;</span><span class="self">self</span>, handler_id: SignalHandlerId) {
         <span class="kw">unsafe </span>{
             gobject_ffi::g_signal_handler_disconnect(
                 <span class="self">self</span>.as_object_ref().to_glib_none().<span class="number">0</span>,
@@ -7679,16 +7619,20 @@
         )
     }
 
-    <span class="kw">fn </span>notify(<span class="kw-2">&amp;</span><span class="self">self</span>, property_name: <span class="kw-2">&amp;</span>str) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>notify(<span class="kw-2">&amp;</span><span class="self">self</span>, property_name: <span class="kw-2">&amp;</span>str) {
         <span class="kw">unsafe </span>{
-            gobject_ffi::g_object_notify(
-                <span class="self">self</span>.as_object_ref().to_glib_none().<span class="number">0</span>,
-                property_name.to_glib_none().<span class="number">0</span>,
-            );
+            property_name.run_with_gstr(|property_name| {
+                gobject_ffi::g_object_notify(
+                    <span class="self">self</span>.as_object_ref().to_glib_none().<span class="number">0</span>,
+                    property_name.as_ptr(),
+                )
+            });
         }
     }
 
-    <span class="kw">fn </span>notify_by_pspec(<span class="kw-2">&amp;</span><span class="self">self</span>, pspec: <span class="kw-2">&amp;</span><span class="kw">crate</span>::ParamSpec) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>notify_by_pspec(<span class="kw-2">&amp;</span><span class="self">self</span>, pspec: <span class="kw-2">&amp;</span><span class="kw">crate</span>::ParamSpec) {
         <span class="kw">unsafe </span>{
             gobject_ffi::g_object_notify_by_pspec(
                 <span class="self">self</span>.as_object_ref().to_glib_none().<span class="number">0</span>,
@@ -7697,7 +7641,8 @@
         }
     }
 
-    <span class="kw">fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; WeakRef&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; WeakRef&lt;T&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>w = WeakRef(Box::pin(mem::zeroed()), PhantomData);
             gobject_ffi::g_weak_ref_init(
@@ -7727,14 +7672,16 @@
         BindingBuilder::new(<span class="self">self</span>, source_property, target, target_property)
     }
 
-    <span class="kw">fn </span>ref_count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>ref_count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
         <span class="kw">let </span>stash = <span class="self">self</span>.as_object_ref().to_glib_none();
         <span class="kw">let </span>ptr: <span class="kw-2">*mut </span>gobject_ffi::GObject = stash.<span class="number">0</span>;
 
         <span class="kw">unsafe </span>{ ffi::g_atomic_int_get(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span>ptr).ref_count <span class="kw">as </span><span class="kw-2">*const </span>u32 <span class="kw">as </span><span class="kw-2">*const </span>i32) <span class="kw">as </span>u32 }
     }
 
-    <span class="kw">unsafe fn </span>run_dispose(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+    <span class="attr">#[inline]
+    </span><span class="kw">unsafe fn </span>run_dispose(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         gobject_ffi::g_object_run_dispose(<span class="self">self</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
     }
 }
@@ -7760,6 +7707,7 @@
     ///
     /// This should only be called from within a closure that was previously attached to `T` using
     /// `Watchable::watch_closure`.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub unsafe fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Borrowed&lt;T&gt;
     <span class="kw">where
         </span>T: FromGlibPtrBorrow&lt;<span class="kw-2">*mut </span>&lt;T <span class="kw">as </span>ObjectType&gt;::GlibType&gt;,
@@ -7781,6 +7729,16 @@
     }
     <span class="kw">fn </span>watch_closure(<span class="kw-2">&amp;</span><span class="self">self</span>, closure: <span class="kw-2">&amp;</span><span class="kw">impl </span>AsRef&lt;Closure&gt;) {
         ObjectExt::watch_closure(<span class="self">self</span>, closure)
+    }
+}
+
+<span class="attr">#[doc(hidden)]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: ObjectType&gt; Watchable&lt;T&gt; <span class="kw">for </span>BorrowedObject&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    <span class="kw">fn </span>watched_object(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; WatchedObject&lt;T&gt; {
+        WatchedObject::new(<span class="self">self</span>)
+    }
+    <span class="kw">fn </span>watch_closure(<span class="kw-2">&amp;</span><span class="self">self</span>, closure: <span class="kw-2">&amp;</span><span class="kw">impl </span>AsRef&lt;Closure&gt;) {
+        ObjectExt::watch_closure(<span class="kw-2">&amp;**</span><span class="self">self</span>, closure)
     }
 }
 
@@ -7921,10 +7879,12 @@
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>klass = <span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>gobject_ffi::GObjectClass;
 
-            from_glib_none(gobject_ffi::g_object_class_find_property(
-                klass <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>,
-                property_name.to_glib_none().<span class="number">0</span>,
-            ))
+            property_name.run_with_gstr(|property_name| {
+                from_glib_none(gobject_ffi::g_object_class_find_property(
+                    klass <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>,
+                    property_name.as_ptr(),
+                ))
+            })
         }
     }
 
@@ -7939,7 +7899,7 @@
 
             <span class="kw">let </span>props =
                 gobject_ffi::g_object_class_list_properties(klass <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>, <span class="kw-2">&amp;mut </span>n_properties);
-            PtrSlice::from_glib_container_num_static(props, n_properties <span class="kw">as </span>usize)
+            PtrSlice::from_glib_container_num(props, n_properties <span class="kw">as </span>usize, <span class="bool-val">true</span>)
         }
     }
 }
@@ -8037,6 +7997,7 @@
     </span><span class="doccomment">/// Create a new empty weak reference.
     ///
     /// `upgrade` will always return `None` until an object is set on it.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>new() -&gt; WeakRef&lt;T&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>w = WeakRef(Box::pin(mem::zeroed()), PhantomData);
@@ -8051,6 +8012,7 @@
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Set this weak reference to the given object.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_weak_ref_set&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>set(<span class="kw-2">&amp;</span><span class="self">self</span>, obj: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) {
         <span class="kw">unsafe </span>{
             gobject_ffi::g_weak_ref_set(
@@ -8067,6 +8029,7 @@
     ///
     /// If the stored object was already destroyed or no object was set in this weak reference then
     /// `None` is returned.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>upgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>ptr = gobject_ffi::g_weak_ref_get(mut_override(Pin::as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>).get_ref()));
@@ -8081,7 +8044,8 @@
 }
 
 <span class="kw">impl</span>&lt;T: ObjectType&gt; Drop <span class="kw">for </span>WeakRef&lt;T&gt; {
-    <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">unsafe </span>{
             gobject_ffi::g_weak_ref_clear(Pin::as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0</span>).get_unchecked_mut());
         }
@@ -8089,7 +8053,8 @@
 }
 
 <span class="kw">impl</span>&lt;T: ObjectType&gt; Clone <span class="kw">for </span>WeakRef&lt;T&gt; {
-    <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>o = <span class="self">self</span>.upgrade();
 
@@ -8105,13 +8070,35 @@
 }
 
 <span class="kw">impl</span>&lt;T: ObjectType&gt; Default <span class="kw">for </span>WeakRef&lt;T&gt; {
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::new()
     }
 }
 
 <span class="kw">unsafe impl</span>&lt;T: ObjectType + Sync + Sync&gt; Sync <span class="kw">for </span>WeakRef&lt;T&gt; {}
 <span class="kw">unsafe impl</span>&lt;T: ObjectType + Send + Sync&gt; Send <span class="kw">for </span>WeakRef&lt;T&gt; {}
+
+<span class="kw">impl</span>&lt;T: ObjectType&gt; PartialEq <span class="kw">for </span>WeakRef&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="kw">unsafe </span>{ <span class="self">self</span>.<span class="number">0</span>.priv_.p == other.<span class="number">0</span>.priv_.p }
+    }
+}
+
+<span class="kw">impl</span>&lt;T: ObjectType&gt; PartialEq&lt;T&gt; <span class="kw">for </span>WeakRef&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>T) -&gt; bool {
+        <span class="kw">unsafe </span>{ <span class="self">self</span>.<span class="number">0</span>.priv_.p == other.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>std::os::raw::c_void }
+    }
+}
+
+<span class="kw">impl</span>&lt;T: ObjectType&gt; PartialOrd <span class="kw">for </span>WeakRef&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;cmp::Ordering&gt; {
+        <span class="kw">unsafe </span>{ <span class="self">self</span>.<span class="number">0</span>.priv_.p.partial_cmp(<span class="kw-2">&amp;</span>other.<span class="number">0</span>.priv_.p) }
+    }
+}
 
 <span class="comment">// rustdoc-stripper-ignore-next
 </span><span class="doccomment">/// A weak reference to the object it was created for that can be sent to
@@ -8124,11 +8111,13 @@
 </span><span class="kw">pub struct </span>SendWeakRef&lt;T: ObjectType&gt;(WeakRef&lt;T&gt;, <span class="prelude-ty">Option</span>&lt;usize&gt;);
 
 <span class="kw">impl</span>&lt;T: ObjectType&gt; SendWeakRef&lt;T&gt; {
-    <span class="kw">pub fn </span>new() -&gt; SendWeakRef&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>new() -&gt; SendWeakRef&lt;T&gt; {
         SendWeakRef(WeakRef::new(), <span class="prelude-val">None</span>)
     }
 
-    <span class="kw">pub fn </span>into_weak_ref(<span class="self">self</span>) -&gt; WeakRef&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>into_weak_ref(<span class="self">self</span>) -&gt; WeakRef&lt;T&gt; {
         <span class="macro">assert!</span>(
             <span class="self">self</span>.<span class="number">1</span>.is_none() || <span class="self">self</span>.<span class="number">1 </span>== <span class="prelude-val">Some</span>(thread_id()),
             <span class="string">&quot;SendWeakRef dereferenced on a different thread&quot;</span>,
@@ -8141,7 +8130,8 @@
 <span class="kw">impl</span>&lt;T: ObjectType&gt; ops::Deref <span class="kw">for </span>SendWeakRef&lt;T&gt; {
     <span class="kw">type </span>Target = WeakRef&lt;T&gt;;
 
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>WeakRef&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>WeakRef&lt;T&gt; {
         <span class="macro">assert!</span>(
             <span class="self">self</span>.<span class="number">1</span>.is_none() || <span class="self">self</span>.<span class="number">1 </span>== <span class="prelude-val">Some</span>(thread_id()),
             <span class="string">&quot;SendWeakRef dereferenced on a different thread&quot;
@@ -8153,19 +8143,22 @@
 
 <span class="comment">// Deriving this gives the wrong trait bounds
 </span><span class="kw">impl</span>&lt;T: ObjectType&gt; Clone <span class="kw">for </span>SendWeakRef&lt;T&gt; {
-    <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(<span class="self">self</span>.<span class="number">0</span>.clone(), <span class="self">self</span>.<span class="number">1</span>)
     }
 }
 
 <span class="kw">impl</span>&lt;T: ObjectType&gt; Default <span class="kw">for </span>SendWeakRef&lt;T&gt; {
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::new()
     }
 }
 
 <span class="kw">impl</span>&lt;T: ObjectType&gt; From&lt;WeakRef&lt;T&gt;&gt; <span class="kw">for </span>SendWeakRef&lt;T&gt; {
-    <span class="kw">fn </span>from(v: WeakRef&lt;T&gt;) -&gt; SendWeakRef&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>from(v: WeakRef&lt;T&gt;) -&gt; SendWeakRef&lt;T&gt; {
         SendWeakRef(v, <span class="prelude-val">Some</span>(thread_id()))
     }
 }
@@ -8479,6 +8472,7 @@
     /// This is not equivalent to `T::static_type()` but is the type of the subclass of `T` where
     /// this class belongs to.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;get_type&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Type {
         <span class="kw">unsafe </span>{
             <span class="comment">// This also works for interfaces because they also have the type
@@ -8490,6 +8484,7 @@
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Casts this class to a reference to a parent type&#39;s class.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>upcast_ref&lt;U: IsClass&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Class&lt;U&gt;
     <span class="kw">where
         </span>T: IsA&lt;U&gt;,
@@ -8502,6 +8497,7 @@
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Casts this class to a mutable reference to a parent type&#39;s class.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>upcast_ref_mut&lt;U: IsClass&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Class&lt;U&gt;
     <span class="kw">where
         </span>T: IsA&lt;U&gt;,
@@ -8515,6 +8511,7 @@
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Casts this class to a reference to a child type&#39;s class or
     /// fails if this class is not implementing the child class.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>downcast_ref&lt;U: IsClass&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Class&lt;U&gt;&gt;
     <span class="kw">where
         </span>U: IsA&lt;T&gt;,
@@ -8532,6 +8529,7 @@
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Casts this class to a mutable reference to a child type&#39;s class or
     /// fails if this class is not implementing the child class.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>downcast_ref_mut&lt;U: IsClass&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>Class&lt;U&gt;&gt;
     <span class="kw">where
         </span>U: IsA&lt;T&gt;,
@@ -8551,6 +8549,7 @@
     ///
     /// This will return `None` if `type_` is not a subclass of `Self`.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_type_class_ref&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>from_type(type_: Type) -&gt; <span class="prelude-ty">Option</span>&lt;ClassRef&lt;<span class="lifetime">&#39;static</span>, T&gt;&gt; {
         <span class="kw">if </span>!type_.is_a(T::static_type()) {
             <span class="kw">return </span><span class="prelude-val">None</span>;
@@ -8573,6 +8572,7 @@
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Gets the parent class struct, if any.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_type_class_peek_parent&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>parent(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;ClassRef&lt;T&gt;&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>ptr = gobject_ffi::g_type_class_peek_parent(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
@@ -8593,13 +8593,15 @@
 <span class="kw">unsafe impl</span>&lt;T: IsClass&gt; Sync <span class="kw">for </span>Class&lt;T&gt; {}
 
 <span class="kw">impl</span>&lt;T: IsClass&gt; AsRef&lt;T::GlibClassType&gt; <span class="kw">for </span>Class&lt;T&gt; {
-    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T::GlibClassType {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T::GlibClassType {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
     </span>}
 }
 
 <span class="kw">impl</span>&lt;T: IsClass&gt; AsMut&lt;T::GlibClassType&gt; <span class="kw">for </span>Class&lt;T&gt; {
-    <span class="kw">fn </span>as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>T::GlibClassType {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>T::GlibClassType {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0
     </span>}
 }
@@ -8612,13 +8614,15 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: IsClass&gt; ops::Deref <span class="kw">for </span>ClassRef&lt;<span class="lifetime">&#39;a</span>, T&gt; {
     <span class="kw">type </span>Target = Class&lt;T&gt;;
 
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Class&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Class&lt;T&gt; {
         <span class="kw">unsafe </span>{ <span class="self">self</span>.<span class="number">0</span>.as_ref() }
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: IsClass&gt; Drop <span class="kw">for </span>ClassRef&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">if </span><span class="self">self</span>.<span class="number">1 </span>{
             <span class="kw">unsafe </span>{
                 gobject_ffi::g_type_class_unref(<span class="self">self</span>.<span class="number">0</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
@@ -8645,7 +8649,8 @@
 <span class="kw">impl</span>&lt;T: ParentClassIs&gt; ops::Deref <span class="kw">for </span>Class&lt;T&gt; {
     <span class="kw">type </span>Target = Class&lt;T::Parent&gt;;
 
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>klass = <span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span><span class="self">Self</span>::Target;
             <span class="kw-2">&amp;*</span>klass
@@ -8654,7 +8659,8 @@
 }
 
 <span class="kw">impl</span>&lt;T: ParentClassIs&gt; ops::DerefMut <span class="kw">for </span>Class&lt;T&gt; {
-    <span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Target {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Target {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>klass = <span class="self">self </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_ as </span><span class="kw-2">*mut </span><span class="self">Self</span>::Target;
             <span class="kw-2">&amp;mut *</span>klass
@@ -8677,6 +8683,7 @@
     ///
     /// This is equivalent to `T::static_type()`.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;get_type&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Type {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>klass = <span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>gobject_ffi::GTypeInterface;
@@ -8690,6 +8697,7 @@
     /// This is not equivalent to `T::static_type()` but is the type id of the type this specific
     /// interface belongs to.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;get_instance_type&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>instance_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Type {
         <span class="kw">unsafe </span>{
             <span class="comment">// This also works for interfaces because they also have the type
@@ -8703,6 +8711,7 @@
     </span><span class="doccomment">/// Gets the interface struct for `Self` of `klass`.
     ///
     /// This will return `None` if `klass` is not implementing `Self`.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>from_class&lt;U: IsClass&gt;(klass: <span class="kw-2">&amp;</span>Class&lt;U&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;InterfaceRef&lt;T&gt;&gt; {
         <span class="kw">if </span>!klass.type_().is_a(T::static_type()) {
             <span class="kw">return </span><span class="prelude-val">None</span>;
@@ -8729,6 +8738,7 @@
     </span><span class="doccomment">/// Gets the default interface struct for `Self`.
     ///
     /// This will return `None` if `type_` is not an interface.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>from_type(type_: Type) -&gt; <span class="prelude-ty">Option</span>&lt;InterfaceRef&lt;<span class="lifetime">&#39;static</span>, T&gt;&gt; {
         <span class="kw">if </span>!type_.is_a(Type::INTERFACE) {
             <span class="kw">return </span><span class="prelude-val">None</span>;
@@ -8752,10 +8762,11 @@
     </span><span class="doccomment">/// Gets the default interface struct for `Self`.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_type_default_interface_ref&quot;</span>)]
     #[allow(clippy::should_implement_trait)]
+    #[inline]
     </span><span class="kw">pub fn </span>default() -&gt; InterfaceRef&lt;<span class="lifetime">&#39;static</span>, T&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>ptr = gobject_ffi::g_type_default_interface_ref(T::static_type().into_glib());
-            <span class="macro">assert!</span>(!ptr.is_null());
+            <span class="macro">debug_assert!</span>(!ptr.is_null());
             InterfaceRef(
                 ptr::NonNull::new_unchecked(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="self">Self</span>),
                 <span class="bool-val">true</span>,
@@ -8770,6 +8781,7 @@
     /// This returns the parent interface if a parent type of the instance type also implements the
     /// interface.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_type_interface_peek_parent&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>parent(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;InterfaceRef&lt;T&gt;&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>ptr = gobject_ffi::g_type_interface_peek_parent(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
@@ -8838,7 +8850,7 @@
                 interface <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>,
                 <span class="kw-2">&amp;mut </span>n_properties,
             );
-            PtrSlice::from_glib_container_num_static(props, n_properties <span class="kw">as </span>usize)
+            PtrSlice::from_glib_container_num(props, n_properties <span class="kw">as </span>usize, <span class="bool-val">true</span>)
         }
     }
 }
@@ -8847,13 +8859,15 @@
 <span class="kw">unsafe impl</span>&lt;T: IsInterface&gt; Sync <span class="kw">for </span>Interface&lt;T&gt; {}
 
 <span class="kw">impl</span>&lt;T: IsInterface&gt; AsRef&lt;T::GlibClassType&gt; <span class="kw">for </span>Interface&lt;T&gt; {
-    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T::GlibClassType {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T::GlibClassType {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
     </span>}
 }
 
 <span class="kw">impl</span>&lt;T: IsInterface&gt; AsMut&lt;T::GlibClassType&gt; <span class="kw">for </span>Interface&lt;T&gt; {
-    <span class="kw">fn </span>as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>T::GlibClassType {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>T::GlibClassType {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0
     </span>}
 }
@@ -8864,7 +8878,8 @@
 </span><span class="kw">pub struct </span>InterfaceRef&lt;<span class="lifetime">&#39;a</span>, T: IsInterface&gt;(ptr::NonNull&lt;Interface&lt;T&gt;&gt;, bool, PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>()&gt;);
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: IsInterface&gt; Drop <span class="kw">for </span>InterfaceRef&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">if </span><span class="self">self</span>.<span class="number">1 </span>{
             <span class="kw">unsafe </span>{
                 gobject_ffi::g_type_default_interface_unref(<span class="self">self</span>.<span class="number">0</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
@@ -8876,7 +8891,8 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: IsInterface&gt; ops::Deref <span class="kw">for </span>InterfaceRef&lt;<span class="lifetime">&#39;a</span>, T&gt; {
     <span class="kw">type </span>Target = Interface&lt;T&gt;;
 
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Interface&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Interface&lt;T&gt; {
         <span class="kw">unsafe </span>{ <span class="self">self</span>.<span class="number">0</span>.as_ref() }
     }
 }
@@ -8967,6 +8983,7 @@
     /// # SAFETY:
     ///
     /// The pointer needs to be valid for at least the lifetime `&#39;a`.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub unsafe fn </span>new(ptr: <span class="kw-2">*mut </span>T::GlibType) -&gt; BorrowedObject&lt;<span class="lifetime">&#39;a</span>, T&gt; {
         BorrowedObject {
             ptr: ptr::NonNull::new_unchecked(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>),
@@ -8976,6 +8993,7 @@
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Downgrade to a weak reference.
+    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; &lt;<span class="self">Self </span><span class="kw">as </span><span class="kw">crate</span>::clone::Downgrade&gt;::Weak
     <span class="kw">where
         </span>T: <span class="kw">crate</span>::clone::Downgrade,
@@ -8987,25 +9005,29 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T&gt; ops::Deref <span class="kw">for </span>BorrowedObject&lt;<span class="lifetime">&#39;a</span>, T&gt; {
     <span class="kw">type </span>Target = T;
 
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
         <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>T) }
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T&gt; AsRef&lt;T&gt; <span class="kw">for </span>BorrowedObject&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
         <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>T) }
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: PartialEq&gt; PartialEq&lt;T&gt; <span class="kw">for </span>BorrowedObject&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>T) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>T) -&gt; bool {
         &lt;T <span class="kw">as </span>PartialEq&gt;::eq(<span class="self">self</span>, other)
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: PartialOrd&gt; PartialOrd&lt;T&gt; <span class="kw">for </span>BorrowedObject&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    <span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>T) -&gt; <span class="prelude-ty">Option</span>&lt;cmp::Ordering&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>T) -&gt; <span class="prelude-ty">Option</span>&lt;cmp::Ordering&gt; {
         &lt;T <span class="kw">as </span>PartialOrd&gt;::partial_cmp(<span class="self">self</span>, other)
     }
 }
@@ -9015,28 +9037,34 @@
 {
     <span class="kw">type </span>Weak = &lt;T <span class="kw">as </span><span class="kw">crate</span>::clone::Downgrade&gt;::Weak;
 
-    <span class="kw">fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span>::Weak {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span>::Weak {
         &lt;T <span class="kw">as </span><span class="kw">crate</span>::clone::Downgrade&gt;::downgrade(<span class="self">self</span>)
     }
 }
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
+    <span class="kw">use </span>std::{
+        cell::Cell,
+        rc::Rc,
+        sync::{
+            atomic::{AtomicBool, Ordering},
+            Arc,
+        },
+    };
+
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span>std::cell::Cell;
-    <span class="kw">use </span>std::rc::Rc;
-    <span class="kw">use </span>std::sync::atomic::{AtomicBool, Ordering};
-    <span class="kw">use </span>std::sync::Arc;
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>new() {
-        <span class="kw">let </span>obj: Object = Object::new(<span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj: Object = Object::new();
         drop(obj);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>data() {
-        <span class="kw">let </span>obj: Object = Object::new(<span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj: Object = Object::new();
         <span class="kw">unsafe </span>{
             obj.set_data::&lt;String&gt;(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;hello&quot;</span>.into());
             <span class="kw">let </span>data = obj.data::&lt;String&gt;(<span class="string">&quot;foo&quot;</span>).unwrap();
@@ -9048,7 +9076,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>weak_ref() {
-        <span class="kw">let </span>obj: Object = Object::new(<span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj: Object = Object::new();
 
         <span class="kw">let </span>weakref: WeakRef&lt;Object&gt; = WeakRef::new();
         weakref.set(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>obj));
@@ -9066,7 +9094,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>weak_ref_notify() {
-        <span class="kw">let </span>obj: Object = Object::new(<span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj: Object = Object::new();
 
         <span class="kw">let </span>handle = obj.add_weak_ref_notify(|| {
             <span class="macro">unreachable!</span>();
@@ -9084,7 +9112,7 @@
         <span class="macro">assert!</span>(called.load(Ordering::SeqCst));
         handle.disconnect();
 
-        <span class="kw">let </span>obj: Object = Object::new(<span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj: Object = Object::new();
 
         <span class="kw">let </span>called = Arc::new(AtomicBool::new(<span class="bool-val">false</span>));
         <span class="kw">let </span>called_weak = Arc::downgrade(<span class="kw-2">&amp;</span>called);
@@ -9095,7 +9123,7 @@
         drop(obj);
         <span class="macro">assert!</span>(called.load(Ordering::SeqCst));
 
-        <span class="kw">let </span>obj: Object = Object::new(<span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj: Object = Object::new();
 
         <span class="kw">let </span>called = Rc::new(Cell::new(<span class="bool-val">false</span>));
         <span class="kw">let </span>called_weak = Rc::downgrade(<span class="kw-2">&amp;</span>called);
@@ -9109,7 +9137,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_value() {
-        <span class="kw">let </span>obj1: Object = Object::new(<span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj1: Object = Object::new();
         <span class="kw">let </span>v = obj1.to_value();
         <span class="kw">let </span>obj2 = v.get::&lt;<span class="kw-2">&amp;</span>Object&gt;().unwrap();
 
@@ -9128,4 +9156,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

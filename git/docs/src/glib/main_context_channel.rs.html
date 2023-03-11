@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/main_context_channel.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>main_context_channel.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/main_context_channel.rs`."><title>main_context_channel.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../glib/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../glib/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -964,41 +964,17 @@
 <a href="#891" id="891">891</a>
 <a href="#892" id="892">892</a>
 <a href="#893" id="893">893</a>
-<a href="#894" id="894">894</a>
-<a href="#895" id="895">895</a>
-<a href="#896" id="896">896</a>
-<a href="#897" id="897">897</a>
-<a href="#898" id="898">898</a>
-<a href="#899" id="899">899</a>
-<a href="#900" id="900">900</a>
-<a href="#901" id="901">901</a>
-<a href="#902" id="902">902</a>
-<a href="#903" id="903">903</a>
-<a href="#904" id="904">904</a>
-<a href="#905" id="905">905</a>
-<a href="#906" id="906">906</a>
-<a href="#907" id="907">907</a>
-<a href="#908" id="908">908</a>
-<a href="#909" id="909">909</a>
-<a href="#910" id="910">910</a>
-<a href="#911" id="911">911</a>
-<a href="#912" id="912">912</a>
-<a href="#913" id="913">913</a>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.
 
-</span><span class="kw">use </span><span class="kw">crate</span>::thread_guard::ThreadGuard;
-<span class="kw">use </span><span class="kw">crate</span>::translate::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::Continue;
-<span class="kw">use </span><span class="kw">crate</span>::MainContext;
-<span class="kw">use </span><span class="kw">crate</span>::Priority;
-<span class="kw">use </span><span class="kw">crate</span>::Source;
-<span class="kw">use </span><span class="kw">crate</span>::SourceId;
-<span class="kw">use </span>std::collections::VecDeque;
-<span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::mem;
-<span class="kw">use </span>std::ptr;
-<span class="kw">use </span>std::sync::mpsc;
-<span class="kw">use </span>std::sync::{Arc, Condvar, Mutex};
+</span><span class="kw">use </span>std::{
+    collections::VecDeque,
+    fmt, mem, ptr,
+    sync::{mpsc, Arc, Condvar, Mutex},
+};
+
+<span class="kw">use crate</span>::{
+    thread_guard::ThreadGuard, translate::<span class="kw-2">*</span>, Continue, MainContext, Priority, Source, SourceId,
+};
 
 <span class="kw">enum </span>ChannelSourceState {
     NotAttached,
@@ -1189,9 +1165,9 @@
 <span class="attr">#[repr(C)]
 </span><span class="kw">struct </span>ChannelSource&lt;T, F: FnMut(T) -&gt; Continue + <span class="lifetime">&#39;static</span>&gt; {
     source: ffi::GSource,
-    source_funcs: <span class="prelude-ty">Option</span>&lt;Box&lt;ffi::GSourceFuncs&gt;&gt;,
-    channel: <span class="prelude-ty">Option</span>&lt;Channel&lt;T&gt;&gt;,
-    callback: <span class="prelude-ty">Option</span>&lt;ThreadGuard&lt;F&gt;&gt;,
+    source_funcs: Box&lt;ffi::GSourceFuncs&gt;,
+    channel: Channel&lt;T&gt;,
+    callback: ThreadGuard&lt;F&gt;,
 }
 
 <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>dispatch&lt;T, F: FnMut(T) -&gt; Continue + <span class="lifetime">&#39;static</span>&gt;(
@@ -1200,7 +1176,7 @@
     _user_data: ffi::gpointer,
 ) -&gt; ffi::gboolean {
     <span class="kw">let </span>source = <span class="kw-2">&amp;mut *</span>(source <span class="kw">as </span><span class="kw-2">*mut </span>ChannelSource&lt;T, F&gt;);
-    <span class="macro">assert!</span>(callback.is_none());
+    <span class="macro">debug_assert!</span>(callback.is_none());
 
     <span class="comment">// Set ready-time to -1 so that we won&#39;t get called again before a new item is added
     // to the channel queue.
@@ -1208,21 +1184,13 @@
 
     <span class="comment">// Get a reference to the callback. This will panic if we&#39;re called from a different
     // thread than where the source was attached to the main context.
-    </span><span class="kw">let </span>callback = source
-        .callback
-        .as_mut()
-        .expect(<span class="string">&quot;ChannelSource called before Receiver was attached&quot;</span>)
-        .get_mut();
+    </span><span class="kw">let </span>callback = source.callback.get_mut();
 
     <span class="comment">// Now iterate over all items that we currently have in the channel until it is
     // empty again. If all senders are disconnected at some point we remove the GSource
     // from the main context it was attached to as it will never ever be called again.
-    </span><span class="kw">let </span>channel = source
-        .channel
-        .as_ref()
-        .expect(<span class="string">&quot;ChannelSource without Channel&quot;</span>);
-    <span class="kw">loop </span>{
-        <span class="kw">match </span>channel.try_recv() {
+    </span><span class="kw">loop </span>{
+        <span class="kw">match </span>source.channel.try_recv() {
             <span class="prelude-val">Err</span>(mpsc::TryRecvError::Empty) =&gt; <span class="kw">break</span>,
             <span class="prelude-val">Err</span>(mpsc::TryRecvError::Disconnected) =&gt; <span class="kw">return </span>ffi::G_SOURCE_REMOVE,
             <span class="prelude-val">Ok</span>(item) =&gt; {
@@ -1240,14 +1208,12 @@
 </span><span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>dispose&lt;T, F: FnMut(T) -&gt; Continue + <span class="lifetime">&#39;static</span>&gt;(source: <span class="kw-2">*mut </span>ffi::GSource) {
     <span class="kw">let </span>source = <span class="kw-2">&amp;mut *</span>(source <span class="kw">as </span><span class="kw-2">*mut </span>ChannelSource&lt;T, F&gt;);
 
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>channel) = source.channel {
-        <span class="comment">// Set the source inside the channel to None so that all senders know that there
-        // is no receiver left and wake up the condition variable if any
-        </span><span class="kw">let </span><span class="kw-2">mut </span>inner = (channel.<span class="number">0</span>).<span class="number">0</span>.lock().unwrap();
-        inner.source = ChannelSourceState::Destroyed;
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(ChannelBound { <span class="kw-2">ref </span>cond, .. }) = (channel.<span class="number">0</span>).<span class="number">1 </span>{
-            cond.notify_all();
-        }
+    <span class="comment">// Set the source inside the channel to None so that all senders know that there
+    // is no receiver left and wake up the condition variable if any
+    </span><span class="kw">let </span><span class="kw-2">mut </span>inner = (source.channel.<span class="number">0</span>).<span class="number">0</span>.lock().unwrap();
+    inner.source = ChannelSourceState::Destroyed;
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(ChannelBound { <span class="kw-2">ref </span>cond, .. }) = (source.channel.<span class="number">0</span>).<span class="number">1 </span>{
+        cond.notify_all();
     }
 }
 
@@ -1256,14 +1222,8 @@
 
     <span class="comment">// Drop all memory we own by taking it out of the Options
 
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;v2_64&quot;</span>)]
+    </span><span class="attr">#[cfg(not(feature = <span class="string">&quot;v2_64&quot;</span>))]
     </span>{
-        <span class="kw">let _ </span>= source.channel.take().expect(<span class="string">&quot;Receiver without channel&quot;</span>);
-    }
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;v2_64&quot;</span>))]
-    </span>{
-        <span class="kw">let </span>channel = source.channel.take().expect(<span class="string">&quot;Receiver without channel&quot;</span>);
-
         <span class="comment">// FIXME: This is the same as would otherwise be done in the dispose() function but
         // unfortunately it doesn&#39;t exist in older version of GLib. Doing it only here can
         // cause a channel sender to get a reference to the source with reference count 0
@@ -1273,14 +1233,14 @@
         //
         // Set the source inside the channel to None so that all senders know that there
         // is no receiver left and wake up the condition variable if any
-        </span><span class="kw">let </span><span class="kw-2">mut </span>inner = (channel.<span class="number">0</span>).<span class="number">0</span>.lock().unwrap();
+        </span><span class="kw">let </span><span class="kw-2">mut </span>inner = (source.channel.<span class="number">0</span>).<span class="number">0</span>.lock().unwrap();
         inner.source = ChannelSourceState::Destroyed;
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(ChannelBound { <span class="kw-2">ref </span>cond, .. }) = (channel.<span class="number">0</span>).<span class="number">1 </span>{
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(ChannelBound { <span class="kw-2">ref </span>cond, .. }) = (source.channel.<span class="number">0</span>).<span class="number">1 </span>{
             cond.notify_all();
         }
     }
-
-    <span class="kw">let _ </span>= source.source_funcs.take();
+    ptr::drop_in_place(<span class="kw-2">&amp;mut </span>source.channel);
+    ptr::drop_in_place(<span class="kw-2">&amp;mut </span>source.source_funcs);
 
     <span class="comment">// Take the callback out of the source. This will panic if the value is dropped
     // from a different thread than where the callback was created so try to drop it
@@ -1289,11 +1249,10 @@
     // This can only really happen if the caller to `attach()` gets the `Source` from the returned
     // `SourceId` and sends it to another thread or otherwise retrieves it from the main context,
     // but better safe than sorry.
-    </span><span class="kw">let </span>callback = source
-        .callback
-        .take()
-        .expect(<span class="string">&quot;channel source finalized twice&quot;</span>);
-    <span class="kw">if </span>!callback.is_owner() {
+    </span><span class="kw">if </span>source.callback.is_owner() {
+        ptr::drop_in_place(<span class="kw-2">&amp;mut </span>source.callback);
+    } <span class="kw">else </span>{
+        <span class="kw">let </span>callback = ptr::read(<span class="kw-2">&amp;</span>source.callback);
         <span class="kw">let </span>context =
             ffi::g_source_get_context(source <span class="kw">as </span><span class="kw-2">*mut </span>ChannelSource&lt;T, F&gt; <span class="kw">as </span><span class="kw-2">*mut </span>ffi::GSource);
         <span class="kw">if </span>!context.is_null() {
@@ -1481,7 +1440,6 @@
                 mut_override(<span class="kw-2">&amp;*</span>source_funcs),
                 mem::size_of::&lt;ChannelSource&lt;T, F&gt;&gt;() <span class="kw">as </span>u32,
             ) <span class="kw">as </span><span class="kw-2">*mut </span>ChannelSource&lt;T, F&gt;;
-            <span class="macro">assert!</span>(!source.is_null());
 
             <span class="attr">#[cfg(feature = <span class="string">&quot;v2_64&quot;</span>)]
             </span>{
@@ -1513,9 +1471,9 @@
             <span class="comment">// Store all our data inside our part of the GSource
             </span>{
                 <span class="kw">let </span>source = <span class="kw-2">&amp;mut *</span>source;
-                ptr::write(<span class="kw-2">&amp;mut </span>source.channel, <span class="prelude-val">Some</span>(channel));
-                ptr::write(<span class="kw-2">&amp;mut </span>source.callback, <span class="prelude-val">Some</span>(ThreadGuard::new(func)));
-                ptr::write(<span class="kw-2">&amp;mut </span>source.source_funcs, <span class="prelude-val">Some</span>(source_funcs));
+                ptr::write(<span class="macro">ptr::addr_of_mut!</span>(source.channel), channel);
+                ptr::write(<span class="macro">ptr::addr_of_mut!</span>(source.callback), ThreadGuard::new(func));
+                ptr::write(<span class="macro">ptr::addr_of_mut!</span>(source.source_funcs), source_funcs);
             }
 
             <span class="kw">let </span>source = Source::from_glib_full(mut_override(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span>source).source));
@@ -1581,13 +1539,15 @@
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
+    <span class="kw">use </span>std::{
+        cell::RefCell,
+        rc::Rc,
+        sync::atomic::{AtomicBool, Ordering},
+        thread, time,
+    };
+
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::MainLoop;
-    <span class="kw">use </span>std::cell::RefCell;
-    <span class="kw">use </span>std::rc::Rc;
-    <span class="kw">use </span>std::sync::atomic::{AtomicBool, Ordering};
-    <span class="kw">use </span>std::thread;
-    <span class="kw">use </span>std::time;
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_channel() {
@@ -1898,4 +1858,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gdk-pixbuf/src/auto/pixbuf_loader.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>pixbuf_loader.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gdk-pixbuf/src/auto/pixbuf_loader.rs`."><title>pixbuf_loader.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../gdk_pixbuf/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../gdk_pixbuf/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -602,22 +602,60 @@
 <a href="#529" id="529">529</a>
 <a href="#530" id="530">530</a>
 <a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
 </pre><pre class="rust"><code><span class="comment">// This file was generated by gir (https://github.com/gtk-rs/gir)
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-</span><span class="kw">use </span><span class="kw">crate</span>::Pixbuf;
-<span class="kw">use </span><span class="kw">crate</span>::PixbufAnimation;
-<span class="kw">use </span><span class="kw">crate</span>::PixbufFormat;
-<span class="kw">use </span>glib::object::Cast;
-<span class="kw">use </span>glib::object::IsA;
-<span class="kw">use </span>glib::signal::connect_raw;
-<span class="kw">use </span>glib::signal::SignalHandlerId;
-<span class="kw">use </span>glib::translate::<span class="kw-2">*</span>;
-<span class="kw">use </span>std::boxed::Box <span class="kw">as </span>Box_;
-<span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::mem::transmute;
-<span class="kw">use </span>std::ptr;
+</span><span class="kw">use crate</span>::{Pixbuf, PixbufAnimation, PixbufFormat};
+<span class="kw">use </span>glib::{
+    prelude::<span class="kw-2">*</span>,
+    signal::{connect_raw, SignalHandlerId},
+    translate::<span class="kw-2">*</span>,
+};
+<span class="kw">use </span>std::{boxed::Box <span class="kw">as </span>Box_, fmt, mem::transmute, ptr};
 
 <span class="macro">glib::wrapper! </span>{
     <span class="doccomment">/// Incremental image loader.
@@ -638,18 +676,18 @@
     ///
     /// The loader will emit three important signals throughout the process:
     ///
-    ///  - `signal::PixbufLoader::size-prepared` will be emitted as
+    ///  - [`size-prepared`][struct@crate::PixbufLoader#size-prepared] will be emitted as
     ///    soon as the image has enough information to determine the size of
     ///    the image to be used. If you want to scale the image while loading
     ///    it, you can call [`PixbufLoaderExt::set_size()`][crate::prelude::PixbufLoaderExt::set_size()] in
     ///    response to this signal.
-    ///  - `signal::PixbufLoader::area-prepared` will be emitted as
+    ///  - [`area-prepared`][struct@crate::PixbufLoader#area-prepared] will be emitted as
     ///    soon as the pixbuf of the desired has been allocated. You can obtain
     ///    the [`Pixbuf`][crate::Pixbuf] instance by calling [`PixbufLoaderExt::pixbuf()`][crate::prelude::PixbufLoaderExt::pixbuf()].
     ///    If you want to use it, simply acquire a reference to it. You can
     ///    also call `gdk_pixbuf_loader_get_pixbuf()` later to get the same
     ///    pixbuf.
-    ///  - `signal::PixbufLoader::area-updated` will be emitted every
+    ///  - [`area-updated`][struct@crate::PixbufLoader#area-updated] will be emitted every
     ///    time a region is updated. This way you can update a partially
     ///    completed image. Note that you do not know anything about the
     ///    completeness of an image from the updated area. For example, in an
@@ -659,12 +697,60 @@
     /// ## Loading an animation
     ///
     /// Loading an animation is almost as easy as loading an image. Once the
-    /// first `signal::PixbufLoader::area-prepared` signal has been
+    /// first [`area-prepared`][struct@crate::PixbufLoader#area-prepared] signal has been
     /// emitted, you can call [`PixbufLoaderExt::animation()`][crate::prelude::PixbufLoaderExt::animation()] to
     /// get the [`PixbufAnimation`][crate::PixbufAnimation] instance, and then call
     /// and [`PixbufAnimationExtManual::iter()`][crate::prelude::PixbufAnimationExtManual::iter()] to get a
     /// [`PixbufAnimationIter`][crate::PixbufAnimationIter] to retrieve the pixbuf for the
     /// desired time stamp.
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `area-prepared`
+    ///  This signal is emitted when the pixbuf loader has allocated the
+    /// pixbuf in the desired size.
+    ///
+    /// After this signal is emitted, applications can call
+    /// gdk_pixbuf_loader_get_pixbuf() to fetch the partially-loaded
+    /// pixbuf.
+    ///
+    ///
+    ///
+    ///
+    /// #### `area-updated`
+    ///  This signal is emitted when a significant area of the image being
+    /// loaded has been updated.
+    ///
+    /// Normally it means that a complete scanline has been read in, but
+    /// it could be a different area as well.
+    ///
+    /// Applications can use this signal to know when to repaint
+    /// areas of an image that is being loaded.
+    ///
+    ///
+    ///
+    ///
+    /// #### `closed`
+    ///  This signal is emitted when gdk_pixbuf_loader_close() is called.
+    ///
+    /// It can be used by different parts of an application to receive
+    /// notification when an image loader is closed by the code that
+    /// drives it.
+    ///
+    ///
+    ///
+    ///
+    /// #### `size-prepared`
+    ///  This signal is emitted when the pixbuf loader has been fed the
+    /// initial amount of data that is required to figure out the size
+    /// of the image that it will create.
+    ///
+    /// Applications can call gdk_pixbuf_loader_set_size() in response
+    /// to this signal to set the desired size to which the image
+    /// should be scaled.
+    ///
+    ///
     ///
     /// # Implements
     ///
@@ -799,7 +885,7 @@
     <span class="doccomment">/// Queries the #GdkPixbufAnimation that a pixbuf loader is currently creating.
     ///
     /// In general it only makes sense to call this function after the
-    /// `signal::PixbufLoader::area-prepared` signal has been emitted by
+    /// [`area-prepared`][struct@crate::PixbufLoader#area-prepared] signal has been emitted by
     /// the loader.
     ///
     /// If the loader doesn&#39;t have enough bytes yet, and hasn&#39;t emitted the `area-prepared`
@@ -826,7 +912,7 @@
     <span class="doccomment">/// Queries the #GdkPixbuf that a pixbuf loader is currently creating.
     ///
     /// In general it only makes sense to call this function after the
-    /// `signal::PixbufLoader::area-prepared` signal has been
+    /// [`area-prepared`][struct@crate::PixbufLoader#area-prepared] signal has been
     /// emitted by the loader; this means that enough data has been read
     /// to know the size of the image that will be allocated.
     ///
@@ -943,7 +1029,7 @@
         <span class="kw">unsafe </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>error = ptr::null_mut();
             <span class="kw">let </span>is_ok = ffi::gdk_pixbuf_loader_close(<span class="self">self</span>.as_ref().to_glib_none().<span class="number">0</span>, <span class="kw-2">&amp;mut </span>error);
-            <span class="macro">assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
+            <span class="macro">debug_assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
             <span class="kw">if </span>error.is_null() {
                 <span class="prelude-val">Ok</span>(())
             } <span class="kw">else </span>{
@@ -992,7 +1078,7 @@
                 count,
                 <span class="kw-2">&amp;mut </span>error,
             );
-            <span class="macro">assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
+            <span class="macro">debug_assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
             <span class="kw">if </span>error.is_null() {
                 <span class="prelude-val">Ok</span>(())
             } <span class="kw">else </span>{
@@ -1009,7 +1095,7 @@
                 buffer.to_glib_none().<span class="number">0</span>,
                 <span class="kw-2">&amp;mut </span>error,
             );
-            <span class="macro">assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
+            <span class="macro">debug_assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
             <span class="kw">if </span>error.is_null() {
                 <span class="prelude-val">Ok</span>(())
             } <span class="kw">else </span>{
@@ -1134,4 +1220,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gdk_pixbuf" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gdk_pixbuf" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

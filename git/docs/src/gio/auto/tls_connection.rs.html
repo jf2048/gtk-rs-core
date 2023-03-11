@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/tls_connection.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>tls_connection.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/tls_connection.rs`."><title>tls_connection.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../gio/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../gio/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1156,32 +1156,181 @@
 <a href="#1083" id="1083">1083</a>
 <a href="#1084" id="1084">1084</a>
 <a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
+<a href="#1115" id="1115">1115</a>
+<a href="#1116" id="1116">1116</a>
+<a href="#1117" id="1117">1117</a>
+<a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
+<a href="#1121" id="1121">1121</a>
+<a href="#1122" id="1122">1122</a>
+<a href="#1123" id="1123">1123</a>
+<a href="#1124" id="1124">1124</a>
+<a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
+<a href="#1128" id="1128">1128</a>
+<a href="#1129" id="1129">1129</a>
+<a href="#1130" id="1130">1130</a>
+<a href="#1131" id="1131">1131</a>
+<a href="#1132" id="1132">1132</a>
+<a href="#1133" id="1133">1133</a>
+<a href="#1134" id="1134">1134</a>
+<a href="#1135" id="1135">1135</a>
+<a href="#1136" id="1136">1136</a>
+<a href="#1137" id="1137">1137</a>
+<a href="#1138" id="1138">1138</a>
+<a href="#1139" id="1139">1139</a>
+<a href="#1140" id="1140">1140</a>
+<a href="#1141" id="1141">1141</a>
+<a href="#1142" id="1142">1142</a>
+<a href="#1143" id="1143">1143</a>
+<a href="#1144" id="1144">1144</a>
+<a href="#1145" id="1145">1145</a>
+<a href="#1146" id="1146">1146</a>
+<a href="#1147" id="1147">1147</a>
+<a href="#1148" id="1148">1148</a>
+<a href="#1149" id="1149">1149</a>
+<a href="#1150" id="1150">1150</a>
+<a href="#1151" id="1151">1151</a>
+<a href="#1152" id="1152">1152</a>
+<a href="#1153" id="1153">1153</a>
+<a href="#1154" id="1154">1154</a>
+<a href="#1155" id="1155">1155</a>
+<a href="#1156" id="1156">1156</a>
+<a href="#1157" id="1157">1157</a>
+<a href="#1158" id="1158">1158</a>
+<a href="#1159" id="1159">1159</a>
+<a href="#1160" id="1160">1160</a>
+<a href="#1161" id="1161">1161</a>
+<a href="#1162" id="1162">1162</a>
+<a href="#1163" id="1163">1163</a>
+<a href="#1164" id="1164">1164</a>
+<a href="#1165" id="1165">1165</a>
+<a href="#1166" id="1166">1166</a>
+<a href="#1167" id="1167">1167</a>
+<a href="#1168" id="1168">1168</a>
+<a href="#1169" id="1169">1169</a>
+<a href="#1170" id="1170">1170</a>
+<a href="#1171" id="1171">1171</a>
+<a href="#1172" id="1172">1172</a>
+<a href="#1173" id="1173">1173</a>
+<a href="#1174" id="1174">1174</a>
+<a href="#1175" id="1175">1175</a>
+<a href="#1176" id="1176">1176</a>
+<a href="#1177" id="1177">1177</a>
+<a href="#1178" id="1178">1178</a>
+<a href="#1179" id="1179">1179</a>
+<a href="#1180" id="1180">1180</a>
+<a href="#1181" id="1181">1181</a>
+<a href="#1182" id="1182">1182</a>
+<a href="#1183" id="1183">1183</a>
+<a href="#1184" id="1184">1184</a>
+<a href="#1185" id="1185">1185</a>
+<a href="#1186" id="1186">1186</a>
+<a href="#1187" id="1187">1187</a>
+<a href="#1188" id="1188">1188</a>
+<a href="#1189" id="1189">1189</a>
+<a href="#1190" id="1190">1190</a>
+<a href="#1191" id="1191">1191</a>
+<a href="#1192" id="1192">1192</a>
+<a href="#1193" id="1193">1193</a>
+<a href="#1194" id="1194">1194</a>
+<a href="#1195" id="1195">1195</a>
+<a href="#1196" id="1196">1196</a>
+<a href="#1197" id="1197">1197</a>
+<a href="#1198" id="1198">1198</a>
+<a href="#1199" id="1199">1199</a>
+<a href="#1200" id="1200">1200</a>
+<a href="#1201" id="1201">1201</a>
+<a href="#1202" id="1202">1202</a>
+<a href="#1203" id="1203">1203</a>
+<a href="#1204" id="1204">1204</a>
+<a href="#1205" id="1205">1205</a>
+<a href="#1206" id="1206">1206</a>
+<a href="#1207" id="1207">1207</a>
+<a href="#1208" id="1208">1208</a>
+<a href="#1209" id="1209">1209</a>
+<a href="#1210" id="1210">1210</a>
+<a href="#1211" id="1211">1211</a>
+<a href="#1212" id="1212">1212</a>
+<a href="#1213" id="1213">1213</a>
+<a href="#1214" id="1214">1214</a>
+<a href="#1215" id="1215">1215</a>
+<a href="#1216" id="1216">1216</a>
+<a href="#1217" id="1217">1217</a>
+<a href="#1218" id="1218">1218</a>
+<a href="#1219" id="1219">1219</a>
+<a href="#1220" id="1220">1220</a>
+<a href="#1221" id="1221">1221</a>
+<a href="#1222" id="1222">1222</a>
+<a href="#1223" id="1223">1223</a>
+<a href="#1224" id="1224">1224</a>
+<a href="#1225" id="1225">1225</a>
+<a href="#1226" id="1226">1226</a>
+<a href="#1227" id="1227">1227</a>
+<a href="#1228" id="1228">1228</a>
+<a href="#1229" id="1229">1229</a>
+<a href="#1230" id="1230">1230</a>
+<a href="#1231" id="1231">1231</a>
+<a href="#1232" id="1232">1232</a>
+<a href="#1233" id="1233">1233</a>
+<a href="#1234" id="1234">1234</a>
+<a href="#1235" id="1235">1235</a>
+<a href="#1236" id="1236">1236</a>
+<a href="#1237" id="1237">1237</a>
+<a href="#1238" id="1238">1238</a>
+<a href="#1239" id="1239">1239</a>
+<a href="#1240" id="1240">1240</a>
+<a href="#1241" id="1241">1241</a>
+<a href="#1242" id="1242">1242</a>
 </pre><pre class="rust"><code><span class="comment">// This file was generated by gir (https://github.com/gtk-rs/gir)
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
+</span><span class="attr">#![allow(deprecated)]
 
-</span><span class="kw">use </span><span class="kw">crate</span>::AsyncResult;
-<span class="kw">use </span><span class="kw">crate</span>::Cancellable;
-<span class="kw">use </span><span class="kw">crate</span>::IOStream;
-<span class="kw">use </span><span class="kw">crate</span>::TlsCertificate;
-<span class="kw">use </span><span class="kw">crate</span>::TlsCertificateFlags;
-<span class="kw">use </span><span class="kw">crate</span>::TlsDatabase;
-<span class="kw">use </span><span class="kw">crate</span>::TlsInteraction;
-<span class="attr">#[cfg(any(feature = <span class="string">&quot;v2_70&quot;</span>, feature = <span class="string">&quot;dox&quot;</span>))]
+#[cfg(any(feature = <span class="string">&quot;v2_70&quot;</span>, feature = <span class="string">&quot;dox&quot;</span>))]
 #[cfg_attr(feature = <span class="string">&quot;dox&quot;</span>, doc(cfg(feature = <span class="string">&quot;v2_70&quot;</span>)))]
 </span><span class="kw">use </span><span class="kw">crate</span>::TlsProtocolVersion;
-<span class="kw">use </span><span class="kw">crate</span>::TlsRehandshakeMode;
-<span class="kw">use </span>glib::object::Cast;
-<span class="kw">use </span>glib::object::IsA;
-<span class="kw">use </span>glib::signal::connect_raw;
-<span class="kw">use </span>glib::signal::SignalHandlerId;
-<span class="kw">use </span>glib::translate::<span class="kw-2">*</span>;
-<span class="kw">use </span>glib::StaticType;
-<span class="kw">use </span>std::boxed::Box <span class="kw">as </span>Box_;
-<span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::mem::transmute;
-<span class="kw">use </span>std::pin::Pin;
-<span class="kw">use </span>std::ptr;
+<span class="kw">use crate</span>::{
+    AsyncResult, Cancellable, IOStream, TlsCertificate, TlsCertificateFlags, TlsDatabase,
+    TlsInteraction, TlsRehandshakeMode,
+};
+<span class="kw">use </span>glib::{
+    prelude::<span class="kw-2">*</span>,
+    signal::{connect_raw, SignalHandlerId},
+    translate::<span class="kw-2">*</span>,
+};
+<span class="kw">use </span>std::{boxed::Box <span class="kw">as </span>Box_, fmt, mem::transmute, pin::Pin, ptr};
 
 <span class="macro">glib::wrapper! </span>{
     <span class="doccomment">/// [`TlsConnection`][crate::TlsConnection] is the base TLS connection class type, which wraps
@@ -1192,6 +1341,196 @@
     /// For DTLS (Datagram TLS) support, see `GDtlsConnection`.
     ///
     /// This is an Abstract Base Class, you cannot instantiate it.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `advertised-protocols`
+    ///  The list of application-layer protocols that the connection
+    /// advertises that it is willing to speak. See
+    /// [`TlsConnectionExtManual::set_advertised_protocols()`][crate::prelude::TlsConnectionExtManual::set_advertised_protocols()].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `base-io-stream`
+    ///  The [`IOStream`][crate::IOStream] that the connection wraps. The connection holds a reference
+    /// to this stream, and may run operations on the stream from other threads
+    /// throughout its lifetime. Consequently, after the [`IOStream`][crate::IOStream] has been
+    /// constructed, application code may only run its own operations on this
+    /// stream when no [`IOStream`][crate::IOStream] operations are running.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `certificate`
+    ///  The connection&#39;s certificate; see
+    /// [`TlsConnectionExt::set_certificate()`][crate::prelude::TlsConnectionExt::set_certificate()].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ciphersuite-name`
+    ///  The name of the TLS ciphersuite in use. See [`TlsConnectionExt::ciphersuite_name()`][crate::prelude::TlsConnectionExt::ciphersuite_name()].
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `database`
+    ///  The certificate database to use when verifying this TLS connection.
+    /// If no certificate database is set, then the default database will be
+    /// used. See [`TlsBackendExt::default_database()`][crate::prelude::TlsBackendExt::default_database()].
+    ///
+    /// When using a non-default database, [`TlsConnection`][crate::TlsConnection] must fall back to using
+    /// the [`TlsDatabase`][crate::TlsDatabase] to perform certificate verification using
+    /// [`TlsDatabaseExt::verify_chain()`][crate::prelude::TlsDatabaseExt::verify_chain()], which means certificate verification will
+    /// not be able to make use of TLS session context. This may be less secure.
+    /// For example, if you create your own [`TlsDatabase`][crate::TlsDatabase] that just wraps the
+    /// default [`TlsDatabase`][crate::TlsDatabase], you might expect that you have not changed anything,
+    /// but this is not true because you may have altered the behavior of
+    /// [`TlsConnection`][crate::TlsConnection] by causing it to use [`TlsDatabaseExt::verify_chain()`][crate::prelude::TlsDatabaseExt::verify_chain()]. See the
+    /// documentation of [`TlsDatabaseExt::verify_chain()`][crate::prelude::TlsDatabaseExt::verify_chain()] for more details on specific
+    /// security checks that may not be performed. Accordingly, setting a
+    /// non-default database is discouraged except for specialty applications with
+    /// unusual security requirements.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `interaction`
+    ///  A [`TlsInteraction`][crate::TlsInteraction] object to be used when the connection or certificate
+    /// database need to interact with the user. This will be used to prompt the
+    /// user for passwords where necessary.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `negotiated-protocol`
+    ///  The application-layer protocol negotiated during the TLS
+    /// handshake. See [`TlsConnectionExt::negotiated_protocol()`][crate::prelude::TlsConnectionExt::negotiated_protocol()].
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `peer-certificate`
+    ///  The connection&#39;s peer&#39;s certificate, after the TLS handshake has
+    /// completed or failed. Note in particular that this is not yet set
+    /// during the emission of [`accept-certificate`][struct@crate::TlsConnection#accept-certificate].
+    ///
+    /// (You can watch for a [`notify`][struct@crate::glib::Object#notify] signal on this property to
+    /// detect when a handshake has occurred.)
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `peer-certificate-errors`
+    ///  The errors noticed while verifying
+    /// [`peer-certificate`][struct@crate::TlsConnection#peer-certificate]. Normally this should be 0, but
+    /// it may not be if [`validation-flags`][struct@crate::TlsClientConnection#validation-flags] is not
+    /// [`TlsCertificateFlags::VALIDATE_ALL`][crate::TlsCertificateFlags::VALIDATE_ALL], or if
+    /// [`accept-certificate`][struct@crate::TlsConnection#accept-certificate] overrode the default
+    /// behavior.
+    ///
+    /// GLib guarantees that if certificate verification fails, at least
+    /// one error will be set, but it does not guarantee that all possible
+    /// errors will be set. Accordingly, you may not safely decide to
+    /// ignore any particular type of error. For example, it would be
+    /// incorrect to mask [`TlsCertificateFlags::EXPIRED`][crate::TlsCertificateFlags::EXPIRED] if you want to allow
+    /// expired certificates, because this could potentially be the only
+    /// error flag set even if other problems exist with the certificate.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `protocol-version`
+    ///  The TLS protocol version in use. See [`TlsConnectionExt::protocol_version()`][crate::prelude::TlsConnectionExt::protocol_version()].
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `rehandshake-mode`
+    ///  The rehandshaking mode. See
+    /// [`TlsConnectionExt::set_rehandshake_mode()`][crate::prelude::TlsConnectionExt::set_rehandshake_mode()].
+    ///
+    /// Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `require-close-notify`
+    ///  Whether or not proper TLS close notification is required.
+    /// See [`TlsConnectionExt::set_require_close_notify()`][crate::prelude::TlsConnectionExt::set_require_close_notify()].
+    ///
+    /// Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `use-system-certdb`
+    ///  Whether or not the system certificate database will be used to
+    /// verify peer certificates. See
+    /// `g_tls_connection_set_use_system_certdb()`.
+    ///
+    /// Readable | Writeable | Construct
+    /// &lt;details&gt;&lt;summary&gt;&lt;h4&gt;IOStream&lt;/h4&gt;&lt;/summary&gt;
+    ///
+    ///
+    /// #### `closed`
+    ///  Readable
+    ///
+    ///
+    /// #### `input-stream`
+    ///  Readable
+    ///
+    ///
+    /// #### `output-stream`
+    ///  Readable
+    /// &lt;/details&gt;
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `accept-certificate`
+    ///  Emitted during the TLS handshake after the peer certificate has
+    /// been received. You can examine `peer_cert`&#39;s certification path by
+    /// calling [`TlsCertificateExt::issuer()`][crate::prelude::TlsCertificateExt::issuer()] on it.
+    ///
+    /// For a client-side connection, `peer_cert` is the server&#39;s
+    /// certificate, and the signal will only be emitted if the
+    /// certificate was not acceptable according to `conn`&#39;s
+    /// [`validation_flags`][struct@crate::TlsClientConnection#validation_flags]. If you would like the
+    /// certificate to be accepted despite `errors`, return [`true`] from the
+    /// signal handler. Otherwise, if no handler accepts the certificate,
+    /// the handshake will fail with [`TlsError::BadCertificate`][crate::TlsError::BadCertificate].
+    ///
+    /// GLib guarantees that if certificate verification fails, this signal
+    /// will be emitted with at least one error will be set in `errors`, but
+    /// it does not guarantee that all possible errors will be set.
+    /// Accordingly, you may not safely decide to ignore any particular
+    /// type of error. For example, it would be incorrect to ignore
+    /// [`TlsCertificateFlags::EXPIRED`][crate::TlsCertificateFlags::EXPIRED] if you want to allow expired
+    /// certificates, because this could potentially be the only error flag
+    /// set even if other problems exist with the certificate.
+    ///
+    /// For a server-side connection, `peer_cert` is the certificate
+    /// presented by the client, if this was requested via the server&#39;s
+    /// [`authentication_mode`][struct@crate::TlsServerConnection#authentication_mode]. On the server side,
+    /// the signal is always emitted when the client presents a
+    /// certificate, and the certificate will only be accepted if a
+    /// handler returns [`true`].
+    ///
+    /// Note that if this signal is emitted as part of asynchronous I/O
+    /// in the main thread, then you should not attempt to interact with
+    /// the user before returning from the signal handler. If you want to
+    /// let the user decide whether or not to accept the certificate, you
+    /// would have to return [`false`] from the signal handler on the first
+    /// attempt, and then after the connection attempt returns a
+    /// [`TlsError::BadCertificate`][crate::TlsError::BadCertificate], you can interact with the user, and
+    /// if the user decides to accept the certificate, remember that fact,
+    /// create a new connection, and return [`true`] from the signal handler
+    /// the next time.
+    ///
+    /// If you are doing I/O in another thread, you do not
+    /// need to worry about this, and can simply block in the signal
+    /// handler until the UI thread returns an answer.
+    ///
+    ///
     ///
     /// # Implements
     ///
@@ -1215,7 +1554,7 @@
 /// [`TlsClientConnection`][struct@crate::TlsClientConnection], [`TlsConnection`][struct@crate::TlsConnection], [`TlsServerConnection`][struct@crate::TlsServerConnection]
 </span><span class="kw">pub trait </span>TlsConnectionExt: <span class="lifetime">&#39;static </span>{
     <span class="doccomment">/// Used by [`TlsConnection`][crate::TlsConnection] implementations to emit the
-    /// `signal::TlsConnection::accept-certificate` signal.
+    /// [`accept-certificate`][struct@crate::TlsConnection#accept-certificate] signal.
     /// ## `peer_cert`
     /// the peer&#39;s [`TlsCertificate`][crate::TlsCertificate]
     /// ## `errors`
@@ -1287,7 +1626,7 @@
     /// If the peer did not use the ALPN extension, or did not advertise a
     /// protocol that matched one of `self`&#39;s protocols, or the TLS backend
     /// does not support ALPN, then this will be [`None`]. See
-    /// [`set_advertised_protocols()`][Self::set_advertised_protocols()].
+    /// [`TlsConnectionExtManual::set_advertised_protocols()`][crate::prelude::TlsConnectionExtManual::set_advertised_protocols()].
     ///
     /// # Returns
     ///
@@ -1300,7 +1639,7 @@
 
     <span class="doccomment">/// Gets `self`&#39;s peer&#39;s certificate after the handshake has completed
     /// or failed. (It is not set during the emission of
-    /// `signal::TlsConnection::accept-certificate`.)
+    /// [`accept-certificate`][struct@crate::TlsConnection#accept-certificate].)
     ///
     /// # Returns
     ///
@@ -1311,9 +1650,9 @@
 
     <span class="doccomment">/// Gets the errors associated with validating `self`&#39;s peer&#39;s
     /// certificate, after the handshake has completed or failed. (It is
-    /// not set during the emission of `signal::TlsConnection::accept-certificate`.)
+    /// not set during the emission of [`accept-certificate`][struct@crate::TlsConnection#accept-certificate].)
     ///
-    /// See `property::TlsConnection::peer-certificate-errors` for more information.
+    /// See [`peer-certificate-errors`][struct@crate::TlsConnection#peer-certificate-errors] for more information.
     ///
     /// # Returns
     ///
@@ -1349,6 +1688,7 @@
     ///
     /// [`TlsRehandshakeMode::Safely`][crate::TlsRehandshakeMode::Safely]
     </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;v2_60&quot;</span>, deprecated = <span class="string">&quot;Since 2.60&quot;</span>)]
+    #[allow(deprecated)]
     #[doc(alias = <span class="string">&quot;g_tls_connection_get_rehandshake_mode&quot;</span>)]
     #[doc(alias = <span class="string">&quot;get_rehandshake_mode&quot;</span>)]
     </span><span class="kw">fn </span>rehandshake_mode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TlsRehandshakeMode;
@@ -1394,7 +1734,7 @@
     /// [`SocketClient`][crate::SocketClient] performs the initial handshake, so calling this
     /// function manually is not recommended.
     ///
-    /// `signal::TlsConnection::accept_certificate` may be emitted during the
+    /// [`accept_certificate`][struct@crate::TlsConnection#accept_certificate] may be emitted during the
     /// handshake.
     /// ## `cancellable`
     /// a [`Cancellable`][crate::Cancellable], or [`None`]
@@ -1426,24 +1766,6 @@
         io_priority: glib::Priority,
     ) -&gt; Pin&lt;Box_&lt;<span class="kw">dyn </span>std::future::Future&lt;Output = <span class="prelude-ty">Result</span>&lt;(), glib::Error&gt;&gt; + <span class="lifetime">&#39;static</span>&gt;&gt;;
 
-    <span class="doccomment">/// Sets the list of application-layer protocols to advertise that the
-    /// caller is willing to speak on this connection. The
-    /// Application-Layer Protocol Negotiation (ALPN) extension will be
-    /// used to negotiate a compatible protocol with the peer; use
-    /// [`negotiated_protocol()`][Self::negotiated_protocol()] to find the negotiated
-    /// protocol after the handshake. Specifying [`None`] for the the value
-    /// of `protocols` will disable ALPN negotiation.
-    ///
-    /// See [IANA TLS ALPN Protocol IDs](https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml`alpn`-protocol-ids)
-    /// for a list of registered protocol IDs.
-    /// ## `protocols`
-    /// a [`None`]-terminated
-    ///  array of ALPN protocol names (eg, &quot;http/1.1&quot;, &quot;h2&quot;), or [`None`]
-    </span><span class="attr">#[cfg(any(feature = <span class="string">&quot;v2_60&quot;</span>, feature = <span class="string">&quot;dox&quot;</span>))]
-    #[cfg_attr(feature = <span class="string">&quot;dox&quot;</span>, doc(cfg(feature = <span class="string">&quot;v2_60&quot;</span>)))]
-    #[doc(alias = <span class="string">&quot;g_tls_connection_set_advertised_protocols&quot;</span>)]
-    </span><span class="kw">fn </span>set_advertised_protocols(<span class="kw-2">&amp;</span><span class="self">self</span>, protocols: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str]);
-
     <span class="doccomment">/// This sets the certificate that `self` will present to its peer
     /// during the TLS handshake. For a [`TlsServerConnection`][crate::TlsServerConnection], it is
     /// mandatory to set this, and that will normally be done at construct
@@ -1472,12 +1794,12 @@
     /// [`TlsBackendExt::default_database()`][crate::prelude::TlsBackendExt::default_database()]. If set to [`None`], then
     /// peer certificate validation will always set the
     /// [`TlsCertificateFlags::UNKNOWN_CA`][crate::TlsCertificateFlags::UNKNOWN_CA] error (meaning
-    /// `signal::TlsConnection::accept-certificate` will always be emitted on
+    /// [`accept-certificate`][struct@crate::TlsConnection#accept-certificate] will always be emitted on
     /// client-side connections, unless that bit is not set in
-    /// `property::TlsClientConnection::validation-flags`).
+    /// [`validation-flags`][struct@crate::TlsClientConnection#validation-flags]).
     ///
     /// There are nonintuitive security implications when using a non-default
-    /// database. See `property::TlsConnection::database` for details.
+    /// database. See [`database`][struct@crate::TlsConnection#database] for details.
     /// ## `database`
     /// a [`TlsDatabase`][crate::TlsDatabase]
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_tls_connection_set_database&quot;</span>)]
@@ -1507,6 +1829,7 @@
     /// ## `mode`
     /// the rehandshaking mode
     </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;v2_60&quot;</span>, deprecated = <span class="string">&quot;Since 2.60&quot;</span>)]
+    #[allow(deprecated)]
     #[doc(alias = <span class="string">&quot;g_tls_connection_set_rehandshake_mode&quot;</span>)]
     </span><span class="kw">fn </span>set_rehandshake_mode(<span class="kw-2">&amp;</span><span class="self">self</span>, mode: TlsRehandshakeMode);
 
@@ -1534,7 +1857,7 @@
     /// connection; when the application calls [`IOStreamExt::close()`][crate::prelude::IOStreamExt::close()] itself
     /// on `self`, this will send a close notification regardless of the
     /// setting of this property. If you explicitly want to do an unclean
-    /// close, you can close `self`&#39;s `property::TlsConnection::base-io-stream` rather
+    /// close, you can close `self`&#39;s [`base-io-stream`][struct@crate::TlsConnection#base-io-stream] rather
     /// than closing `self` itself, but note that this may only be done when no other
     /// operations are pending on `self` or the base I/O stream.
     /// ## `require_close_notify`
@@ -1544,7 +1867,7 @@
 
     <span class="doccomment">/// The list of application-layer protocols that the connection
     /// advertises that it is willing to speak. See
-    /// [`set_advertised_protocols()`][Self::set_advertised_protocols()].
+    /// [`TlsConnectionExtManual::set_advertised_protocols()`][crate::prelude::TlsConnectionExtManual::set_advertised_protocols()].
     </span><span class="attr">#[cfg(any(feature = <span class="string">&quot;v2_60&quot;</span>, feature = <span class="string">&quot;dox&quot;</span>))]
     #[cfg_attr(feature = <span class="string">&quot;dox&quot;</span>, doc(cfg(feature = <span class="string">&quot;v2_60&quot;</span>)))]
     #[doc(alias = <span class="string">&quot;advertised-protocols&quot;</span>)]
@@ -1565,7 +1888,7 @@
     /// For a client-side connection, `peer_cert` is the server&#39;s
     /// certificate, and the signal will only be emitted if the
     /// certificate was not acceptable according to `conn`&#39;s
-    /// `property::TlsClientConnection::validation_flags`. If you would like the
+    /// [`validation_flags`][struct@crate::TlsClientConnection#validation_flags]. If you would like the
     /// certificate to be accepted despite `errors`, return [`true`] from the
     /// signal handler. Otherwise, if no handler accepts the certificate,
     /// the handshake will fail with [`TlsError::BadCertificate`][crate::TlsError::BadCertificate].
@@ -1581,7 +1904,7 @@
     ///
     /// For a server-side connection, `peer_cert` is the certificate
     /// presented by the client, if this was requested via the server&#39;s
-    /// `property::TlsServerConnection::authentication_mode`. On the server side,
+    /// [`authentication_mode`][struct@crate::TlsServerConnection#authentication_mode]. On the server side,
     /// the signal is always emitted when the client presents a
     /// certificate, and the certificate will only be accepted if a
     /// handler returns [`true`].
@@ -1750,7 +2073,8 @@
         }
     }
 
-    <span class="kw">fn </span>rehandshake_mode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TlsRehandshakeMode {
+    <span class="attr">#[allow(deprecated)]
+    </span><span class="kw">fn </span>rehandshake_mode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TlsRehandshakeMode {
         <span class="kw">unsafe </span>{
             from_glib(ffi::g_tls_connection_get_rehandshake_mode(
                 <span class="self">self</span>.as_ref().to_glib_none().<span class="number">0</span>,
@@ -1774,7 +2098,7 @@
                 cancellable.map(|p| p.as_ref()).to_glib_none().<span class="number">0</span>,
                 <span class="kw-2">&amp;mut </span>error,
             );
-            <span class="macro">assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
+            <span class="macro">debug_assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
             <span class="kw">if </span>error.is_null() {
                 <span class="prelude-val">Ok</span>(())
             } <span class="kw">else </span>{
@@ -1847,17 +2171,6 @@
         ))
     }
 
-    <span class="attr">#[cfg(any(feature = <span class="string">&quot;v2_60&quot;</span>, feature = <span class="string">&quot;dox&quot;</span>))]
-    #[cfg_attr(feature = <span class="string">&quot;dox&quot;</span>, doc(cfg(feature = <span class="string">&quot;v2_60&quot;</span>)))]
-    </span><span class="kw">fn </span>set_advertised_protocols(<span class="kw-2">&amp;</span><span class="self">self</span>, protocols: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str]) {
-        <span class="kw">unsafe </span>{
-            ffi::g_tls_connection_set_advertised_protocols(
-                <span class="self">self</span>.as_ref().to_glib_none().<span class="number">0</span>,
-                protocols.to_glib_none().<span class="number">0</span>,
-            );
-        }
-    }
-
     <span class="kw">fn </span>set_certificate(<span class="kw-2">&amp;</span><span class="self">self</span>, certificate: <span class="kw-2">&amp;</span><span class="kw">impl </span>IsA&lt;TlsCertificate&gt;) {
         <span class="kw">unsafe </span>{
             ffi::g_tls_connection_set_certificate(
@@ -1885,7 +2198,8 @@
         }
     }
 
-    <span class="kw">fn </span>set_rehandshake_mode(<span class="kw-2">&amp;</span><span class="self">self</span>, mode: TlsRehandshakeMode) {
+    <span class="attr">#[allow(deprecated)]
+    </span><span class="kw">fn </span>set_rehandshake_mode(<span class="kw-2">&amp;</span><span class="self">self</span>, mode: TlsRehandshakeMode) {
         <span class="kw">unsafe </span>{
             ffi::g_tls_connection_set_rehandshake_mode(
                 <span class="self">self</span>.as_ref().to_glib_none().<span class="number">0</span>,
@@ -2242,4 +2556,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

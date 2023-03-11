@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/dbus_connection.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>dbus_connection.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/dbus_connection.rs`."><title>dbus_connection.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../gio/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../gio/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1935,37 +1935,126 @@
 <a href="#1862" id="1862">1862</a>
 <a href="#1863" id="1863">1863</a>
 <a href="#1864" id="1864">1864</a>
+<a href="#1865" id="1865">1865</a>
+<a href="#1866" id="1866">1866</a>
+<a href="#1867" id="1867">1867</a>
+<a href="#1868" id="1868">1868</a>
+<a href="#1869" id="1869">1869</a>
+<a href="#1870" id="1870">1870</a>
+<a href="#1871" id="1871">1871</a>
+<a href="#1872" id="1872">1872</a>
+<a href="#1873" id="1873">1873</a>
+<a href="#1874" id="1874">1874</a>
+<a href="#1875" id="1875">1875</a>
+<a href="#1876" id="1876">1876</a>
+<a href="#1877" id="1877">1877</a>
+<a href="#1878" id="1878">1878</a>
+<a href="#1879" id="1879">1879</a>
+<a href="#1880" id="1880">1880</a>
+<a href="#1881" id="1881">1881</a>
+<a href="#1882" id="1882">1882</a>
+<a href="#1883" id="1883">1883</a>
+<a href="#1884" id="1884">1884</a>
+<a href="#1885" id="1885">1885</a>
+<a href="#1886" id="1886">1886</a>
+<a href="#1887" id="1887">1887</a>
+<a href="#1888" id="1888">1888</a>
+<a href="#1889" id="1889">1889</a>
+<a href="#1890" id="1890">1890</a>
+<a href="#1891" id="1891">1891</a>
+<a href="#1892" id="1892">1892</a>
+<a href="#1893" id="1893">1893</a>
+<a href="#1894" id="1894">1894</a>
+<a href="#1895" id="1895">1895</a>
+<a href="#1896" id="1896">1896</a>
+<a href="#1897" id="1897">1897</a>
+<a href="#1898" id="1898">1898</a>
+<a href="#1899" id="1899">1899</a>
+<a href="#1900" id="1900">1900</a>
+<a href="#1901" id="1901">1901</a>
+<a href="#1902" id="1902">1902</a>
+<a href="#1903" id="1903">1903</a>
+<a href="#1904" id="1904">1904</a>
+<a href="#1905" id="1905">1905</a>
+<a href="#1906" id="1906">1906</a>
+<a href="#1907" id="1907">1907</a>
+<a href="#1908" id="1908">1908</a>
+<a href="#1909" id="1909">1909</a>
+<a href="#1910" id="1910">1910</a>
+<a href="#1911" id="1911">1911</a>
+<a href="#1912" id="1912">1912</a>
+<a href="#1913" id="1913">1913</a>
+<a href="#1914" id="1914">1914</a>
+<a href="#1915" id="1915">1915</a>
+<a href="#1916" id="1916">1916</a>
+<a href="#1917" id="1917">1917</a>
+<a href="#1918" id="1918">1918</a>
+<a href="#1919" id="1919">1919</a>
+<a href="#1920" id="1920">1920</a>
+<a href="#1921" id="1921">1921</a>
+<a href="#1922" id="1922">1922</a>
+<a href="#1923" id="1923">1923</a>
+<a href="#1924" id="1924">1924</a>
+<a href="#1925" id="1925">1925</a>
+<a href="#1926" id="1926">1926</a>
+<a href="#1927" id="1927">1927</a>
+<a href="#1928" id="1928">1928</a>
+<a href="#1929" id="1929">1929</a>
+<a href="#1930" id="1930">1930</a>
+<a href="#1931" id="1931">1931</a>
+<a href="#1932" id="1932">1932</a>
+<a href="#1933" id="1933">1933</a>
+<a href="#1934" id="1934">1934</a>
+<a href="#1935" id="1935">1935</a>
+<a href="#1936" id="1936">1936</a>
+<a href="#1937" id="1937">1937</a>
+<a href="#1938" id="1938">1938</a>
+<a href="#1939" id="1939">1939</a>
+<a href="#1940" id="1940">1940</a>
+<a href="#1941" id="1941">1941</a>
+<a href="#1942" id="1942">1942</a>
+<a href="#1943" id="1943">1943</a>
+<a href="#1944" id="1944">1944</a>
+<a href="#1945" id="1945">1945</a>
+<a href="#1946" id="1946">1946</a>
+<a href="#1947" id="1947">1947</a>
+<a href="#1948" id="1948">1948</a>
+<a href="#1949" id="1949">1949</a>
+<a href="#1950" id="1950">1950</a>
+<a href="#1951" id="1951">1951</a>
+<a href="#1952" id="1952">1952</a>
+<a href="#1953" id="1953">1953</a>
+<a href="#1954" id="1954">1954</a>
+<a href="#1955" id="1955">1955</a>
+<a href="#1956" id="1956">1956</a>
+<a href="#1957" id="1957">1957</a>
+<a href="#1958" id="1958">1958</a>
+<a href="#1959" id="1959">1959</a>
+<a href="#1960" id="1960">1960</a>
+<a href="#1961" id="1961">1961</a>
+<a href="#1962" id="1962">1962</a>
+<a href="#1963" id="1963">1963</a>
+<a href="#1964" id="1964">1964</a>
+<a href="#1965" id="1965">1965</a>
+<a href="#1966" id="1966">1966</a>
 </pre><pre class="rust"><code><span class="comment">// This file was generated by gir (https://github.com/gtk-rs/gir)
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-</span><span class="kw">use </span><span class="kw">crate</span>::AsyncInitable;
-<span class="kw">use </span><span class="kw">crate</span>::AsyncResult;
-<span class="kw">use </span><span class="kw">crate</span>::Cancellable;
-<span class="kw">use </span><span class="kw">crate</span>::Credentials;
-<span class="kw">use </span><span class="kw">crate</span>::DBusAuthObserver;
-<span class="kw">use </span><span class="kw">crate</span>::DBusCallFlags;
-<span class="kw">use </span><span class="kw">crate</span>::DBusCapabilityFlags;
-<span class="kw">use </span><span class="kw">crate</span>::DBusConnectionFlags;
-<span class="kw">use </span><span class="kw">crate</span>::DBusMessage;
-<span class="kw">use </span><span class="kw">crate</span>::DBusSendMessageFlags;
-<span class="kw">use </span><span class="kw">crate</span>::IOStream;
-<span class="kw">use </span><span class="kw">crate</span>::Initable;
-<span class="attr">#[cfg(any(unix, feature = <span class="string">&quot;dox&quot;</span>))]
+</span><span class="attr">#[cfg(any(unix, feature = <span class="string">&quot;dox&quot;</span>))]
 #[cfg_attr(feature = <span class="string">&quot;dox&quot;</span>, doc(cfg(unix)))]
 </span><span class="kw">use </span><span class="kw">crate</span>::UnixFDList;
-<span class="kw">use </span>glib::object::IsA;
-<span class="kw">use </span>glib::object::ObjectType <span class="kw">as </span>ObjectType_;
-<span class="kw">use </span>glib::signal::connect_raw;
-<span class="kw">use </span>glib::signal::SignalHandlerId;
-<span class="kw">use </span>glib::translate::<span class="kw-2">*</span>;
-<span class="kw">use </span>glib::StaticType;
-<span class="kw">use </span>std::boxed::Box <span class="kw">as </span>Box_;
-<span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::mem;
-<span class="kw">use </span>std::mem::transmute;
-<span class="kw">use </span>std::pin::Pin;
-<span class="kw">use </span>std::ptr;
+<span class="kw">use crate</span>::{
+    AsyncInitable, AsyncResult, Cancellable, Credentials, DBusAuthObserver, DBusCallFlags,
+    DBusCapabilityFlags, DBusConnectionFlags, DBusMessage, DBusSendMessageFlags, IOStream,
+    Initable,
+};
+<span class="kw">use </span>glib::{
+    prelude::<span class="kw-2">*</span>,
+    signal::{connect_raw, SignalHandlerId},
+    translate::<span class="kw-2">*</span>,
+};
+<span class="kw">use </span>std::{boxed::Box <span class="kw">as </span>Box_, fmt, mem, mem::transmute, pin::Pin, ptr};
 
 <span class="macro">glib::wrapper! </span>{
     <span class="doccomment">/// The [`DBusConnection`][crate::DBusConnection] type is used for D-Bus connections to remote
@@ -2017,6 +2106,121 @@
     ///
     /// Here is an example for exporting a [`glib::Object`][crate::glib::Object]:
     /// [gdbus-example-export.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-export.c)
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `address`
+    ///  A D-Bus address specifying potential endpoints that can be used
+    /// when establishing the connection.
+    ///
+    /// Writeable | Construct Only
+    ///
+    ///
+    /// #### `authentication-observer`
+    ///  A [`DBusAuthObserver`][crate::DBusAuthObserver] object to assist in the authentication process or [`None`].
+    ///
+    /// Writeable | Construct Only
+    ///
+    ///
+    /// #### `capabilities`
+    ///  Flags from the [`DBusCapabilityFlags`][crate::DBusCapabilityFlags] enumeration
+    /// representing connection features negotiated with the other peer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `closed`
+    ///  A boolean specifying whether the connection has been closed.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `exit-on-close`
+    ///  A boolean specifying whether the process will be terminated (by
+    /// calling `raise(SIGTERM)`) if the connection is closed by the
+    /// remote peer.
+    ///
+    /// Note that [`DBusConnection`][crate::DBusConnection] objects returned by `g_bus_get_finish()`
+    /// and [`bus_get_sync()`][crate::bus_get_sync()] will (usually) have this property set to [`true`].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `flags`
+    ///  Flags from the [`DBusConnectionFlags`][crate::DBusConnectionFlags] enumeration.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `guid`
+    ///  The GUID of the peer performing the role of server when
+    /// authenticating.
+    ///
+    /// If you are constructing a [`DBusConnection`][crate::DBusConnection] and pass
+    /// [`DBusConnectionFlags::AUTHENTICATION_SERVER`][crate::DBusConnectionFlags::AUTHENTICATION_SERVER] in the
+    /// [`flags`][struct@crate::DBusConnection#flags] property then you **must** also set this
+    /// property to a valid guid.
+    ///
+    /// If you are constructing a [`DBusConnection`][crate::DBusConnection] and pass
+    /// [`DBusConnectionFlags::AUTHENTICATION_CLIENT`][crate::DBusConnectionFlags::AUTHENTICATION_CLIENT] in the
+    /// [`flags`][struct@crate::DBusConnection#flags] property you will be able to read the GUID
+    /// of the other peer here after the connection has been successfully
+    /// initialized.
+    ///
+    /// Note that the
+    /// [D-Bus specification](https://dbus.freedesktop.org/doc/dbus-specification.html`addresses`)
+    /// uses the term ‘UUID’ to refer to this, whereas GLib consistently uses the
+    /// term ‘GUID’ for historical reasons.
+    ///
+    /// Despite its name, the format of [`guid`][struct@crate::DBusConnection#guid] does not follow
+    /// [RFC 4122](https://datatracker.ietf.org/doc/html/rfc4122) or the Microsoft
+    /// GUID format.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `stream`
+    ///  The underlying [`IOStream`][crate::IOStream] used for I/O.
+    ///
+    /// If this is passed on construction and is a [`SocketConnection`][crate::SocketConnection],
+    /// then the corresponding [`Socket`][crate::Socket] will be put into non-blocking mode.
+    ///
+    /// While the [`DBusConnection`][crate::DBusConnection] is active, it will interact with this
+    /// stream from a worker thread, so it is not safe to interact with
+    /// the stream directly.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `unique-name`
+    ///  The unique name as assigned by the message bus or [`None`] if the
+    /// connection is not open or not a message bus connection.
+    ///
+    /// Readable
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `closed`
+    ///  Emitted when the connection is closed.
+    ///
+    /// The cause of this event can be
+    ///
+    /// - If [`DBusConnection::close()`][crate::DBusConnection::close()] is called. In this case
+    ///  `remote_peer_vanished` is set to [`false`] and `error` is [`None`].
+    ///
+    /// - If the remote peer closes the connection. In this case
+    ///  `remote_peer_vanished` is set to [`true`] and `error` is set.
+    ///
+    /// - If the remote peer sends invalid or malformed data. In this
+    ///  case `remote_peer_vanished` is set to [`false`] and `error` is set.
+    ///
+    /// Upon receiving this signal, you should give up your reference to
+    /// `connection`. You are guaranteed that this signal is emitted only
+    /// once.
+    ///
+    ///
     ///
     /// # Implements
     ///
@@ -2667,7 +2871,7 @@
 
     <span class="doccomment">/// Closes `self`. Note that this never causes the process to
     /// exit (this might only happen if the other end of a shared message
-    /// bus connection disconnects, see `property::DBusConnection::exit-on-close`).
+    /// bus connection disconnects, see [`exit-on-close`][struct@crate::DBusConnection#exit-on-close]).
     ///
     /// Once the connection is closed, operations such as sending a message
     /// will return with the error [`IOErrorEnum::Closed`][crate::IOErrorEnum::Closed]. Closing a connection
@@ -2677,7 +2881,7 @@
     /// If `self` is already closed, this method fails with
     /// [`IOErrorEnum::Closed`][crate::IOErrorEnum::Closed].
     ///
-    /// When `self` has been closed, the `signal::DBusConnection::closed`
+    /// When `self` has been closed, the [`closed`][struct@crate::DBusConnection#closed]
     /// signal is emitted in the
     /// [thread-default main context][g-main-context-push-thread-default]
     /// of the thread that `self` was constructed in.
@@ -2775,7 +2979,7 @@
                 cancellable.map(|p| p.as_ref()).to_glib_none().<span class="number">0</span>,
                 <span class="kw-2">&amp;mut </span>error,
             );
-            <span class="macro">assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
+            <span class="macro">debug_assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
             <span class="kw">if </span>error.is_null() {
                 <span class="prelude-val">Ok</span>(())
             } <span class="kw">else </span>{
@@ -2827,7 +3031,7 @@
                 parameters.to_glib_none().<span class="number">0</span>,
                 <span class="kw-2">&amp;mut </span>error,
             );
-            <span class="macro">assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
+            <span class="macro">debug_assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
             <span class="kw">if </span>error.is_null() {
                 <span class="prelude-val">Ok</span>(())
             } <span class="kw">else </span>{
@@ -2936,7 +3140,7 @@
                 cancellable.map(|p| p.as_ref()).to_glib_none().<span class="number">0</span>,
                 <span class="kw-2">&amp;mut </span>error,
             );
-            <span class="macro">assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
+            <span class="macro">debug_assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
             <span class="kw">if </span>error.is_null() {
                 <span class="prelude-val">Ok</span>(())
             } <span class="kw">else </span>{
@@ -2962,7 +3166,7 @@
 
     <span class="doccomment">/// Gets whether the process is terminated when `self` is
     /// closed by the remote peer. See
-    /// `property::DBusConnection::exit-on-close` for more details.
+    /// [`exit-on-close`][struct@crate::DBusConnection#exit-on-close] for more details.
     ///
     /// # Returns
     ///
@@ -2992,7 +3196,7 @@
     }
 
     <span class="doccomment">/// The GUID of the peer performing the role of server when
-    /// authenticating. See `property::DBusConnection::guid` for more details.
+    /// authenticating. See [`guid`][struct@crate::DBusConnection#guid] for more details.
     ///
     /// # Returns
     ///
@@ -3143,7 +3347,7 @@
                 out_serial.as_mut_ptr(),
                 <span class="kw-2">&amp;mut </span>error,
             );
-            <span class="macro">assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
+            <span class="macro">debug_assert_eq!</span>(is_ok == glib::ffi::GFALSE, !error.is_null());
             <span class="kw">if </span>error.is_null() {
                 <span class="prelude-val">Ok</span>(out_serial.assume_init())
             } <span class="kw">else </span>{
@@ -3362,7 +3566,7 @@
     }
 
     <span class="doccomment">/// Sets whether the process should be terminated when `self` is
-    /// closed by the remote peer. See `property::DBusConnection::exit-on-close` for
+    /// closed by the remote peer. See [`exit-on-close`][struct@crate::DBusConnection#exit-on-close] for
     /// more details.
     ///
     /// Note that this function should be used with care. Most modern UNIX
@@ -3800,4 +4004,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

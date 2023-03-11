@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/dbus_proxy.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>dbus_proxy.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/dbus_proxy.rs`."><title>dbus_proxy.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../gio/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../gio/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1540,35 +1540,131 @@
 <a href="#1467" id="1467">1467</a>
 <a href="#1468" id="1468">1468</a>
 <a href="#1469" id="1469">1469</a>
+<a href="#1470" id="1470">1470</a>
+<a href="#1471" id="1471">1471</a>
+<a href="#1472" id="1472">1472</a>
+<a href="#1473" id="1473">1473</a>
+<a href="#1474" id="1474">1474</a>
+<a href="#1475" id="1475">1475</a>
+<a href="#1476" id="1476">1476</a>
+<a href="#1477" id="1477">1477</a>
+<a href="#1478" id="1478">1478</a>
+<a href="#1479" id="1479">1479</a>
+<a href="#1480" id="1480">1480</a>
+<a href="#1481" id="1481">1481</a>
+<a href="#1482" id="1482">1482</a>
+<a href="#1483" id="1483">1483</a>
+<a href="#1484" id="1484">1484</a>
+<a href="#1485" id="1485">1485</a>
+<a href="#1486" id="1486">1486</a>
+<a href="#1487" id="1487">1487</a>
+<a href="#1488" id="1488">1488</a>
+<a href="#1489" id="1489">1489</a>
+<a href="#1490" id="1490">1490</a>
+<a href="#1491" id="1491">1491</a>
+<a href="#1492" id="1492">1492</a>
+<a href="#1493" id="1493">1493</a>
+<a href="#1494" id="1494">1494</a>
+<a href="#1495" id="1495">1495</a>
+<a href="#1496" id="1496">1496</a>
+<a href="#1497" id="1497">1497</a>
+<a href="#1498" id="1498">1498</a>
+<a href="#1499" id="1499">1499</a>
+<a href="#1500" id="1500">1500</a>
+<a href="#1501" id="1501">1501</a>
+<a href="#1502" id="1502">1502</a>
+<a href="#1503" id="1503">1503</a>
+<a href="#1504" id="1504">1504</a>
+<a href="#1505" id="1505">1505</a>
+<a href="#1506" id="1506">1506</a>
+<a href="#1507" id="1507">1507</a>
+<a href="#1508" id="1508">1508</a>
+<a href="#1509" id="1509">1509</a>
+<a href="#1510" id="1510">1510</a>
+<a href="#1511" id="1511">1511</a>
+<a href="#1512" id="1512">1512</a>
+<a href="#1513" id="1513">1513</a>
+<a href="#1514" id="1514">1514</a>
+<a href="#1515" id="1515">1515</a>
+<a href="#1516" id="1516">1516</a>
+<a href="#1517" id="1517">1517</a>
+<a href="#1518" id="1518">1518</a>
+<a href="#1519" id="1519">1519</a>
+<a href="#1520" id="1520">1520</a>
+<a href="#1521" id="1521">1521</a>
+<a href="#1522" id="1522">1522</a>
+<a href="#1523" id="1523">1523</a>
+<a href="#1524" id="1524">1524</a>
+<a href="#1525" id="1525">1525</a>
+<a href="#1526" id="1526">1526</a>
+<a href="#1527" id="1527">1527</a>
+<a href="#1528" id="1528">1528</a>
+<a href="#1529" id="1529">1529</a>
+<a href="#1530" id="1530">1530</a>
+<a href="#1531" id="1531">1531</a>
+<a href="#1532" id="1532">1532</a>
+<a href="#1533" id="1533">1533</a>
+<a href="#1534" id="1534">1534</a>
+<a href="#1535" id="1535">1535</a>
+<a href="#1536" id="1536">1536</a>
+<a href="#1537" id="1537">1537</a>
+<a href="#1538" id="1538">1538</a>
+<a href="#1539" id="1539">1539</a>
+<a href="#1540" id="1540">1540</a>
+<a href="#1541" id="1541">1541</a>
+<a href="#1542" id="1542">1542</a>
+<a href="#1543" id="1543">1543</a>
+<a href="#1544" id="1544">1544</a>
+<a href="#1545" id="1545">1545</a>
+<a href="#1546" id="1546">1546</a>
+<a href="#1547" id="1547">1547</a>
+<a href="#1548" id="1548">1548</a>
+<a href="#1549" id="1549">1549</a>
+<a href="#1550" id="1550">1550</a>
+<a href="#1551" id="1551">1551</a>
+<a href="#1552" id="1552">1552</a>
+<a href="#1553" id="1553">1553</a>
+<a href="#1554" id="1554">1554</a>
+<a href="#1555" id="1555">1555</a>
+<a href="#1556" id="1556">1556</a>
+<a href="#1557" id="1557">1557</a>
+<a href="#1558" id="1558">1558</a>
+<a href="#1559" id="1559">1559</a>
+<a href="#1560" id="1560">1560</a>
+<a href="#1561" id="1561">1561</a>
+<a href="#1562" id="1562">1562</a>
+<a href="#1563" id="1563">1563</a>
+<a href="#1564" id="1564">1564</a>
+<a href="#1565" id="1565">1565</a>
+<a href="#1566" id="1566">1566</a>
+<a href="#1567" id="1567">1567</a>
+<a href="#1568" id="1568">1568</a>
+<a href="#1569" id="1569">1569</a>
+<a href="#1570" id="1570">1570</a>
+<a href="#1571" id="1571">1571</a>
+<a href="#1572" id="1572">1572</a>
+<a href="#1573" id="1573">1573</a>
+<a href="#1574" id="1574">1574</a>
+<a href="#1575" id="1575">1575</a>
+<a href="#1576" id="1576">1576</a>
+<a href="#1577" id="1577">1577</a>
 </pre><pre class="rust"><code><span class="comment">// This file was generated by gir (https://github.com/gtk-rs/gir)
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-</span><span class="kw">use </span><span class="kw">crate</span>::AsyncInitable;
-<span class="kw">use </span><span class="kw">crate</span>::AsyncResult;
-<span class="kw">use </span><span class="kw">crate</span>::BusType;
-<span class="kw">use </span><span class="kw">crate</span>::Cancellable;
-<span class="kw">use </span><span class="kw">crate</span>::DBusCallFlags;
-<span class="kw">use </span><span class="kw">crate</span>::DBusConnection;
-<span class="kw">use </span><span class="kw">crate</span>::DBusInterface;
-<span class="kw">use </span><span class="kw">crate</span>::DBusInterfaceInfo;
-<span class="kw">use </span><span class="kw">crate</span>::DBusProxyFlags;
-<span class="kw">use </span><span class="kw">crate</span>::Initable;
-<span class="attr">#[cfg(any(unix, feature = <span class="string">&quot;dox&quot;</span>))]
+</span><span class="attr">#[cfg(any(unix, feature = <span class="string">&quot;dox&quot;</span>))]
 #[cfg_attr(feature = <span class="string">&quot;dox&quot;</span>, doc(cfg(unix)))]
 </span><span class="kw">use </span><span class="kw">crate</span>::UnixFDList;
-<span class="kw">use </span>glib::object::Cast;
-<span class="kw">use </span>glib::object::IsA;
-<span class="kw">use </span>glib::signal::connect_raw;
-<span class="kw">use </span>glib::signal::SignalHandlerId;
-<span class="kw">use </span>glib::translate::<span class="kw-2">*</span>;
-<span class="kw">use </span>glib::StaticType;
-<span class="kw">use </span>glib::ToValue;
-<span class="kw">use </span>std::boxed::Box <span class="kw">as </span>Box_;
-<span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::mem::transmute;
-<span class="kw">use </span>std::pin::Pin;
-<span class="kw">use </span>std::ptr;
+<span class="kw">use crate</span>::{
+    AsyncInitable, AsyncResult, BusType, Cancellable, DBusCallFlags, DBusConnection, DBusInterface,
+    DBusInterfaceInfo, DBusProxyFlags, Initable,
+};
+<span class="kw">use </span>glib::{
+    prelude::<span class="kw-2">*</span>,
+    signal::{connect_raw, SignalHandlerId},
+    translate::<span class="kw-2">*</span>,
+};
+<span class="kw">use </span>std::{boxed::Box <span class="kw">as </span>Box_, fmt, mem::transmute, pin::Pin, ptr};
 
 <span class="macro">glib::wrapper! </span>{
     <span class="doccomment">/// [`DBusProxy`][crate::DBusProxy] is a base class used for proxies to access a D-Bus
@@ -1583,7 +1679,7 @@
     /// vanishes and reloaded when a name owner appears.
     ///
     /// The unique name owner of the proxy&#39;s name is tracked and can be read from
-    /// `property::DBusProxy::g-name-owner`. Connect to the `signal::glib::Object::notify` signal to
+    /// [`g-name-owner`][struct@crate::DBusProxy#g-name-owner]. Connect to the [`notify`][struct@crate::glib::Object#notify] signal to
     /// get notified of changes. Additionally, only signals and property
     /// changes emitted from the current name owner are considered and
     /// calls are always sent to the current name owner. This avoids a
@@ -1594,27 +1690,147 @@
     /// [`DBusProxyFlags::DO_NOT_AUTO_START`][crate::DBusProxyFlags::DO_NOT_AUTO_START] is set).
     ///
     /// If the proxy is for a stateless D-Bus service, where the name owner may
-    /// be started and stopped between calls, the `property::DBusProxy::g-name-owner` tracking
+    /// be started and stopped between calls, the [`g-name-owner`][struct@crate::DBusProxy#g-name-owner] tracking
     /// of [`DBusProxy`][crate::DBusProxy] will cause the proxy to drop signal and property changes from
     /// the service after it has restarted for the first time. When interacting
     /// with a stateless D-Bus service, do not use [`DBusProxy`][crate::DBusProxy] — use direct D-Bus
     /// method calls and signal connections.
     ///
-    /// The generic `signal::DBusProxy::g-properties-changed` and
-    /// `signal::DBusProxy::g-signal` signals are not very convenient to work with.
+    /// The generic [`g-properties-changed`][struct@crate::DBusProxy#g-properties-changed] and
+    /// [`g-signal`][struct@crate::DBusProxy#g-signal] signals are not very convenient to work with.
     /// Therefore, the recommended way of working with proxies is to subclass
     /// [`DBusProxy`][crate::DBusProxy], and have more natural properties and signals in your derived
     /// class. This [example][gdbus-example-gdbus-codegen] shows how this can
     /// easily be done using the [gdbus-codegen][gdbus-codegen] tool.
     ///
     /// A [`DBusProxy`][crate::DBusProxy] instance can be used from multiple threads but note
-    /// that all signals (e.g. `signal::DBusProxy::g-signal`, `signal::DBusProxy::g-properties-changed`
-    /// and `signal::glib::Object::notify`) are emitted in the
+    /// that all signals (e.g. [`g-signal`][struct@crate::DBusProxy#g-signal], [`g-properties-changed`][struct@crate::DBusProxy#g-properties-changed]
+    /// and [`notify`][struct@crate::glib::Object#notify]) are emitted in the
     /// [thread-default main context][g-main-context-push-thread-default]
     /// of the thread where the instance was constructed.
     ///
     /// An example using a proxy for a well-known name can be found in
     /// [gdbus-example-watch-proxy.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-watch-proxy.c)
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `g-bus-type`
+    ///  If this property is not [`BusType::None`][crate::BusType::None], then
+    /// [`g-connection`][struct@crate::DBusProxy#g-connection] must be [`None`] and will be set to the
+    /// [`DBusConnection`][crate::DBusConnection] obtained by calling [`bus_get()`][crate::bus_get()] with the value
+    /// of this property.
+    ///
+    /// Writeable | Construct Only
+    ///
+    ///
+    /// #### `g-connection`
+    ///  The [`DBusConnection`][crate::DBusConnection] the proxy is for.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `g-default-timeout`
+    ///  The timeout to use if -1 (specifying default timeout) is passed
+    /// as `timeout_msec` in the [`DBusProxyExt::call()`][crate::prelude::DBusProxyExt::call()] and
+    /// [`DBusProxyExt::call_sync()`][crate::prelude::DBusProxyExt::call_sync()] functions.
+    ///
+    /// This allows applications to set a proxy-wide timeout for all
+    /// remote method invocations on the proxy. If this property is -1,
+    /// the default timeout (typically 25 seconds) is used. If set to
+    /// `G_MAXINT`, then no timeout is used.
+    ///
+    /// Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `g-flags`
+    ///  Flags from the [`DBusProxyFlags`][crate::DBusProxyFlags] enumeration.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `g-interface-info`
+    ///  Ensure that interactions with this proxy conform to the given
+    /// interface. This is mainly to ensure that malformed data received
+    /// from the other peer is ignored. The given [`DBusInterfaceInfo`][crate::DBusInterfaceInfo] is
+    /// said to be the &quot;expected interface&quot;.
+    ///
+    /// The checks performed are:
+    /// - When completing a method call, if the type signature of
+    ///  the reply message isn&#39;t what&#39;s expected, the reply is
+    ///  discarded and the [`glib::Error`][crate::glib::Error] is set to [`IOErrorEnum::InvalidArgument`][crate::IOErrorEnum::InvalidArgument].
+    ///
+    /// - Received signals that have a type signature mismatch are dropped and
+    ///  a warning is logged via `g_warning()`.
+    ///
+    /// - Properties received via the initial `GetAll()` call or via the
+    ///  `::PropertiesChanged` signal (on the
+    ///  [org.freedesktop.DBus.Properties](http://dbus.freedesktop.org/doc/dbus-specification.html`standard`-interfaces-properties)
+    ///  interface) or set using [`DBusProxyExt::set_cached_property()`][crate::prelude::DBusProxyExt::set_cached_property()]
+    ///  with a type signature mismatch are ignored and a warning is
+    ///  logged via `g_warning()`.
+    ///
+    /// Note that these checks are never done on methods, signals and
+    /// properties that are not referenced in the given
+    /// [`DBusInterfaceInfo`][crate::DBusInterfaceInfo], since extending a D-Bus interface on the
+    /// service-side is not considered an ABI break.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `g-interface-name`
+    ///  The D-Bus interface name the proxy is for.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `g-name`
+    ///  The well-known or unique name that the proxy is for.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `g-name-owner`
+    ///  The unique name that owns [`g-name`][struct@crate::DBusProxy#g-name] or [`None`] if no-one
+    /// currently owns that name. You may connect to [`notify`][struct@crate::glib::Object#notify] signal to
+    /// track changes to this property.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `g-object-path`
+    ///  The object path the proxy is for.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `g-properties-changed`
+    ///  Emitted when one or more D-Bus properties on `proxy` changes. The
+    /// local cache has already been updated when this signal fires. Note
+    /// that both `changed_properties` and `invalidated_properties` are
+    /// guaranteed to never be [`None`] (either may be empty though).
+    ///
+    /// If the proxy has the flag
+    /// [`DBusProxyFlags::GET_INVALIDATED_PROPERTIES`][crate::DBusProxyFlags::GET_INVALIDATED_PROPERTIES] set, then
+    /// `invalidated_properties` will always be empty.
+    ///
+    /// This signal corresponds to the
+    /// `PropertiesChanged` D-Bus signal on the
+    /// `org.freedesktop.DBus.Properties` interface.
+    ///
+    ///
+    ///
+    ///
+    /// #### `g-signal`
+    ///  Emitted when a signal from the remote object and interface that `proxy` is for, has been received.
+    ///
+    /// Since 2.72 this signal supports detailed connections. You can connect to
+    /// the detailed signal `g-signal::x` in order to receive callbacks only when
+    /// signal `x` is received from the remote object.
+    ///
+    /// Detailed
     ///
     /// # Implements
     ///
@@ -1690,7 +1906,7 @@
     /// [`DBusProxyFlags::DO_NOT_LOAD_PROPERTIES`][crate::DBusProxyFlags::DO_NOT_LOAD_PROPERTIES] flag is used.
     ///
     /// If the [`DBusProxyFlags::DO_NOT_CONNECT_SIGNALS`][crate::DBusProxyFlags::DO_NOT_CONNECT_SIGNALS] flag is not set, also sets up
-    /// match rules for signals. Connect to the `signal::DBusProxy::g-signal` signal
+    /// match rules for signals. Connect to the [`g-signal`][struct@crate::DBusProxy#g-signal] signal
     /// to handle signals from the remote object.
     ///
     /// If both [`DBusProxyFlags::DO_NOT_LOAD_PROPERTIES`][crate::DBusProxyFlags::DO_NOT_LOAD_PROPERTIES] and
@@ -1759,11 +1975,11 @@
     /// at `object_path` owned by `name` at `connection` and asynchronously
     /// loads D-Bus properties unless the
     /// [`DBusProxyFlags::DO_NOT_LOAD_PROPERTIES`][crate::DBusProxyFlags::DO_NOT_LOAD_PROPERTIES] flag is used. Connect to
-    /// the `signal::DBusProxy::g-properties-changed` signal to get notified about
+    /// the [`g-properties-changed`][struct@crate::DBusProxy#g-properties-changed] signal to get notified about
     /// property changes.
     ///
     /// If the [`DBusProxyFlags::DO_NOT_CONNECT_SIGNALS`][crate::DBusProxyFlags::DO_NOT_CONNECT_SIGNALS] flag is not set, also sets up
-    /// match rules for signals. Connect to the `signal::DBusProxy::g-signal` signal
+    /// match rules for signals. Connect to the [`g-signal`][struct@crate::DBusProxy#g-signal] signal
     /// to handle signals from the remote object.
     ///
     /// If both [`DBusProxyFlags::DO_NOT_LOAD_PROPERTIES`][crate::DBusProxyFlags::DO_NOT_LOAD_PROPERTIES] and
@@ -2038,7 +2254,7 @@
     /// ```
     ///
     /// If `self` has an expected interface (see
-    /// `property::DBusProxy::g-interface-info`) and `method_name` is referenced by it,
+    /// [`g-interface-info`][struct@crate::DBusProxy#g-interface-info]) and `method_name` is referenced by it,
     /// then the return value is checked against the return type.
     ///
     /// This is an asynchronous method. When the operation is finished,
@@ -2120,7 +2336,7 @@
     /// method.
     ///
     /// If `self` has an expected interface (see
-    /// `property::DBusProxy::g-interface-info`) and `method_name` is referenced by it,
+    /// [`g-interface-info`][struct@crate::DBusProxy#g-interface-info]) and `method_name` is referenced by it,
     /// then the return value is checked against the return type.
     /// ## `method_name`
     /// Name of method to invoke.
@@ -2242,7 +2458,7 @@
     /// blocking IO.
     ///
     /// If `self` has an expected interface (see
-    /// `property::DBusProxy::g-interface-info`) and `property_name` is referenced by
+    /// [`g-interface-info`][struct@crate::DBusProxy#g-interface-info]) and `property_name` is referenced by
     /// it, then `value` is checked against the type of the property.
     /// ## `property_name`
     /// Property name.
@@ -2281,7 +2497,7 @@
     /// passed as `timeout_msec` in the [`call()`][Self::call()] and
     /// [`call_sync()`][Self::call_sync()] functions.
     ///
-    /// See the `property::DBusProxy::g-default-timeout` property for more details.
+    /// See the [`g-default-timeout`][struct@crate::DBusProxy#g-default-timeout] property for more details.
     ///
     /// # Returns
     ///
@@ -2300,7 +2516,7 @@
     </span><span class="kw">fn </span>flags(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DBusProxyFlags;
 
     <span class="doccomment">/// Returns the [`DBusInterfaceInfo`][crate::DBusInterfaceInfo], if any, specifying the interface
-    /// that `self` conforms to. See the `property::DBusProxy::g-interface-info`
+    /// that `self` conforms to. See the [`g-interface-info`][struct@crate::DBusProxy#g-interface-info]
     /// property for more details.
     ///
     /// # Returns
@@ -2335,8 +2551,8 @@
 
     <span class="doccomment">/// The unique name that owns the name that `self` is for or [`None`] if
     /// no-one currently owns that name. You may connect to the
-    /// `signal::glib::Object::notify` signal to track changes to the
-    /// `property::DBusProxy::g-name-owner` property.
+    /// [`notify`][struct@crate::glib::Object#notify] signal to track changes to the
+    /// [`g-name-owner`][struct@crate::DBusProxy#g-name-owner] property.
     ///
     /// # Returns
     ///
@@ -2362,7 +2578,7 @@
     /// property cache.
     ///
     /// If `self` has an expected interface (see
-    /// `property::DBusProxy::g-interface-info`) and `property_name` is referenced by
+    /// [`g-interface-info`][struct@crate::DBusProxy#g-interface-info]) and `property_name` is referenced by
     /// it, then `value` is checked against the type of the property.
     ///
     /// If the `value` [`glib::Variant`][struct@crate::glib::Variant] is floating, it is consumed. This allows
@@ -2403,14 +2619,14 @@
     /// passed as `timeout_msec` in the [`call()`][Self::call()] and
     /// [`call_sync()`][Self::call_sync()] functions.
     ///
-    /// See the `property::DBusProxy::g-default-timeout` property for more details.
+    /// See the [`g-default-timeout`][struct@crate::DBusProxy#g-default-timeout] property for more details.
     /// ## `timeout_msec`
     /// Timeout in milliseconds.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g_dbus_proxy_set_default_timeout&quot;</span>)]
     </span><span class="kw">fn </span>set_default_timeout(<span class="kw-2">&amp;</span><span class="self">self</span>, timeout_msec: i32);
 
     <span class="doccomment">/// Ensure that interactions with `self` conform to the given
-    /// interface. See the `property::DBusProxy::g-interface-info` property for more
+    /// interface. See the [`g-interface-info`][struct@crate::DBusProxy#g-interface-info] property for more
     /// details.
     /// ## `info`
     /// Minimum interface this proxy conforms to
@@ -2510,8 +2726,8 @@
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g-name&quot;</span>)]
     </span><span class="kw">fn </span>g_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;glib::GString&gt;;
 
-    <span class="doccomment">/// The unique name that owns `property::DBusProxy::g-name` or [`None`] if no-one
-    /// currently owns that name. You may connect to `signal::glib::Object::notify` signal to
+    <span class="doccomment">/// The unique name that owns [`g-name`][struct@crate::DBusProxy#g-name] or [`None`] if no-one
+    /// currently owns that name. You may connect to [`notify`][struct@crate::glib::Object#notify] signal to
     /// track changes to this property.
     </span><span class="attr">#[doc(alias = <span class="string">&quot;g-name-owner&quot;</span>)]
     </span><span class="kw">fn </span>g_name_owner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;glib::GString&gt;;
@@ -3010,4 +3226,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/subclass/object.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>object.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/subclass/object.rs`."><title>object.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../glib/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../glib/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -695,23 +695,122 @@
 <a href="#622" id="622">622</a>
 <a href="#623" id="623">623</a>
 <a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
+<a href="#641" id="641">641</a>
+<a href="#642" id="642">642</a>
+<a href="#643" id="643">643</a>
+<a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.
 
 // rustdoc-stripper-ignore-next
 </span><span class="doccomment">//! Module that contains all types needed for creating a direct subclass of `GObject`
 //! or implementing virtual methods of it.
 
-</span><span class="kw">use </span><span class="kw">super</span>::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">super</span>::Signal;
-<span class="kw">use </span><span class="kw">crate</span>::translate::<span class="kw-2">*</span>;
-<span class="kw">use crate</span>::{Cast, Object, ObjectType, ParamSpec, Value};
-<span class="kw">use </span>std::mem;
-<span class="kw">use </span>std::ptr;
+</span><span class="kw">use </span>std::{mem, ptr};
+
+<span class="kw">use super</span>::{prelude::<span class="kw-2">*</span>, Signal};
+<span class="kw">use crate</span>::{prelude::<span class="kw-2">*</span>, translate::<span class="kw-2">*</span>, Cast, Object, ParamSpec, Slice, Value};
 
 <span class="comment">// rustdoc-stripper-ignore-next
 </span><span class="doccomment">/// Trait for implementors of `glib::Object` subclasses.
 ///
-/// This allows overriding the virtual methods of `glib::Object`.
+/// This allows overriding the virtual methods of `glib::Object`. Except for
+/// `finalize` as implementing `Drop` would allow the same behavior.
 </span><span class="kw">pub trait </span>ObjectImpl: ObjectSubclass + ObjectImplExt {
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Properties installed for this type.
@@ -766,6 +865,17 @@
     /// error code but no memory violation) until it is dropped. `dispose()` can be executed more
     /// than once.
     </span><span class="kw">fn </span>dispose(<span class="kw-2">&amp;</span><span class="self">self</span>) {}
+
+    <span class="comment">// rustdoc-stripper-ignore-next
+    </span><span class="doccomment">/// Function to be called when property change is notified for with
+    /// `self.notify(&quot;property&quot;)`.
+    </span><span class="kw">fn </span>notify(<span class="kw-2">&amp;</span><span class="self">self</span>, pspec: <span class="kw-2">&amp;</span>ParamSpec) {
+        <span class="self">self</span>.parent_notify(pspec)
+    }
+
+    <span class="kw">fn </span>dispatch_properties_changed(<span class="kw-2">&amp;</span><span class="self">self</span>, pspecs: <span class="kw-2">&amp;</span>[ParamSpec]) {
+        <span class="self">self</span>.parent_dispatch_properties_changed(pspecs)
+    }
 }
 
 <span class="attr">#[doc(alias = <span class="string">&quot;get_property&quot;</span>)]
@@ -815,6 +925,25 @@
     imp.constructed();
 }
 
+<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>notify&lt;T: ObjectImpl&gt;(
+    obj: <span class="kw-2">*mut </span>gobject_ffi::GObject,
+    pspec: <span class="kw-2">*mut </span>gobject_ffi::GParamSpec,
+) {
+    <span class="kw">let </span>instance = <span class="kw-2">&amp;*</span>(obj <span class="kw">as </span><span class="kw-2">*mut </span>T::Instance);
+    <span class="kw">let </span>imp = instance.imp();
+    imp.notify(<span class="kw-2">&amp;</span>from_glib_borrow(pspec));
+}
+
+<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>dispatch_properties_changed&lt;T: ObjectImpl&gt;(
+    obj: <span class="kw-2">*mut </span>gobject_ffi::GObject,
+    n_pspecs: u32,
+    pspecs: <span class="kw-2">*mut *mut </span>gobject_ffi::GParamSpec,
+) {
+    <span class="kw">let </span>instance = <span class="kw-2">&amp;*</span>(obj <span class="kw">as </span><span class="kw-2">*mut </span>T::Instance);
+    <span class="kw">let </span>imp = instance.imp();
+    imp.dispatch_properties_changed(Slice::from_glib_borrow_num(pspecs, n_pspecs <span class="kw">as _</span>));
+}
+
 <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>dispose&lt;T: ObjectImpl&gt;(obj: <span class="kw-2">*mut </span>gobject_ffi::GObject) {
     <span class="kw">let </span>instance = <span class="kw-2">&amp;*</span>(obj <span class="kw">as </span><span class="kw-2">*mut </span>T::Instance);
     <span class="kw">let </span>imp = instance.imp();
@@ -826,6 +955,32 @@
     <span class="kw">let </span>parent_class = data.as_ref().parent_class() <span class="kw">as </span><span class="kw-2">*mut </span>gobject_ffi::GObjectClass;
     <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>func) = (<span class="kw-2">*</span>parent_class).dispose {
         func(obj);
+    }
+}
+
+<span class="comment">// rustdoc-stripper-ignore-next
+</span><span class="doccomment">/// Trait containing only the property related functions of `ObjectImpl`.
+/// Implemented by the `Props` macro.
+/// When implementing `ObjectImpl` you may want to delegate the function calls to this trait.
+</span><span class="kw">pub trait </span>DerivedObjectProperties: ObjectSubclass {
+    <span class="comment">// rustdoc-stripper-ignore-next
+    </span><span class="doccomment">/// Properties installed for this type.
+    </span><span class="kw">fn </span>derived_properties() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[ParamSpec] {
+        <span class="kw-2">&amp;</span>[]
+    }
+
+    <span class="comment">// rustdoc-stripper-ignore-next
+    </span><span class="doccomment">/// Similar to [`ObjectImpl`](trait.ObjectImpl.html) but auto-generated by the [`Properties`] macro
+    /// to allow handling more complex use-cases.
+    </span><span class="kw">fn </span>derived_set_property(<span class="kw-2">&amp;</span><span class="self">self</span>, _id: usize, _value: <span class="kw-2">&amp;</span>Value, _pspec: <span class="kw-2">&amp;</span>ParamSpec) {
+        <span class="macro">unimplemented!</span>()
+    }
+
+    <span class="comment">// rustdoc-stripper-ignore-next
+    </span><span class="doccomment">/// Similar to [`ObjectImpl`](trait.ObjectImpl.html) but auto-generated by the [`Properties`] macro
+    /// to allow handling more complex use-cases.
+    </span><span class="kw">fn </span>derived_property(<span class="kw-2">&amp;</span><span class="self">self</span>, _id: usize, _pspec: <span class="kw-2">&amp;</span>ParamSpec) -&gt; Value {
+        <span class="macro">unimplemented!</span>()
     }
 }
 
@@ -856,6 +1011,8 @@
         klass.set_property = <span class="prelude-val">Some</span>(set_property::&lt;T&gt;);
         klass.get_property = <span class="prelude-val">Some</span>(property::&lt;T&gt;);
         klass.constructed = <span class="prelude-val">Some</span>(constructed::&lt;T&gt;);
+        klass.notify = <span class="prelude-val">Some</span>(notify::&lt;T&gt;);
+        klass.dispatch_properties_changed = <span class="prelude-val">Some</span>(dispatch_properties_changed::&lt;T&gt;);
         klass.dispose = <span class="prelude-val">Some</span>(dispose::&lt;T&gt;);
 
         <span class="kw">let </span>pspecs = &lt;T <span class="kw">as </span>ObjectImpl&gt;::properties();
@@ -884,13 +1041,22 @@
         }
     }
 
-    <span class="kw">fn </span>instance_init(_instance: <span class="kw-2">&amp;mut </span><span class="kw">super</span>::InitializingObject&lt;T&gt;) {}
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>instance_init(_instance: <span class="kw-2">&amp;mut </span><span class="kw">super</span>::InitializingObject&lt;T&gt;) {}
 }
 
 <span class="kw">pub trait </span>ObjectImplExt: ObjectSubclass {
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Chain up to the parent class&#39; implementation of `glib::Object::constructed()`.
     </span><span class="kw">fn </span>parent_constructed(<span class="kw-2">&amp;</span><span class="self">self</span>);
+
+    <span class="comment">// rustdoc-stripper-ignore-next
+    </span><span class="doccomment">/// Chain up to the parent class&#39; implementation of `glib::Object::notify()`.
+    </span><span class="kw">fn </span>parent_notify(<span class="kw-2">&amp;</span><span class="self">self</span>, pspec: <span class="kw-2">&amp;</span>ParamSpec);
+
+    <span class="comment">// rustdoc-stripper-ignore-next
+    </span><span class="doccomment">/// Chain up to the parent class&#39; implementation of `glib::Object::dispatch_properties_changed()`.
+    </span><span class="kw">fn </span>parent_dispatch_properties_changed(<span class="kw-2">&amp;</span><span class="self">self</span>, pspecs: <span class="kw-2">&amp;</span>[ParamSpec]);
 
     <span class="comment">// rustdoc-stripper-ignore-next
     </span><span class="doccomment">/// Chain up to parent class signal handler.
@@ -902,13 +1068,45 @@
 }
 
 <span class="kw">impl</span>&lt;T: ObjectImpl&gt; ObjectImplExt <span class="kw">for </span>T {
-    <span class="kw">fn </span>parent_constructed(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>parent_constructed(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>data = T::type_data();
             <span class="kw">let </span>parent_class = data.as_ref().parent_class() <span class="kw">as </span><span class="kw-2">*mut </span>gobject_ffi::GObjectClass;
 
             <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>func) = (<span class="kw-2">*</span>parent_class).constructed {
                 func(<span class="self">self</span>.obj().unsafe_cast_ref::&lt;Object&gt;().to_glib_none().<span class="number">0</span>);
+            }
+        }
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>parent_notify(<span class="kw-2">&amp;</span><span class="self">self</span>, pspec: <span class="kw-2">&amp;</span>ParamSpec) {
+        <span class="kw">unsafe </span>{
+            <span class="kw">let </span>data = T::type_data();
+            <span class="kw">let </span>parent_class = data.as_ref().parent_class() <span class="kw">as </span><span class="kw-2">*mut </span>gobject_ffi::GObjectClass;
+
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>func) = (<span class="kw-2">*</span>parent_class).notify {
+                func(
+                    <span class="self">self</span>.obj().unsafe_cast_ref::&lt;Object&gt;().to_glib_none().<span class="number">0</span>,
+                    pspec.to_glib_none().<span class="number">0</span>,
+                );
+            }
+        }
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>parent_dispatch_properties_changed(<span class="kw-2">&amp;</span><span class="self">self</span>, pspecs: <span class="kw-2">&amp;</span>[ParamSpec]) {
+        <span class="kw">unsafe </span>{
+            <span class="kw">let </span>data = T::type_data();
+            <span class="kw">let </span>parent_class = data.as_ref().parent_class() <span class="kw">as </span><span class="kw-2">*mut </span>gobject_ffi::GObjectClass;
+
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>func) = (<span class="kw-2">*</span>parent_class).dispatch_properties_changed {
+                func(
+                    <span class="self">self</span>.obj().unsafe_cast_ref::&lt;Object&gt;().to_glib_none().<span class="number">0</span>,
+                    pspecs.len() <span class="kw">as _</span>,
+                    pspecs.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>,
+                );
             }
         }
     }
@@ -926,17 +1124,13 @@
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>test {
-    <span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::object::ObjectExt;
-    <span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::value::{ToValue, Value};
+    <span class="kw">use </span>std::cell::RefCell;
+
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="comment">// We rename the current crate as glib, since the macros in glib-macros
     // generate the glib namespace through the crate_ident_new utility,
     // and that returns `glib` (and not `crate`) when called inside the glib crate
     </span><span class="kw">use crate as </span>glib;
-    <span class="kw">use </span><span class="kw">crate</span>::ParamSpecBuilderExt;
-    <span class="kw">use </span><span class="kw">crate</span>::StaticType;
-
-    <span class="kw">use </span>std::cell::RefCell;
 
     <span class="kw">mod </span>imp {
         <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -1060,7 +1254,7 @@
             <span class="kw">fn </span>constructed(<span class="kw-2">&amp;</span><span class="self">self</span>) {
                 <span class="self">self</span>.parent_constructed();
 
-                <span class="macro">assert_eq!</span>(<span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>, <span class="self">self</span>.obj().imp() <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>);
+                <span class="macro">debug_assert_eq!</span>(<span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>, <span class="self">self</span>.obj().imp() <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>);
 
                 <span class="kw-2">*</span><span class="self">self</span>.constructed.borrow_mut() = <span class="bool-val">true</span>;
             }
@@ -1095,7 +1289,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_create() {
         <span class="kw">let </span>type_ = SimpleObject::static_type();
-        <span class="kw">let </span>obj = Object::with_type(type_, <span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj = Object::with_type(type_);
 
         <span class="macro">assert!</span>(obj.type_().is_a(Dummy::static_type()));
 
@@ -1118,7 +1312,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_properties() {
         <span class="kw">let </span>type_ = SimpleObject::static_type();
-        <span class="kw">let </span>obj = Object::with_type(type_, <span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj = Object::with_type(type_);
 
         <span class="macro">assert!</span>(obj.type_().is_a(Dummy::static_type()));
 
@@ -1132,7 +1326,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_create_child_object() {
-        <span class="kw">let </span>obj: ChildObject = Object::new(<span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj: ChildObject = Object::new();
 
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>obj, obj.imp().obj().as_ref());
     }
@@ -1154,10 +1348,10 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_set_property() {
-        <span class="kw">let </span>obj = Object::with_type(
-            SimpleObject::static_type(),
-            <span class="kw-2">&amp;</span>[(<span class="string">&quot;construct-name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;meh&quot;</span>), (<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;initial&quot;</span>)],
-        );
+        <span class="kw">let </span>obj = Object::builder::&lt;SimpleObject&gt;()
+            .property(<span class="string">&quot;construct-name&quot;</span>, <span class="string">&quot;meh&quot;</span>)
+            .property(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;initial&quot;</span>)
+            .build();
 
         <span class="macro">assert_eq!</span>(
             obj.property::&lt;String&gt;(<span class="string">&quot;construct-name&quot;</span>),
@@ -1173,17 +1367,17 @@
         obj.set_property(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;test&quot;</span>);
         <span class="macro">assert_eq!</span>(obj.property::&lt;String&gt;(<span class="string">&quot;name&quot;</span>), String::from(<span class="string">&quot;test&quot;</span>));
 
-        <span class="kw">let </span>child = Object::with_type(ChildObject::static_type(), <span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>child = Object::with_type(ChildObject::static_type());
         obj.set_property(<span class="string">&quot;child&quot;</span>, <span class="kw-2">&amp;</span>child);
     }
 
     <span class="attr">#[test]
     #[should_panic = <span class="string">&quot;property &#39;construct-name&#39; of type &#39;SimpleObject&#39; is not writable&quot;</span>]
     </span><span class="kw">fn </span>test_set_property_non_writable() {
-        <span class="kw">let </span>obj = Object::with_type(
-            SimpleObject::static_type(),
-            <span class="kw-2">&amp;</span>[(<span class="string">&quot;construct-name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;meh&quot;</span>), (<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;initial&quot;</span>)],
-        );
+        <span class="kw">let </span>obj = Object::builder::&lt;SimpleObject&gt;()
+            .property(<span class="string">&quot;construct-name&quot;</span>, <span class="string">&quot;meh&quot;</span>)
+            .property(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;initial&quot;</span>)
+            .build();
 
         obj.set_property(<span class="string">&quot;construct-name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;test&quot;</span>);
     }
@@ -1191,10 +1385,10 @@
     <span class="attr">#[test]
     #[should_panic = <span class="string">&quot;property &#39;test&#39; of type &#39;SimpleObject&#39; not found&quot;</span>]
     </span><span class="kw">fn </span>test_set_property_not_found() {
-        <span class="kw">let </span>obj = Object::with_type(
-            SimpleObject::static_type(),
-            <span class="kw-2">&amp;</span>[(<span class="string">&quot;construct-name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;meh&quot;</span>), (<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;initial&quot;</span>)],
-        );
+        <span class="kw">let </span>obj = Object::builder::&lt;SimpleObject&gt;()
+            .property(<span class="string">&quot;construct-name&quot;</span>, <span class="string">&quot;meh&quot;</span>)
+            .property(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;initial&quot;</span>)
+            .build();
 
         obj.set_property(<span class="string">&quot;test&quot;</span>, <span class="kw-2">&amp;</span><span class="bool-val">true</span>);
     }
@@ -1202,10 +1396,10 @@
     <span class="attr">#[test]
     #[should_panic = <span class="string">&quot;property &#39;constructed&#39; of type &#39;SimpleObject&#39; is not writable&quot;</span>]
     </span><span class="kw">fn </span>test_set_property_not_writable() {
-        <span class="kw">let </span>obj = Object::with_type(
-            SimpleObject::static_type(),
-            <span class="kw-2">&amp;</span>[(<span class="string">&quot;construct-name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;meh&quot;</span>), (<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;initial&quot;</span>)],
-        );
+        <span class="kw">let </span>obj = Object::builder::&lt;SimpleObject&gt;()
+            .property(<span class="string">&quot;construct-name&quot;</span>, <span class="string">&quot;meh&quot;</span>)
+            .property(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;initial&quot;</span>)
+            .build();
 
         obj.set_property(<span class="string">&quot;constructed&quot;</span>, <span class="kw-2">&amp;</span><span class="bool-val">false</span>);
     }
@@ -1213,10 +1407,10 @@
     <span class="attr">#[test]
     #[should_panic = <span class="string">&quot;property &#39;name&#39; of type &#39;SimpleObject&#39; can&#39;t be set from the given type (expected: &#39;gchararray&#39;, got: &#39;gboolean&#39;)&quot;</span>]
     </span><span class="kw">fn </span>test_set_property_wrong_type() {
-        <span class="kw">let </span>obj = Object::with_type(
-            SimpleObject::static_type(),
-            <span class="kw-2">&amp;</span>[(<span class="string">&quot;construct-name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;meh&quot;</span>), (<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;initial&quot;</span>)],
-        );
+        <span class="kw">let </span>obj = Object::builder::&lt;SimpleObject&gt;()
+            .property(<span class="string">&quot;construct-name&quot;</span>, <span class="string">&quot;meh&quot;</span>)
+            .property(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;initial&quot;</span>)
+            .build();
 
         obj.set_property(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="bool-val">false</span>);
     }
@@ -1224,12 +1418,12 @@
     <span class="attr">#[test]
     #[should_panic = <span class="string">&quot;property &#39;child&#39; of type &#39;SimpleObject&#39; can&#39;t be set from the given type (expected: &#39;ChildObject&#39;, got: &#39;SimpleObject&#39;)&quot;</span>]
     </span><span class="kw">fn </span>test_set_property_wrong_type_2() {
-        <span class="kw">let </span>obj = Object::with_type(
-            SimpleObject::static_type(),
-            <span class="kw-2">&amp;</span>[(<span class="string">&quot;construct-name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;meh&quot;</span>), (<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;initial&quot;</span>)],
-        );
+        <span class="kw">let </span>obj = Object::builder::&lt;SimpleObject&gt;()
+            .property(<span class="string">&quot;construct-name&quot;</span>, <span class="string">&quot;meh&quot;</span>)
+            .property(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;initial&quot;</span>)
+            .build();
 
-        <span class="kw">let </span>other_obj = Object::with_type(SimpleObject::static_type(), <span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>other_obj = Object::with_type(SimpleObject::static_type());
 
         obj.set_property(<span class="string">&quot;child&quot;</span>, <span class="kw-2">&amp;</span>other_obj);
     }
@@ -1237,19 +1431,22 @@
     <span class="attr">#[test]
     #[should_panic = <span class="string">&quot;Can&#39;t set construct property &#39;construct-name&#39; for type &#39;SimpleObject&#39; twice&quot;</span>]
     </span><span class="kw">fn </span>test_construct_property_set_twice() {
-        Object::with_type(
-            SimpleObject::static_type(),
-            <span class="kw-2">&amp;</span>[(<span class="string">&quot;construct-name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;meh&quot;</span>), (<span class="string">&quot;construct-name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;meh2&quot;</span>)],
-        );
+        <span class="kw">let </span>_obj = Object::builder::&lt;SimpleObject&gt;()
+            .property(<span class="string">&quot;construct-name&quot;</span>, <span class="string">&quot;meh&quot;</span>)
+            .property(<span class="string">&quot;construct-name&quot;</span>, <span class="string">&quot;meh2&quot;</span>)
+            .build();
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_signals() {
-        <span class="kw">use </span>std::sync::atomic::{AtomicBool, Ordering};
-        <span class="kw">use </span>std::sync::Arc;
+        <span class="kw">use </span>std::sync::{
+            atomic::{AtomicBool, Ordering},
+            Arc,
+        };
 
-        <span class="kw">let </span>type_ = SimpleObject::static_type();
-        <span class="kw">let </span>obj = Object::with_type(type_, <span class="kw-2">&amp;</span>[(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;old-name&quot;</span>)]);
+        <span class="kw">let </span>obj = Object::builder::&lt;SimpleObject&gt;()
+            .property(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;old-name&quot;</span>)
+            .build();
 
         <span class="kw">let </span>name_changed_triggered = Arc::new(AtomicBool::new(<span class="bool-val">false</span>));
         <span class="kw">let </span>name_changed_clone = name_changed_triggered.clone();
@@ -1275,7 +1472,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_signal_return_expected_type() {
-        <span class="kw">let </span>obj = Object::with_type(SimpleObject::static_type(), <span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj = Object::with_type(SimpleObject::static_type());
 
         obj.connect(<span class="string">&quot;create-string&quot;</span>, <span class="bool-val">false</span>, <span class="kw">move </span>|_args| {
             <span class="prelude-val">Some</span>(<span class="string">&quot;return value&quot;</span>.to_value())
@@ -1289,11 +1486,14 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_callback_validity() {
-        <span class="kw">use </span>std::sync::atomic::{AtomicBool, Ordering};
-        <span class="kw">use </span>std::sync::Arc;
+        <span class="kw">use </span>std::sync::{
+            atomic::{AtomicBool, Ordering},
+            Arc,
+        };
 
-        <span class="kw">let </span>type_ = SimpleObject::static_type();
-        <span class="kw">let </span>obj = Object::with_type(type_, <span class="kw-2">&amp;</span>[(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="string">&quot;old-name&quot;</span>)]);
+        <span class="kw">let </span>obj = Object::builder::&lt;SimpleObject&gt;()
+            .property(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;old-name&quot;</span>)
+            .build();
 
         <span class="kw">let </span>name_changed_triggered = Arc::new(AtomicBool::new(<span class="bool-val">false</span>));
         <span class="kw">let </span>name_changed_clone = name_changed_triggered.clone();
@@ -1310,14 +1510,14 @@
 
     </span><span class="attr">#[test]
     </span><span class="kw">fn </span>test_signal_return_expected_object_type() {
-        <span class="kw">let </span>obj = Object::with_type(SimpleObject::static_type(), <span class="kw-2">&amp;</span>[]);
+        <span class="kw">let </span>obj = Object::with_type(SimpleObject::static_type());
 
         obj.connect(<span class="string">&quot;create-child-object&quot;</span>, <span class="bool-val">false</span>, <span class="kw">move </span>|_args| {
-            <span class="prelude-val">Some</span>(Object::with_type(ChildObject::static_type(), <span class="kw-2">&amp;</span>[]).to_value())
+            <span class="prelude-val">Some</span>(Object::with_type(ChildObject::static_type()).to_value())
         });
         <span class="kw">let </span>value: glib::Object = obj.emit_by_name(<span class="string">&quot;create-child-object&quot;</span>, <span class="kw-2">&amp;</span>[]);
         <span class="macro">assert!</span>(value.type_().is_a(ChildObject::static_type()));
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="glib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

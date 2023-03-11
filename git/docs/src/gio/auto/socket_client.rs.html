@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/socket_client.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>socket_client.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/socket_client.rs`."><title>socket_client.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../gio/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../gio/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1554,34 +1554,127 @@
 <a href="#1481" id="1481">1481</a>
 <a href="#1482" id="1482">1482</a>
 <a href="#1483" id="1483">1483</a>
+<a href="#1484" id="1484">1484</a>
+<a href="#1485" id="1485">1485</a>
+<a href="#1486" id="1486">1486</a>
+<a href="#1487" id="1487">1487</a>
+<a href="#1488" id="1488">1488</a>
+<a href="#1489" id="1489">1489</a>
+<a href="#1490" id="1490">1490</a>
+<a href="#1491" id="1491">1491</a>
+<a href="#1492" id="1492">1492</a>
+<a href="#1493" id="1493">1493</a>
+<a href="#1494" id="1494">1494</a>
+<a href="#1495" id="1495">1495</a>
+<a href="#1496" id="1496">1496</a>
+<a href="#1497" id="1497">1497</a>
+<a href="#1498" id="1498">1498</a>
+<a href="#1499" id="1499">1499</a>
+<a href="#1500" id="1500">1500</a>
+<a href="#1501" id="1501">1501</a>
+<a href="#1502" id="1502">1502</a>
+<a href="#1503" id="1503">1503</a>
+<a href="#1504" id="1504">1504</a>
+<a href="#1505" id="1505">1505</a>
+<a href="#1506" id="1506">1506</a>
+<a href="#1507" id="1507">1507</a>
+<a href="#1508" id="1508">1508</a>
+<a href="#1509" id="1509">1509</a>
+<a href="#1510" id="1510">1510</a>
+<a href="#1511" id="1511">1511</a>
+<a href="#1512" id="1512">1512</a>
+<a href="#1513" id="1513">1513</a>
+<a href="#1514" id="1514">1514</a>
+<a href="#1515" id="1515">1515</a>
+<a href="#1516" id="1516">1516</a>
+<a href="#1517" id="1517">1517</a>
+<a href="#1518" id="1518">1518</a>
+<a href="#1519" id="1519">1519</a>
+<a href="#1520" id="1520">1520</a>
+<a href="#1521" id="1521">1521</a>
+<a href="#1522" id="1522">1522</a>
+<a href="#1523" id="1523">1523</a>
+<a href="#1524" id="1524">1524</a>
+<a href="#1525" id="1525">1525</a>
+<a href="#1526" id="1526">1526</a>
+<a href="#1527" id="1527">1527</a>
+<a href="#1528" id="1528">1528</a>
+<a href="#1529" id="1529">1529</a>
+<a href="#1530" id="1530">1530</a>
+<a href="#1531" id="1531">1531</a>
+<a href="#1532" id="1532">1532</a>
+<a href="#1533" id="1533">1533</a>
+<a href="#1534" id="1534">1534</a>
+<a href="#1535" id="1535">1535</a>
+<a href="#1536" id="1536">1536</a>
+<a href="#1537" id="1537">1537</a>
+<a href="#1538" id="1538">1538</a>
+<a href="#1539" id="1539">1539</a>
+<a href="#1540" id="1540">1540</a>
+<a href="#1541" id="1541">1541</a>
+<a href="#1542" id="1542">1542</a>
+<a href="#1543" id="1543">1543</a>
+<a href="#1544" id="1544">1544</a>
+<a href="#1545" id="1545">1545</a>
+<a href="#1546" id="1546">1546</a>
+<a href="#1547" id="1547">1547</a>
+<a href="#1548" id="1548">1548</a>
+<a href="#1549" id="1549">1549</a>
+<a href="#1550" id="1550">1550</a>
+<a href="#1551" id="1551">1551</a>
+<a href="#1552" id="1552">1552</a>
+<a href="#1553" id="1553">1553</a>
+<a href="#1554" id="1554">1554</a>
+<a href="#1555" id="1555">1555</a>
+<a href="#1556" id="1556">1556</a>
+<a href="#1557" id="1557">1557</a>
+<a href="#1558" id="1558">1558</a>
+<a href="#1559" id="1559">1559</a>
+<a href="#1560" id="1560">1560</a>
+<a href="#1561" id="1561">1561</a>
+<a href="#1562" id="1562">1562</a>
+<a href="#1563" id="1563">1563</a>
+<a href="#1564" id="1564">1564</a>
+<a href="#1565" id="1565">1565</a>
+<a href="#1566" id="1566">1566</a>
+<a href="#1567" id="1567">1567</a>
+<a href="#1568" id="1568">1568</a>
+<a href="#1569" id="1569">1569</a>
+<a href="#1570" id="1570">1570</a>
+<a href="#1571" id="1571">1571</a>
+<a href="#1572" id="1572">1572</a>
+<a href="#1573" id="1573">1573</a>
+<a href="#1574" id="1574">1574</a>
+<a href="#1575" id="1575">1575</a>
+<a href="#1576" id="1576">1576</a>
+<a href="#1577" id="1577">1577</a>
+<a href="#1578" id="1578">1578</a>
+<a href="#1579" id="1579">1579</a>
+<a href="#1580" id="1580">1580</a>
+<a href="#1581" id="1581">1581</a>
+<a href="#1582" id="1582">1582</a>
+<a href="#1583" id="1583">1583</a>
+<a href="#1584" id="1584">1584</a>
+<a href="#1585" id="1585">1585</a>
+<a href="#1586" id="1586">1586</a>
+<a href="#1587" id="1587">1587</a>
+<a href="#1588" id="1588">1588</a>
 </pre><pre class="rust"><code><span class="comment">// This file was generated by gir (https://github.com/gtk-rs/gir)
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
+</span><span class="attr">#![allow(deprecated)]
 
-</span><span class="kw">use </span><span class="kw">crate</span>::AsyncResult;
-<span class="kw">use </span><span class="kw">crate</span>::Cancellable;
-<span class="kw">use </span><span class="kw">crate</span>::IOStream;
-<span class="kw">use </span><span class="kw">crate</span>::ProxyResolver;
-<span class="kw">use </span><span class="kw">crate</span>::SocketAddress;
-<span class="kw">use </span><span class="kw">crate</span>::SocketClientEvent;
-<span class="kw">use </span><span class="kw">crate</span>::SocketConnectable;
-<span class="kw">use </span><span class="kw">crate</span>::SocketConnection;
-<span class="kw">use </span><span class="kw">crate</span>::SocketFamily;
-<span class="kw">use </span><span class="kw">crate</span>::SocketProtocol;
-<span class="kw">use </span><span class="kw">crate</span>::SocketType;
-<span class="kw">use </span><span class="kw">crate</span>::TlsCertificateFlags;
-<span class="kw">use </span>glib::object::Cast;
-<span class="kw">use </span>glib::object::IsA;
-<span class="kw">use </span>glib::signal::connect_raw;
-<span class="kw">use </span>glib::signal::SignalHandlerId;
-<span class="kw">use </span>glib::translate::<span class="kw-2">*</span>;
-<span class="kw">use </span>glib::StaticType;
-<span class="kw">use </span>glib::ToValue;
-<span class="kw">use </span>std::boxed::Box <span class="kw">as </span>Box_;
-<span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::mem::transmute;
-<span class="kw">use </span>std::pin::Pin;
-<span class="kw">use </span>std::ptr;
+</span><span class="kw">use crate</span>::{
+    AsyncResult, Cancellable, IOStream, ProxyResolver, SocketAddress, SocketClientEvent,
+    SocketConnectable, SocketConnection, SocketFamily, SocketProtocol, SocketType,
+    TlsCertificateFlags,
+};
+<span class="kw">use </span>glib::{
+    prelude::<span class="kw-2">*</span>,
+    signal::{connect_raw, SignalHandlerId},
+    translate::<span class="kw-2">*</span>,
+};
+<span class="kw">use </span>std::{boxed::Box <span class="kw">as </span>Box_, fmt, mem::transmute, pin::Pin, ptr};
 
 <span class="macro">glib::wrapper! </span>{
     <span class="doccomment">/// [`SocketClient`][crate::SocketClient] is a lightweight high-level utility class for connecting to
@@ -1597,6 +1690,119 @@
     ///
     /// As [`SocketClient`][crate::SocketClient] is a lightweight object, you don&#39;t need to cache it. You
     /// can just create a new one any time you need one.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `enable-proxy`
+    ///  Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `family`
+    ///  Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `local-address`
+    ///  Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `protocol`
+    ///  Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `proxy-resolver`
+    ///  The proxy resolver to use
+    ///
+    /// Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `timeout`
+    ///  Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `tls`
+    ///  Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `tls-validation-flags`
+    ///  The TLS validation flags used when creating TLS connections. The
+    /// default value is [`TlsCertificateFlags::VALIDATE_ALL`][crate::TlsCertificateFlags::VALIDATE_ALL].
+    ///
+    /// GLib guarantees that if certificate verification fails, at least one
+    /// flag will be set, but it does not guarantee that all possible flags
+    /// will be set. Accordingly, you may not safely decide to ignore any
+    /// particular type of error. For example, it would be incorrect to mask
+    /// [`TlsCertificateFlags::EXPIRED`][crate::TlsCertificateFlags::EXPIRED] if you want to allow expired certificates,
+    /// because this could potentially be the only error flag set even if
+    /// other problems exist with the certificate. Therefore, there is no
+    /// safe way to use this property. This is not a horrible problem,
+    /// though, because you should not be attempting to ignore validation
+    /// errors anyway. If you really must ignore TLS certificate errors,
+    /// connect to the [`event`][struct@crate::SocketClient#event] signal, wait for it to be
+    /// emitted with [`SocketClientEvent::TlsHandshaking`][crate::SocketClientEvent::TlsHandshaking], and use that to
+    /// connect to [`accept-certificate`][struct@crate::TlsConnection#accept-certificate].
+    ///
+    /// Readable | Writeable | Construct
+    ///
+    ///
+    /// #### `type`
+    ///  Readable | Writeable | Construct
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `event`
+    ///  Emitted when `client`&#39;s activity on `connectable` changes state.
+    /// Among other things, this can be used to provide progress
+    /// information about a network connection in the UI. The meanings of
+    /// the different `event` values are as follows:
+    ///
+    /// - [`SocketClientEvent::Resolving`][crate::SocketClientEvent::Resolving]: `client` is about to look up `connectable`
+    ///  in DNS. `connection` will be [`None`].
+    ///
+    /// - [`SocketClientEvent::Resolved`][crate::SocketClientEvent::Resolved]: `client` has successfully resolved
+    ///  `connectable` in DNS. `connection` will be [`None`].
+    ///
+    /// - [`SocketClientEvent::Connecting`][crate::SocketClientEvent::Connecting]: `client` is about to make a connection
+    ///  to a remote host; either a proxy server or the destination server
+    ///  itself. `connection` is the [`SocketConnection`][crate::SocketConnection], which is not yet
+    ///  connected. Since GLib 2.40, you can access the remote
+    ///  address via [`SocketConnectionExt::remote_address()`][crate::prelude::SocketConnectionExt::remote_address()].
+    ///
+    /// - [`SocketClientEvent::Connected`][crate::SocketClientEvent::Connected]: `client` has successfully connected
+    ///  to a remote host. `connection` is the connected [`SocketConnection`][crate::SocketConnection].
+    ///
+    /// - [`SocketClientEvent::ProxyNegotiating`][crate::SocketClientEvent::ProxyNegotiating]: `client` is about to negotiate
+    ///  with a proxy to get it to connect to `connectable`. `connection` is
+    ///  the [`SocketConnection`][crate::SocketConnection] to the proxy server.
+    ///
+    /// - [`SocketClientEvent::ProxyNegotiated`][crate::SocketClientEvent::ProxyNegotiated]: `client` has negotiated a
+    ///  connection to `connectable` through a proxy server. `connection` is
+    ///  the stream returned from [`ProxyExt::connect()`][crate::prelude::ProxyExt::connect()], which may or may not
+    ///  be a [`SocketConnection`][crate::SocketConnection].
+    ///
+    /// - [`SocketClientEvent::TlsHandshaking`][crate::SocketClientEvent::TlsHandshaking]: `client` is about to begin a TLS
+    ///  handshake. `connection` is a [`TlsClientConnection`][crate::TlsClientConnection].
+    ///
+    /// - [`SocketClientEvent::TlsHandshaked`][crate::SocketClientEvent::TlsHandshaked]: `client` has successfully completed
+    ///  the TLS handshake. `connection` is a [`TlsClientConnection`][crate::TlsClientConnection].
+    ///
+    /// - [`SocketClientEvent::Complete`][crate::SocketClientEvent::Complete]: `client` has either successfully connected
+    ///  to `connectable` (in which case `connection` is the [`SocketConnection`][crate::SocketConnection]
+    ///  that it will be returning to the caller) or has failed (in which
+    ///  case `connection` is [`None`] and the client is about to return an error).
+    ///
+    /// Each event except [`SocketClientEvent::Complete`][crate::SocketClientEvent::Complete] may be emitted
+    /// multiple times (or not at all) for a given connectable (in
+    /// particular, if `client` ends up attempting to connect to more than
+    /// one address). However, if `client` emits the [`event`][struct@crate::SocketClient#event]
+    /// signal at all for a given connectable, then it will always emit
+    /// it with [`SocketClientEvent::Complete`][crate::SocketClientEvent::Complete] when it is done.
+    ///
+    /// Note that there may be additional [`SocketClientEvent`][crate::SocketClientEvent] values in
+    /// the future; unrecognized `event` values should be ignored.
+    ///
+    ///
     ///
     /// # Implements
     ///
@@ -1865,7 +2071,7 @@
     ///
     /// `uri` may be any valid URI containing an &quot;authority&quot; (hostname/port)
     /// component. If a port is not specified in the URI, `default_port`
-    /// will be used. TLS will be negotiated if `property::SocketClient::tls` is [`true`].
+    /// will be used. TLS will be negotiated if [`tls`][struct@crate::SocketClient#tls] is [`true`].
     /// ([`SocketClient`][crate::SocketClient] does not know to automatically assume TLS for
     /// certain URI schemes.)
     ///
@@ -2016,7 +2222,7 @@
     /// `self`.
     ///
     /// This function does not work as originally designed and is impossible
-    /// to use correctly. See `property::SocketClient::tls-validation-flags` for more
+    /// to use correctly. See [`tls-validation-flags`][struct@crate::SocketClient#tls-validation-flags] for more
     /// information.
     ///
     /// # Deprecated since 2.72
@@ -2027,6 +2233,7 @@
     ///
     /// the TLS validation flags
     </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;v2_72&quot;</span>, deprecated = <span class="string">&quot;Since 2.72&quot;</span>)]
+    #[allow(deprecated)]
     #[doc(alias = <span class="string">&quot;g_socket_client_get_tls_validation_flags&quot;</span>)]
     #[doc(alias = <span class="string">&quot;get_tls_validation_flags&quot;</span>)]
     </span><span class="kw">fn </span>tls_validation_flags(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TlsCertificateFlags;
@@ -2083,7 +2290,7 @@
     /// default proxy settings.
     ///
     /// Note that whether or not the proxy resolver is actually used
-    /// depends on the setting of `property::SocketClient::enable-proxy`, which is not
+    /// depends on the setting of [`enable-proxy`][struct@crate::SocketClient#enable-proxy], which is not
     /// changed by this function (but which is [`true`] by default)
     /// ## `proxy_resolver`
     /// a [`ProxyResolver`][crate::ProxyResolver], or [`None`] for the
@@ -2126,8 +2333,8 @@
     ///
     /// If you need to modify the behavior of the TLS handshake (eg, by
     /// setting a client-side certificate to use, or connecting to the
-    /// `signal::TlsConnection::accept-certificate` signal), you can connect to
-    /// `self`&#39;s `signal::SocketClient::event` signal and wait for it to be
+    /// [`accept-certificate`][struct@crate::TlsConnection#accept-certificate] signal), you can connect to
+    /// `self`&#39;s [`event`][struct@crate::SocketClient#event] signal and wait for it to be
     /// emitted with [`SocketClientEvent::TlsHandshaking`][crate::SocketClientEvent::TlsHandshaking], which will give you
     /// a chance to see the [`TlsClientConnection`][crate::TlsClientConnection] before the handshake
     /// starts.
@@ -2140,7 +2347,7 @@
     /// via `self`. The default value is [`TlsCertificateFlags::VALIDATE_ALL`][crate::TlsCertificateFlags::VALIDATE_ALL].
     ///
     /// This function does not work as originally designed and is impossible
-    /// to use correctly. See `property::SocketClient::tls-validation-flags` for more
+    /// to use correctly. See [`tls-validation-flags`][struct@crate::SocketClient#tls-validation-flags] for more
     /// information.
     ///
     /// # Deprecated since 2.72
@@ -2149,6 +2356,7 @@
     /// ## `flags`
     /// the validation flags
     </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;v2_72&quot;</span>, deprecated = <span class="string">&quot;Since 2.72&quot;</span>)]
+    #[allow(deprecated)]
     #[doc(alias = <span class="string">&quot;g_socket_client_set_tls_validation_flags&quot;</span>)]
     </span><span class="kw">fn </span>set_tls_validation_flags(<span class="kw-2">&amp;</span><span class="self">self</span>, flags: TlsCertificateFlags);
 
@@ -2201,7 +2409,7 @@
     /// Each event except [`SocketClientEvent::Complete`][crate::SocketClientEvent::Complete] may be emitted
     /// multiple times (or not at all) for a given connectable (in
     /// particular, if `client` ends up attempting to connect to more than
-    /// one address). However, if `client` emits the `signal::SocketClient::event`
+    /// one address). However, if `client` emits the [`event`][struct@crate::SocketClient#event]
     /// signal at all for a given connectable, then it will always emit
     /// it with [`SocketClientEvent::Complete`][crate::SocketClientEvent::Complete] when it is done.
     ///
@@ -2694,7 +2902,8 @@
         <span class="kw">unsafe </span>{ from_glib(ffi::g_socket_client_get_tls(<span class="self">self</span>.as_ref().to_glib_none().<span class="number">0</span>)) }
     }
 
-    <span class="kw">fn </span>tls_validation_flags(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TlsCertificateFlags {
+    <span class="attr">#[allow(deprecated)]
+    </span><span class="kw">fn </span>tls_validation_flags(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TlsCertificateFlags {
         <span class="kw">unsafe </span>{
             from_glib(ffi::g_socket_client_get_tls_validation_flags(
                 <span class="self">self</span>.as_ref().to_glib_none().<span class="number">0</span>,
@@ -2759,7 +2968,8 @@
         }
     }
 
-    <span class="kw">fn </span>set_tls_validation_flags(<span class="kw-2">&amp;</span><span class="self">self</span>, flags: TlsCertificateFlags) {
+    <span class="attr">#[allow(deprecated)]
+    </span><span class="kw">fn </span>set_tls_validation_flags(<span class="kw-2">&amp;</span><span class="self">self</span>, flags: TlsCertificateFlags) {
         <span class="kw">unsafe </span>{
             ffi::g_socket_client_set_tls_validation_flags(
                 <span class="self">self</span>.as_ref().to_glib_none().<span class="number">0</span>,
@@ -3038,4 +3248,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

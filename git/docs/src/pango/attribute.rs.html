@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pango/src/attribute.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>attribute.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ee9f86babca44bc2.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pango/src/attribute.rs`."><title>attribute.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", checkDocsLatestStable);
 
@@ -71,7 +71,7 @@
 </script>
 
 
-<nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../pango/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../pango/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -251,61 +251,77 @@
 <a href="#178" id="178">178</a>
 <a href="#179" id="179">179</a>
 <a href="#180" id="180">180</a>
+<a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
 </pre><pre class="rust"><code><span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.
 
-</span><span class="kw">use crate</span>::{AttrClass, AttrType, Attribute};
-<span class="kw">use </span>glib::translate::<span class="kw-2">*</span>;
+</span><span class="kw">use </span>glib::translate::<span class="kw-2">*</span>;
+
+<span class="kw">use crate</span>::{AttrClass, AttrType, Attribute};
 
 <span class="kw">impl </span>Attribute {
     <span class="attr">#[doc(alias = <span class="string">&quot;get_attr_class&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>attr_class(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; AttrClass {
-        <span class="kw">unsafe </span>{ from_glib_full((<span class="kw-2">*</span><span class="self">self</span>.to_glib_none().<span class="number">0</span>).klass) }
+        <span class="kw">unsafe </span>{ from_glib_none((<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).klass) }
     }
 
-    <span class="kw">pub fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; AttrType {
-        <span class="kw">unsafe </span>{ from_glib((<span class="kw-2">*</span>(<span class="kw-2">*</span><span class="self">self</span>.to_glib_none().<span class="number">0</span>).klass).type_) }
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; AttrType {
+        <span class="kw">unsafe </span>{ from_glib((<span class="kw-2">*</span>(<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).klass).type_) }
     }
 
     <span class="attr">#[doc(alias = <span class="string">&quot;get_start_index&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>start_index(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
-        <span class="kw">unsafe </span>{
-            <span class="kw">let </span>stash = <span class="self">self</span>.to_glib_none();
-            (<span class="kw-2">*</span>stash.<span class="number">0</span>).start_index
-        }
+        <span class="kw">unsafe </span>{ (<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).start_index }
     }
 
     <span class="attr">#[doc(alias = <span class="string">&quot;get_end_index&quot;</span>)]
+    #[inline]
     </span><span class="kw">pub fn </span>end_index(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="kw">unsafe </span>{ (<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).end_index }
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>set_start_index(<span class="kw-2">&amp;mut </span><span class="self">self</span>, index: u32) {
         <span class="kw">unsafe </span>{
-            <span class="kw">let </span>stash = <span class="self">self</span>.to_glib_none();
-            (<span class="kw-2">*</span>stash.<span class="number">0</span>).end_index
+            (<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).start_index = index;
         }
     }
 
-    <span class="kw">pub fn </span>set_start_index(<span class="kw-2">&amp;mut </span><span class="self">self</span>, index: u32) {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>set_end_index(<span class="kw-2">&amp;mut </span><span class="self">self</span>, index: u32) {
         <span class="kw">unsafe </span>{
-            <span class="kw">let </span>stash = <span class="self">self</span>.to_glib_none_mut();
-            (<span class="kw-2">*</span>stash.<span class="number">0</span>).start_index = index;
+            (<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).end_index = index;
         }
     }
 
-    <span class="kw">pub fn </span>set_end_index(<span class="kw-2">&amp;mut </span><span class="self">self</span>, index: u32) {
-        <span class="kw">unsafe </span>{
-            <span class="kw">let </span>stash = <span class="self">self</span>.to_glib_none_mut();
-            (<span class="kw-2">*</span>stash.<span class="number">0</span>).end_index = index;
-        }
-    }
-    <span class="kw">pub fn </span>downcast&lt;T: IsAttribute&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;T, Attribute&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>downcast&lt;T: IsAttribute&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;T, Attribute&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">if </span>T::ATTR_TYPES.contains(<span class="kw-2">&amp;</span><span class="self">self</span>.attr_class().type_()) {
-                <span class="prelude-val">Ok</span>(from_glib_full(<span class="self">self</span>.to_glib_full()))
+                <span class="prelude-val">Ok</span>(from_glib_full(glib::translate::IntoGlibPtr::&lt;
+                    <span class="kw-2">*mut </span>ffi::PangoAttribute,
+                &gt;::into_glib_ptr(<span class="self">self</span>)))
             } <span class="kw">else </span>{
                 <span class="prelude-val">Err</span>(<span class="self">self</span>)
             }
         }
     }
 
-    <span class="kw">pub fn </span>downcast_ref&lt;T: IsAttribute&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>downcast_ref&lt;T: IsAttribute&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">if </span>T::ATTR_TYPES.contains(<span class="kw-2">&amp;</span><span class="self">self</span>.attr_class().type_()) {
                 <span class="prelude-val">Some</span>(<span class="kw-2">&amp;*</span>(<span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span>Attribute <span class="kw">as </span><span class="kw-2">*const </span>T))
@@ -316,7 +332,8 @@
     }
 }
 
-<span class="kw">pub unsafe trait </span>IsAttribute:
+<span class="attr">#[allow(clippy::missing_safety_doc)]
+</span><span class="kw">pub unsafe trait </span>IsAttribute:
     FromGlibPtrFull&lt;<span class="kw-2">*const </span>ffi::PangoAttribute&gt;
     + FromGlibPtrFull&lt;<span class="kw-2">*mut </span>ffi::PangoAttribute&gt;
     + std::convert::AsRef&lt;<span class="kw">crate</span>::Attribute&gt;
@@ -361,9 +378,8 @@
             <span class="attr">#[doc(alias = <span class="string">&quot;pango_attribute_equal&quot;</span>)]
             </span><span class="kw">fn </span>equal&lt;<span class="lifetime">&#39;a</span>, T:  <span class="kw">crate</span>::attribute::IsAttribute&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, attr2: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T) -&gt; bool {
                 <span class="kw">unsafe </span>{
-                    glib::translate::from_glib(ffi::pango_attribute_equal(
-                       glib::translate::ToGlibPtr::to_glib_none(<span class="self">self</span>).<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span>ffi::PangoAttribute,
-                       glib::translate::ToGlibPtr::to_glib_none(attr2.upcast_ref()).<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span>ffi::PangoAttribute,
+                    glib::translate::from_glib(ffi::pango_attribute_equal(<span class="self">self</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>ffi::PangoAttribute,
+                       glib::translate::ToGlibPtr::to_glib_none(attr2.upcast_ref()).<span class="number">0</span>,
                     ))
                 }
             }
@@ -381,37 +397,43 @@
         <span class="kw">unsafe impl </span><span class="kw">crate</span>::attribute::IsAttribute <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
             <span class="kw">const </span>ATTR_TYPES: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<span class="kw">crate</span>::AttrType] = <span class="macro-nonterminal">$attr_types</span>;
 
-            <span class="kw">fn </span>upcast(<span class="self">self</span>) -&gt; <span class="kw">crate</span>::Attribute {
-                <span class="kw">unsafe </span>{ glib::translate::from_glib_full(glib::translate::ToGlibPtr::to_glib_full(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="kw">as </span><span class="kw-2">*mut </span>ffi::PangoAttribute) }
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>upcast(<span class="self">self</span>) -&gt; <span class="kw">crate</span>::Attribute {
+                <span class="kw">unsafe </span>{ glib::translate::from_glib_full(glib::translate::IntoGlibPtr::&lt;<span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_type</span>&gt;::into_glib_ptr(<span class="self">self</span>) <span class="kw">as </span><span class="kw-2">*mut </span>ffi::PangoAttribute) }
             }
 
-            <span class="kw">fn </span>upcast_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">crate</span>::Attribute {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>upcast_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">crate</span>::Attribute {
                 <span class="kw-2">&amp;*</span><span class="self">self
             </span>}
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>glib::translate::FromGlibPtrFull&lt;<span class="kw-2">*mut </span>ffi::PangoAttribute&gt; <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
-            <span class="kw">unsafe fn </span>from_glib_full(ptr: <span class="kw-2">*mut </span>ffi::PangoAttribute) -&gt; <span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>from_glib_full(ptr: <span class="kw-2">*mut </span>ffi::PangoAttribute) -&gt; <span class="self">Self </span>{
                 glib::translate::from_glib_full(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$ffi_type</span>)
             }
         }
 
         <span class="attr">#[doc(hidden)]
         </span><span class="kw">impl </span>glib::translate::FromGlibPtrFull&lt;<span class="kw-2">*const </span>ffi::PangoAttribute&gt; <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
-            <span class="kw">unsafe fn </span>from_glib_full(ptr: <span class="kw-2">*const </span>ffi::PangoAttribute) -&gt; <span class="self">Self </span>{
+            <span class="attr">#[inline]
+            </span><span class="kw">unsafe fn </span>from_glib_full(ptr: <span class="kw-2">*const </span>ffi::PangoAttribute) -&gt; <span class="self">Self </span>{
                 glib::translate::from_glib_full(ptr <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ffi_type</span>)
             }
         }
 
         <span class="kw">impl </span>std::convert::AsRef&lt;<span class="kw">crate</span>::Attribute&gt; <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
-            <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">crate</span>::Attribute {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">crate</span>::Attribute {
                 <span class="kw-2">&amp;*</span><span class="self">self
             </span>}
         }
 
         <span class="kw">impl </span>From&lt;<span class="macro-nonterminal">$rust_type</span>&gt; <span class="kw">for </span><span class="kw">crate</span>::Attribute {
-            <span class="kw">fn </span>from(attr: <span class="macro-nonterminal">$rust_type</span>) -&gt; <span class="kw">crate</span>::Attribute {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>from(attr: <span class="macro-nonterminal">$rust_type</span>) -&gt; <span class="kw">crate</span>::Attribute {
                 <span class="kw">crate</span>::IsAttribute::upcast(attr)
             }
         }
@@ -419,17 +441,19 @@
         <span class="kw">impl </span>std::ops::Deref <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
             <span class="kw">type </span>Target = <span class="kw">crate</span>::Attribute;
 
-            <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
                 <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(<span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$rust_type </span><span class="kw">as </span><span class="kw-2">*const </span><span class="kw">crate</span>::Attribute) }
             }
         }
 
         <span class="kw">impl </span>std::ops::DerefMut <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
-            <span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="kw">crate</span>::Attribute {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="kw">crate</span>::Attribute {
                 <span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut *</span>(<span class="self">self </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$rust_type </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">crate</span>::Attribute) }
             }
         }
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pango" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (e0098a5cc 2022-11-29)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pango" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
