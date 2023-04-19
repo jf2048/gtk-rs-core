@@ -33,7 +33,8 @@ impl<T> ThreadGuard<T> {
     /// The thread guard ensures that access to the value is only allowed from the thread it was
     /// created on, and otherwise panics.
     ///
-    /// The thread guard implements the `Send` trait even if the contained value does not.
+    /// The thread guard implements the `Send` and `Sync` traits even if the contained value does
+    /// not.
     #[inline]
     pub fn new(value: T) -> Self {
         Self {
@@ -112,3 +113,4 @@ impl<T> Drop for ThreadGuard<T> {
 }
 
 unsafe impl<T> Send for ThreadGuard<T> {}
+unsafe impl<T> Sync for ThreadGuard<T> {}
